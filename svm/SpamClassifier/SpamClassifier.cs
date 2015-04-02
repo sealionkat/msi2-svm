@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace svm
+namespace MiniSVM.SpamClassifier
 {
-    public partial class main : Form
+    public partial class SpamClassifier : Form
     {
-        public main()
+        public SpamClassifier()
         {
             InitializeComponent();
         }

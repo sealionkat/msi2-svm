@@ -1,6 +1,6 @@
-﻿namespace svm
+﻿namespace MiniSVM.SpamClassifier
 {
-    partial class main
+    partial class SpamClassifier
     {
         /// <summary>
         /// Required designer variable.

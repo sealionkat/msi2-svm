@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace svm
+namespace MiniSVM.Tokenizer
 {
-    static class Tokenizer
+    public class Tokenizer
     {
     }
 }
