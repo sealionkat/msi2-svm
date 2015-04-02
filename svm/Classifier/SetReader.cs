@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using Accord.Math;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,11 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MiniSVM.SVM
+namespace MiniSVM.Classifier.IO
 {
-    class SetReader
+    public class SetReader
     {
-        public double[,] Read(string filename, string delimiter = ",")
+        public double[,] ReadRaw(string filename, string delimiter = ",")
         {
             var rows = new List<double[]>();
             var conv = new Converter<string, double>(Double.Parse);
@@ -38,6 +39,15 @@ namespace MiniSVM.SVM
                 }
             }
             return result;
+        }
+
+        public double[,] GetTrainingData(double[,] rawData)
+        {
+            return rawData.Submatrix(null, 0, rawData.GetLength(1) - 2);
+        }
+        public double[] GetTrainingLabels(double[,] rawData)
+        {
+            return rawData.GetColumn(rawData.GetLength(1) - 1);
         }
     }
 }

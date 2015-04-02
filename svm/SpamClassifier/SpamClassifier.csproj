@@ -82,9 +82,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SVM\SVM.csproj">
+    <ProjectReference Include="..\Classifier\Classifier.csproj">
       <Project>{ee45f71e-f324-41ab-8b8c-f5efbb97cf44}</Project>
-      <Name>SVM</Name>
+      <Name>Classifier</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tokenizer\Tokenizer.csproj">
       <Project>{9b1f2da5-7758-4425-a48b-5eec6d78c8ff}</Project>
