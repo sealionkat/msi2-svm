@@ -14,11 +14,11 @@ namespace MiniSVM.Tester
         {
             var svm = new SVM();
             var reader = new SetReader();
-            var dt = reader.ReadRaw(@"C:\Users\TrolleY\Desktop\data.csv");
+            var dt = reader.ReadRaw(@"C:\Users\TrolleY\Desktop\data2.csv");
             var X = reader.GetTrainingData(dt);
             var Y = reader.GetTrainingLabels(dt);
-            var result = svm.CalculateHypothesis(X, Y);
-            Console.WriteLine(result);
+            var hypothesis = svm.CalculateHypothesis(X, Y);
+            Console.WriteLine(hypothesis.Test(new double[] { 2, 0 }));
         }
     }
 }

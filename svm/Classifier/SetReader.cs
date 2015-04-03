@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace MiniSVM.Classifier.IO
 {
@@ -15,7 +16,7 @@ namespace MiniSVM.Classifier.IO
         public double[,] ReadRaw(string filename, string delimiter = ",")
         {
             var rows = new List<double[]>();
-            var conv = new Converter<string, double>(Double.Parse);
+            var conv = new Converter<string, double>((s) => Double.Parse(s, CultureInfo.InvariantCulture));
             int maxcol = 0;
             using (var textReader = File.OpenText(filename))
             {

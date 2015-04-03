@@ -55,8 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IClassifier.cs" />
+    <Compile Include="IHypothesis.cs" />
     <Compile Include="SetReader.cs" />
-    <Compile Include="SVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
