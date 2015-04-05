@@ -36,6 +36,7 @@
             this.labelHam = new System.Windows.Forms.Label();
             this.tabClassifying = new System.Windows.Forms.TabPage();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tabSettings = new System.Windows.Forms.TabPage();
             this.tabControlMain.SuspendLayout();
             this.tabLearning.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -48,6 +49,7 @@
             // 
             this.tabControlMain.Controls.Add(this.tabLearning);
             this.tabControlMain.Controls.Add(this.tabClassifying);
+            this.tabControlMain.Controls.Add(this.tabSettings);
             this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
             this.tabControlMain.Name = "tabControlMain";
@@ -124,6 +126,15 @@
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // tabSettings
+            // 
+            this.tabSettings.Location = new System.Drawing.Point(4, 22);
+            this.tabSettings.Name = "tabSettings";
+            this.tabSettings.Size = new System.Drawing.Size(973, 454);
+            this.tabSettings.TabIndex = 2;
+            this.tabSettings.Text = "Settings";
+            this.tabSettings.UseVisualStyleBackColor = true;
+            // 
             // SpamClassifier
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -155,6 +166,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Label labelSpam;
         private System.Windows.Forms.Label labelHam;
+        private System.Windows.Forms.TabPage tabSettings;
 
     }
 }
