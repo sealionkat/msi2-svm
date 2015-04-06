@@ -7,11 +7,11 @@ using System.IO;
 
 namespace MiniSVM.Tokenizer
 {
-    public static class Tokenizer
+    public class Tokenizer
     {
-        private static List<string> uselessWords = null;
+        private List<string> uselessWords = null;
 
-        public static void readUselessWords(string filename)
+        public void readUselessWords(string filename)
         {
             using (StreamReader txt = File.OpenText(filename))
             {
@@ -26,7 +26,7 @@ namespace MiniSVM.Tokenizer
             }
         }
 
-        public static string[] tokenizeString(string filename)
+        public string[] tokenizeString(string filename)
         {
             return null;
         }
