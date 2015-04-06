@@ -7,19 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MiniSVM.Tokenizer;
+using MiniSVM.TokenizerNms;
 
 namespace MiniSVM.SpamClassifier
 {
     public partial class SpamClassifier : Form
     {
-        private Tokenizer.Tokenizer tokenizer = null;
+        private TokenizerNms.Tokenizer tokenizer = null;
 
 
         public SpamClassifier()
         {
             InitializeComponent();
-            tokenizer = new Tokenizer.Tokenizer();
+            tokenizer = new TokenizerNms.Tokenizer();
 
         }
         
