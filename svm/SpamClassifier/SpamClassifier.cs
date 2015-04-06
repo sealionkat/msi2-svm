@@ -13,13 +13,13 @@ namespace MiniSVM.SpamClassifier
 {
     public partial class SpamClassifier : Form
     {
-        private Tokenizer tokenizer = null;
+        private Tokenizer.Tokenizer tokenizer = null;
 
 
         public SpamClassifier()
         {
             InitializeComponent();
-            tokenizer = new Tokenizer();
+            tokenizer = new Tokenizer.Tokenizer();
 
         }
         

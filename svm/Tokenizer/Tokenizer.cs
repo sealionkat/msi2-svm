@@ -15,7 +15,7 @@ namespace MiniSVM.Tokenizer
 
         public Tokenizer() //constructor
         {
-            var uselessWordsFile = ConfigurationSettings.AppSettings["uselessWordsFile"];
+            var uselessWordsFile = ConfigurationManager.AppSettings["uselessWordsFile"];
             
         }
 
