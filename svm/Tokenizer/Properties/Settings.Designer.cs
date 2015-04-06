@@ -22,14 +22,5 @@ namespace MiniSVM.Tokenizer.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string uselessWords {
-            get {
-                return ((string)(this["uselessWords"]));
-            }
-        }
     }
 }

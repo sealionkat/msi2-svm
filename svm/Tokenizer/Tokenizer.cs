@@ -4,12 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Xml.Serialization;
+using System.Configuration;
 
 namespace MiniSVM.Tokenizer
 {
     public class Tokenizer
     {
         private List<string> uselessWords = null;
+
+        public Tokenizer() //constructor
+        {
+            var uselessWordsFile = ConfigurationSettings.AppSettings["uselessWordsFile"];
+            
+        }
 
         public void readUselessWords(string filename)
         {
@@ -26,8 +34,9 @@ namespace MiniSVM.Tokenizer
             }
         }
 
-        public string[] tokenizeString(string filename)
+        public string[] tokenizeString(string text)
         {
+            string processingString = text.ToLower();
             return null;
         }
 

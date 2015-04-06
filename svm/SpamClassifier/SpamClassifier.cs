@@ -7,15 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MiniSVM.Tokenizer;
 
 namespace MiniSVM.SpamClassifier
 {
     public partial class SpamClassifier : Form
     {
+        private Tokenizer tokenizer = null;
+
+
         public SpamClassifier()
         {
             InitializeComponent();
+            tokenizer = new Tokenizer();
+
         }
+        
 
         private void loadDatasetToolStripMenuItem_Click(object sender, EventArgs e)
         {
