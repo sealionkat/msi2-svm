@@ -12,11 +12,12 @@ namespace MiniSVM.TokenizerNms
     public class Tokenizer
     {
         private List<string> uselessWords = null;
+        private string uselessWordsFile = "";
 
         public Tokenizer() //constructor
         {
-            var uselessWordsFile = ConfigurationManager.AppSettings["uselessWordsFile"];
-            
+            uselessWordsFile = ConfigurationManager.AppSettings["uselessWordsFile"];
+            readUselessWords(uselessWordsFile);
         }
 
         public void readUselessWords(string filename)
@@ -25,6 +26,7 @@ namespace MiniSVM.TokenizerNms
             {
                 List<string> words = new List<string>();
                 string str = "";
+                ConfigurationManager.AppSettings["uselessWordsFile"] = filename;
                 while((str = txt.ReadLine()) != null)
                 {
                     words.Add(str);
@@ -34,10 +36,22 @@ namespace MiniSVM.TokenizerNms
             }
         }
 
-        public string[] tokenizeString(string text)
+        public List<string> tokenizeString(string text)
         {
-            string processingString = text.ToLower();
-            return null;
+            string processingString = text.Trim().ToLower().Replace(",","").Replace(".", "").Replace(";", "").Replace("(", "").Replace(")", "");
+            List<string> words = new List<string>(processingString.Split(new Char[] {' ', '\t'}, StringSplitOptions.RemoveEmptyEntries));
+
+            if (uselessWords != null)
+            {
+                foreach (var word in words)
+                {
+
+                }
+            }
+
+            
+
+            return words;
         }
 
 

@@ -20,7 +20,6 @@ namespace MiniSVM.SpamClassifier
         {
             InitializeComponent();
             tokenizer = new TokenizerNms.Tokenizer();
-
         }
         
 

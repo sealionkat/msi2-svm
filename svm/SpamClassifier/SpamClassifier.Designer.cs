@@ -32,29 +32,29 @@
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabLearning = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.buttonLoadSpam = new System.Windows.Forms.Button();
             this.labelSpam = new System.Windows.Forms.Label();
+            this.buttonLoadHam = new System.Windows.Forms.Button();
             this.labelHam = new System.Windows.Forms.Label();
             this.tabClassifying = new System.Windows.Forms.TabPage();
-            this.tabSettings = new System.Windows.Forms.TabPage();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.labelLastUpdate = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.button6 = new System.Windows.Forms.Button();
+            this.buttonClearTxt = new System.Windows.Forms.Button();
+            this.labelClassificationResult = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.buttonClassifyTxt = new System.Windows.Forms.Button();
+            this.richTextBoxEmail = new System.Windows.Forms.RichTextBox();
+            this.buttonLoadEmail = new System.Windows.Forms.Button();
+            this.tabSettings = new System.Windows.Forms.TabPage();
+            this.labelHamCnt = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.labelSpamCnt = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.buttonReset = new System.Windows.Forms.Button();
+            this.labelLastUpdate = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.buttonClearUseless = new System.Windows.Forms.Button();
+            this.buttonShowUseless = new System.Windows.Forms.Button();
+            this.buttonLoadUseless = new System.Windows.Forms.Button();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.tabControlMain.SuspendLayout();
             this.tabLearning.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -97,18 +97,27 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.button8);
+            this.splitContainer1.Panel1.Controls.Add(this.buttonLoadSpam);
             this.splitContainer1.Panel1.Controls.Add(this.labelSpam);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.button9);
+            this.splitContainer1.Panel2.Controls.Add(this.buttonLoadHam);
             this.splitContainer1.Panel2.Controls.Add(this.labelHam);
             this.splitContainer1.Size = new System.Drawing.Size(967, 448);
             this.splitContainer1.SplitterDistance = 483;
             this.splitContainer1.SplitterWidth = 10;
             this.splitContainer1.TabIndex = 0;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
+            // 
+            // buttonLoadSpam
+            // 
+            this.buttonLoadSpam.Location = new System.Drawing.Point(3, 26);
+            this.buttonLoadSpam.Name = "buttonLoadSpam";
+            this.buttonLoadSpam.Size = new System.Drawing.Size(137, 23);
+            this.buttonLoadSpam.TabIndex = 1;
+            this.buttonLoadSpam.Text = "Load set from directory";
+            this.buttonLoadSpam.UseVisualStyleBackColor = true;
             // 
             // labelSpam
             // 
@@ -119,6 +128,15 @@
             this.labelSpam.TabIndex = 0;
             this.labelSpam.Text = "SPAM";
             this.labelSpam.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // buttonLoadHam
+            // 
+            this.buttonLoadHam.Location = new System.Drawing.Point(3, 26);
+            this.buttonLoadHam.Name = "buttonLoadHam";
+            this.buttonLoadHam.Size = new System.Drawing.Size(137, 23);
+            this.buttonLoadHam.TabIndex = 2;
+            this.buttonLoadHam.Text = "Load set from directory";
+            this.buttonLoadHam.UseVisualStyleBackColor = true;
             // 
             // labelHam
             // 
@@ -132,12 +150,12 @@
             // 
             // tabClassifying
             // 
-            this.tabClassifying.Controls.Add(this.button7);
-            this.tabClassifying.Controls.Add(this.label3);
+            this.tabClassifying.Controls.Add(this.buttonClearTxt);
+            this.tabClassifying.Controls.Add(this.labelClassificationResult);
             this.tabClassifying.Controls.Add(this.label2);
-            this.tabClassifying.Controls.Add(this.button6);
-            this.tabClassifying.Controls.Add(this.richTextBox1);
-            this.tabClassifying.Controls.Add(this.button5);
+            this.tabClassifying.Controls.Add(this.buttonClassifyTxt);
+            this.tabClassifying.Controls.Add(this.richTextBoxEmail);
+            this.tabClassifying.Controls.Add(this.buttonLoadEmail);
             this.tabClassifying.Location = new System.Drawing.Point(4, 22);
             this.tabClassifying.Name = "tabClassifying";
             this.tabClassifying.Padding = new System.Windows.Forms.Padding(3);
@@ -146,116 +164,23 @@
             this.tabClassifying.Text = "Classifying";
             this.tabClassifying.UseVisualStyleBackColor = true;
             // 
-            // tabSettings
+            // buttonClearTxt
             // 
-            this.tabSettings.Controls.Add(this.label7);
-            this.tabSettings.Controls.Add(this.label6);
-            this.tabSettings.Controls.Add(this.label5);
-            this.tabSettings.Controls.Add(this.label4);
-            this.tabSettings.Controls.Add(this.button4);
-            this.tabSettings.Controls.Add(this.labelLastUpdate);
-            this.tabSettings.Controls.Add(this.label1);
-            this.tabSettings.Controls.Add(this.button3);
-            this.tabSettings.Controls.Add(this.button2);
-            this.tabSettings.Controls.Add(this.button1);
-            this.tabSettings.Location = new System.Drawing.Point(4, 22);
-            this.tabSettings.Name = "tabSettings";
-            this.tabSettings.Size = new System.Drawing.Size(973, 454);
-            this.tabSettings.TabIndex = 2;
-            this.tabSettings.Text = "Settings";
-            this.tabSettings.UseVisualStyleBackColor = true;
+            this.buttonClearTxt.Location = new System.Drawing.Point(98, 16);
+            this.buttonClearTxt.Name = "buttonClearTxt";
+            this.buttonClearTxt.Size = new System.Drawing.Size(90, 23);
+            this.buttonClearTxt.TabIndex = 5;
+            this.buttonClearTxt.Text = "Clear textarea";
+            this.buttonClearTxt.UseVisualStyleBackColor = true;
             // 
-            // statusStrip1
+            // labelClassificationResult
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 458);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(981, 22);
-            this.statusStrip1.TabIndex = 0;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(155, 21);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(136, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Load useless words list";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(18, 21);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(131, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Show useless words list";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(297, 21);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(141, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Clear useless words list";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 83);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(123, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Training set last update: ";
-            // 
-            // labelLastUpdate
-            // 
-            this.labelLastUpdate.AutoSize = true;
-            this.labelLastUpdate.Location = new System.Drawing.Point(144, 83);
-            this.labelLastUpdate.Name = "labelLastUpdate";
-            this.labelLastUpdate.Size = new System.Drawing.Size(22, 13);
-            this.labelLastUpdate.TabIndex = 4;
-            this.labelLastUpdate.Text = "NA";
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(18, 113);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(120, 23);
-            this.button4.TabIndex = 5;
-            this.button4.Text = "Reset training";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(17, 16);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 0;
-            this.button5.Text = "Load e-mail";
-            this.button5.UseVisualStyleBackColor = true;
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox1.Location = new System.Drawing.Point(17, 45);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(938, 300);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(17, 351);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(75, 23);
-            this.button6.TabIndex = 2;
-            this.button6.Text = "Classify";
-            this.button6.UseVisualStyleBackColor = true;
+            this.labelClassificationResult.AutoSize = true;
+            this.labelClassificationResult.Location = new System.Drawing.Point(206, 356);
+            this.labelClassificationResult.Name = "labelClassificationResult";
+            this.labelClassificationResult.Size = new System.Drawing.Size(22, 13);
+            this.labelClassificationResult.TabIndex = 4;
+            this.labelClassificationResult.Text = "NA";
             // 
             // label2
             // 
@@ -266,59 +191,63 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Classification status:";
             // 
-            // label3
+            // buttonClassifyTxt
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(206, 356);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(22, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "NA";
+            this.buttonClassifyTxt.Location = new System.Drawing.Point(17, 351);
+            this.buttonClassifyTxt.Name = "buttonClassifyTxt";
+            this.buttonClassifyTxt.Size = new System.Drawing.Size(75, 23);
+            this.buttonClassifyTxt.TabIndex = 2;
+            this.buttonClassifyTxt.Text = "Classify";
+            this.buttonClassifyTxt.UseVisualStyleBackColor = true;
             // 
-            // button7
+            // richTextBoxEmail
             // 
-            this.button7.Location = new System.Drawing.Point(98, 16);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(90, 23);
-            this.button7.TabIndex = 5;
-            this.button7.Text = "Clear textarea";
-            this.button7.UseVisualStyleBackColor = true;
+            this.richTextBoxEmail.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxEmail.Location = new System.Drawing.Point(17, 45);
+            this.richTextBoxEmail.Name = "richTextBoxEmail";
+            this.richTextBoxEmail.ReadOnly = true;
+            this.richTextBoxEmail.Size = new System.Drawing.Size(938, 300);
+            this.richTextBoxEmail.TabIndex = 1;
+            this.richTextBoxEmail.Text = "";
             // 
-            // button8
+            // buttonLoadEmail
             // 
-            this.button8.Location = new System.Drawing.Point(3, 26);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(137, 23);
-            this.button8.TabIndex = 1;
-            this.button8.Text = "Load set from directory";
-            this.button8.UseVisualStyleBackColor = true;
+            this.buttonLoadEmail.Location = new System.Drawing.Point(17, 16);
+            this.buttonLoadEmail.Name = "buttonLoadEmail";
+            this.buttonLoadEmail.Size = new System.Drawing.Size(75, 23);
+            this.buttonLoadEmail.TabIndex = 0;
+            this.buttonLoadEmail.Text = "Load e-mail";
+            this.buttonLoadEmail.UseVisualStyleBackColor = true;
             // 
-            // button9
+            // tabSettings
             // 
-            this.button9.Location = new System.Drawing.Point(3, 26);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(137, 23);
-            this.button9.TabIndex = 2;
-            this.button9.Text = "Load set from directory";
-            this.button9.UseVisualStyleBackColor = true;
+            this.tabSettings.Controls.Add(this.labelHamCnt);
+            this.tabSettings.Controls.Add(this.label6);
+            this.tabSettings.Controls.Add(this.labelSpamCnt);
+            this.tabSettings.Controls.Add(this.label4);
+            this.tabSettings.Controls.Add(this.buttonReset);
+            this.tabSettings.Controls.Add(this.labelLastUpdate);
+            this.tabSettings.Controls.Add(this.label1);
+            this.tabSettings.Controls.Add(this.buttonClearUseless);
+            this.tabSettings.Controls.Add(this.buttonShowUseless);
+            this.tabSettings.Controls.Add(this.buttonLoadUseless);
+            this.tabSettings.Location = new System.Drawing.Point(4, 22);
+            this.tabSettings.Name = "tabSettings";
+            this.tabSettings.Size = new System.Drawing.Size(973, 454);
+            this.tabSettings.TabIndex = 2;
+            this.tabSettings.Text = "Settings";
+            this.tabSettings.UseVisualStyleBackColor = true;
             // 
-            // label4
+            // labelHamCnt
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(197, 83);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(70, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "SPAM count:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(273, 83);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(22, 13);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "NA";
+            this.labelHamCnt.AutoSize = true;
+            this.labelHamCnt.Location = new System.Drawing.Point(397, 83);
+            this.labelHamCnt.Name = "labelHamCnt";
+            this.labelHamCnt.Size = new System.Drawing.Size(22, 13);
+            this.labelHamCnt.TabIndex = 9;
+            this.labelHamCnt.Text = "NA";
             // 
             // label6
             // 
@@ -329,21 +258,92 @@
             this.label6.TabIndex = 8;
             this.label6.Text = "HAM count:";
             // 
-            // label7
+            // labelSpamCnt
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(397, 83);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(22, 13);
-            this.label7.TabIndex = 9;
-            this.label7.Text = "NA";
+            this.labelSpamCnt.AutoSize = true;
+            this.labelSpamCnt.Location = new System.Drawing.Point(273, 83);
+            this.labelSpamCnt.Name = "labelSpamCnt";
+            this.labelSpamCnt.Size = new System.Drawing.Size(22, 13);
+            this.labelSpamCnt.TabIndex = 7;
+            this.labelSpamCnt.Text = "NA";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(197, 83);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(70, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "SPAM count:";
+            // 
+            // buttonReset
+            // 
+            this.buttonReset.Location = new System.Drawing.Point(18, 113);
+            this.buttonReset.Name = "buttonReset";
+            this.buttonReset.Size = new System.Drawing.Size(120, 23);
+            this.buttonReset.TabIndex = 5;
+            this.buttonReset.Text = "Reset training";
+            this.buttonReset.UseVisualStyleBackColor = true;
+            // 
+            // labelLastUpdate
+            // 
+            this.labelLastUpdate.AutoSize = true;
+            this.labelLastUpdate.Location = new System.Drawing.Point(144, 83);
+            this.labelLastUpdate.Name = "labelLastUpdate";
+            this.labelLastUpdate.Size = new System.Drawing.Size(22, 13);
+            this.labelLastUpdate.TabIndex = 4;
+            this.labelLastUpdate.Text = "NA";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(15, 83);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(123, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Training set last update: ";
+            // 
+            // buttonClearUseless
+            // 
+            this.buttonClearUseless.Location = new System.Drawing.Point(297, 21);
+            this.buttonClearUseless.Name = "buttonClearUseless";
+            this.buttonClearUseless.Size = new System.Drawing.Size(141, 23);
+            this.buttonClearUseless.TabIndex = 2;
+            this.buttonClearUseless.Text = "Clear useless words list";
+            this.buttonClearUseless.UseVisualStyleBackColor = true;
+            // 
+            // buttonShowUseless
+            // 
+            this.buttonShowUseless.Location = new System.Drawing.Point(18, 21);
+            this.buttonShowUseless.Name = "buttonShowUseless";
+            this.buttonShowUseless.Size = new System.Drawing.Size(131, 23);
+            this.buttonShowUseless.TabIndex = 1;
+            this.buttonShowUseless.Text = "Show useless words list";
+            this.buttonShowUseless.UseVisualStyleBackColor = true;
+            // 
+            // buttonLoadUseless
+            // 
+            this.buttonLoadUseless.Location = new System.Drawing.Point(155, 21);
+            this.buttonLoadUseless.Name = "buttonLoadUseless";
+            this.buttonLoadUseless.Size = new System.Drawing.Size(136, 23);
+            this.buttonLoadUseless.TabIndex = 0;
+            this.buttonLoadUseless.Text = "Load useless words list";
+            this.buttonLoadUseless.UseVisualStyleBackColor = true;
+            // 
+            // statusStrip
+            // 
+            this.statusStrip.Location = new System.Drawing.Point(0, 458);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(981, 22);
+            this.statusStrip.TabIndex = 0;
+            this.statusStrip.Text = "statusStrip1";
             // 
             // SpamClassifier
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(981, 480);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.tabControlMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SpamClassifier";
@@ -369,28 +369,28 @@
         private System.Windows.Forms.TabControl tabControlMain;
         private System.Windows.Forms.TabPage tabLearning;
         private System.Windows.Forms.TabPage tabClassifying;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Label labelSpam;
         private System.Windows.Forms.Label labelHam;
         private System.Windows.Forms.TabPage tabSettings;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.Label labelLastUpdate;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button buttonClearUseless;
+        private System.Windows.Forms.Button buttonShowUseless;
+        private System.Windows.Forms.Button buttonLoadUseless;
+        private System.Windows.Forms.Label labelClassificationResult;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button buttonClassifyTxt;
+        private System.Windows.Forms.RichTextBox richTextBoxEmail;
+        private System.Windows.Forms.Button buttonLoadEmail;
+        private System.Windows.Forms.Button buttonClearTxt;
+        private System.Windows.Forms.Button buttonLoadSpam;
+        private System.Windows.Forms.Button buttonLoadHam;
+        private System.Windows.Forms.Label labelHamCnt;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label labelSpamCnt;
         private System.Windows.Forms.Label label4;
 
     }
