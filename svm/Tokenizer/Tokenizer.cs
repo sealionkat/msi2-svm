@@ -17,22 +17,28 @@ namespace MiniSVM.TokenizerNms
         public Tokenizer() //constructor
         {
             uselessWordsFile = ConfigurationManager.AppSettings["uselessWordsFile"];
-            readUselessWords(uselessWordsFile);
+            if (uselessWordsFile != null && uselessWordsFile.Length > 0)
+            {
+                readUselessWords(uselessWordsFile);
+            }
         }
 
         public void readUselessWords(string filename)
         {
-            using (StreamReader txt = File.OpenText(filename))
+            if (filename.Length > 0)
             {
-                List<string> words = new List<string>();
-                string str = "";
-                ConfigurationManager.AppSettings["uselessWordsFile"] = filename;
-                while((str = txt.ReadLine()) != null)
+                using (StreamReader txt = File.OpenText(filename))
                 {
-                    words.Add(str);
-                }
+                    List<string> words = new List<string>();
+                    string str = "";
+                    ConfigurationManager.AppSettings["uselessWordsFile"] = filename;
+                    while ((str = txt.ReadLine()) != null)
+                    {
+                        words.Add(str);
+                    }
 
-                uselessWords = words;
+                    uselessWords = words;
+                }
             }
         }
 
