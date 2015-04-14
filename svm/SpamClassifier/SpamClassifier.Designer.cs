@@ -108,7 +108,6 @@
             this.splitContainer1.SplitterDistance = 483;
             this.splitContainer1.SplitterWidth = 10;
             this.splitContainer1.TabIndex = 0;
-            this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
             // 
             // buttonLoadSpam
             // 
@@ -118,6 +117,7 @@
             this.buttonLoadSpam.TabIndex = 1;
             this.buttonLoadSpam.Text = "Load set from directory";
             this.buttonLoadSpam.UseVisualStyleBackColor = true;
+            this.buttonLoadSpam.Click += new System.EventHandler(this.buttonLoadSpam_Click);
             // 
             // labelSpam
             // 
@@ -137,6 +137,7 @@
             this.buttonLoadHam.TabIndex = 2;
             this.buttonLoadHam.Text = "Load set from directory";
             this.buttonLoadHam.UseVisualStyleBackColor = true;
+            this.buttonLoadHam.Click += new System.EventHandler(this.buttonLoadHam_Click);
             // 
             // labelHam
             // 
