@@ -49,10 +49,28 @@ namespace MiniSVM.TokenizerNms
 
             if (uselessWords != null)
             {
-                foreach (var word in words)
+                var i = 0;
+                while (i < words.Count)
                 {
+                    var word = words[i];
+                    var removed = false;
+
+                    foreach (var uselessWord in uselessWords)
+                    {
+                        if (word.ToLower() == uselessWord.ToLower())
+                        {
+                            words.Remove(word);
+                            removed = true;
+                            break;
+                        }
+                    }
+
+                    i = removed ? i : (i + 1);
 
                 }
+                
+                    
+                
             }
 
             
