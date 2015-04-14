@@ -67,7 +67,6 @@ namespace MiniSVM.SpamClassifier
             int current = 0;
             foreach (string file in Directory.EnumerateFiles(args.Argument))
             {
-                System.Threading.Thread.Sleep(1000);
                 args.ReportProgress(current * 100 / count);
                 strings.Add(File.ReadAllText(file));
                 ++current;
