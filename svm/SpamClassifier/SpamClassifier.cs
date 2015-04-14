@@ -26,37 +26,53 @@ namespace MiniSVM.SpamClassifier
 
         private void buttonLoadSpam_Click(object sender, EventArgs e)
         {
-            var result = ReadDirectory();
+            ReadDirectory(ReadSpamCompleted);
+        }
+
+        private void ReadSpamCompleted(object sender, ProgressWorker<string, List<string>>.ProgressWorkCompletedArgs<List<string>> eventArgs)
+        {
+            var result = eventArgs.Result;
             if (result!=null)
                 Spam = result;
         }
 
         private void buttonLoadHam_Click(object sender, EventArgs e)
         {
-            var result = ReadDirectory();
+            ReadDirectory(ReadHamCompleted);
+        }
+
+        private void ReadHamCompleted(object sender, ProgressWorker<string, List<string>>.ProgressWorkCompletedArgs<List<string>> eventArgs)
+        {
+            var result = eventArgs.Result;
             if (result != null)
                 Ham = result;
         }
 
-        private List<string> ReadDirectory()
+        private void ReadDirectory(ProgressWorker<string, List<string>>.ProgressWorkCompleted<List<string>> completedHandler)
         {
             var dialog = new FolderBrowserDialog();
             var result = dialog.ShowDialog(this);
             if (result == DialogResult.OK)
             {
-                return ReadDirectoryContent(dialog.SelectedPath);
+                new ProgressWorker<string, List<string>>(
+                    ReadDirectoryContent, dialog.SelectedPath, completedHandler, "Reading set", true).ShowDialog(this);
             }
-            return null;
         }
 
-        private List<string> ReadDirectoryContent(string path)
+        private void ReadDirectoryContent(object sender,
+            ProgressWorker<string, List<string>>.ProgressWorkerEventArgs<string, List<string>> args)
         {
             var strings = new List<string>();
-            foreach (string file in Directory.EnumerateFiles(path))
+            var count = Directory.GetFiles(args.Argument).Length;
+            int current = 0;
+            foreach (string file in Directory.EnumerateFiles(args.Argument))
             {
+                System.Threading.Thread.Sleep(1000);
+                args.ReportProgress(current * 100 / count);
                 strings.Add(File.ReadAllText(file));
+                ++current;
             }
-            return strings;
+            args.Result = strings;
         }
     }
 }
