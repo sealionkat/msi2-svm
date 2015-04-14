@@ -10,47 +10,50 @@ namespace MiniSVM.Classifier
 {
     public class SVM : IClassifier
     {
-        private double[] alphas;
-
-        private double[] w;
-
-        private double b;
-
-        private double[,] h;
-
-        private double[] linearTerms;
+        public SVM(IKernel kernel, double C)
+        {
+            this.Kernel = kernel;
+            this.C = C;
+        }
 
         private double[,] X;
 
         private double[] Y;
 
-        private void GetHessian()
+        private double[,] GetHessian()
         {
             var n = Y.Length;
-            h = new double[n, n];
+            var h = new double[n, n];
             for (int i = 0; i < n; i++)
                 for (int j = 0; j < n; j++)
                 {
                     var xi = X.GetRow(i);
                     var xj = X.GetRow(j);
-                    var cdot = Matrix.InnerProduct(xi, xj);
-                    h[i, j] = Y[i] * Y[j] * cdot;
+                    h[i, j] = Y[i] * Y[j] * Kernel.Compute(xi, xj);
                 }
+            return h;
         }
 
-        private bool InternalCalculateHypothesis(double[,] trainingData, double[] trainingLabels)
+        private bool InternalCalculateHypothesis(double[,] trainingData, double[] trainingLabels, out double[] w, out double b)
         {
+            w = null;
+            b = Double.NaN;
             X = trainingData;
             Y = trainingLabels;
-            GetHessian();
-            linearTerms = Matrix.Vector<double>(Y.Length, -1);
-            var result = InternalSolve();
+            var h = GetHessian();
+            double[] alphas;
+            var linearTerms = Matrix.Vector<double>(Y.Length, -1);
+            var result = InternalSolve(h, linearTerms, out alphas);
             if (!result)
                 return false;
-            GetW();
-            GetB();
+            w = GetW(alphas);
+            b = GetB(alphas);
             return true;
         }
+
+        public IKernel Kernel { get; set; }
+
+        public double C { get; set; }
 
         private List<LinearConstraint> GetConstraints()
         {
@@ -64,6 +67,12 @@ namespace MiniSVM.Classifier
                     ShouldBe = ConstraintType.GreaterThanOrEqualTo,
                     Value = 0
                 });
+                constraints.Add(new LinearConstraint(numberOfVariables: 1)
+                {
+                    VariablesAtIndices = new int[] { i },
+                    ShouldBe = ConstraintType.LesserThanOrEqualTo,
+                    Value = C
+                });
             }
             double[] sumConstraint = Y;
             constraints.Add(new LinearConstraint(numberOfVariables: Y.Length)
@@ -76,7 +85,7 @@ namespace MiniSVM.Classifier
             return constraints;
         }
 
-        private bool InternalSolve()
+        private bool InternalSolve(double[,] h, double[] linearTerms, out double[] alphas)
         {
             var function = new QuadraticObjectiveFunction(h, linearTerms);
             var constraints = GetConstraints();
@@ -88,20 +97,21 @@ namespace MiniSVM.Classifier
             return result;
         }
 
-        private void GetW()
+        private double[] GetW(double[] alphas)
         {
-            w = new double[alphas.Length];
+            var w = new double[alphas.Length];
             for (int i = 0; i < w.Length; i++)
             {
                 w = w.Add(X.GetRow(i).Multiply(alphas[i] * Y[i]));
             }
+            return w;
         }
 
-        private void GetB()
+        private double GetB(double[] alphas)
         {
             var S = alphas.Find(a => a > 0);
             var Ns = S.Length;
-            b = 0;
+            double b = 0;
             foreach (var s in S)
             {
                 b += Y[s];
@@ -110,6 +120,7 @@ namespace MiniSVM.Classifier
                     b -= alphas[m] * Y[m] * Matrix.InnerProduct(X.GetRow(m), X.GetRow(s));
                 }
             }
+            return b;
         }
 
         private double[,] AddBias(double[,] matrix)
@@ -119,8 +130,10 @@ namespace MiniSVM.Classifier
 
         public IHypothesis CalculateHypothesis(double[,] trainingData, double[] trainingLabels)
         {
-            var result = InternalCalculateHypothesis(trainingData, trainingLabels);
-            return result ? new SVMHypothesis(this) : null;
+            double[] w;
+            double b;
+            var result = InternalCalculateHypothesis(trainingData, trainingLabels, out w, out b);
+            return result ? new SVMHypothesis(w, b) : null;
         }
 
         private class SVMHypothesis : IHypothesis
@@ -128,11 +141,12 @@ namespace MiniSVM.Classifier
             private double[] W;
 
             private double b;
-
-            public SVMHypothesis(SVM parent)
+            
+            // should I pass kernel here?
+            public SVMHypothesis(double[] w, double b)
             {
-                W = parent.w;
-                b = parent.b;
+                this.W = w;
+                this.b = b;
             }
 
             public int Test(double[] features)
