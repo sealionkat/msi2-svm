@@ -8,6 +8,8 @@ namespace MiniSVM.Classifier
 {
     public interface IClassifier
     {
-        IHypothesis CalculateHypothesis(double[,] trainingData, double[] trainingLabels);
+        bool Compute(double[,] trainingData, double[] trainingLabels);
+
+        IHypothesis Hypothesis { get; }
     }
 }

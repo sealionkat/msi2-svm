@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace MiniSVM.Classifier
 {
@@ -15,6 +16,10 @@ namespace MiniSVM.Classifier
             this.Kernel = kernel;
             this.C = C;
         }
+
+        private double[] w;
+
+        private double b;
 
         private double[,] X;
 
@@ -128,30 +133,44 @@ namespace MiniSVM.Classifier
             return Matrix.Concatenate(Matrix.ColumnVector<double>(Matrix.Vector<double>(matrix.GetLength(0), 1)), matrix);
         }
 
-        public IHypothesis CalculateHypothesis(double[,] trainingData, double[] trainingLabels)
+        public bool Compute(double[,] trainingData, double[] trainingLabels)
         {
-            double[] w;
-            double b;
-            var result = InternalCalculateHypothesis(trainingData, trainingLabels, out w, out b);
-            return result ? new SVMHypothesis(w, b) : null;
+            return InternalCalculateHypothesis(trainingData, trainingLabels, out w, out b);
         }
 
-        private class SVMHypothesis : IHypothesis
+        public IHypothesis Hypothesis
         {
-            private double[] W;
+            get
+            {
+                if (w == null)
+                    throw new InvalidOperationException("Hypothesis has not been computet yet");
+                return new SVMHypothesis(w, b); 
+            }
+        }
 
-            private double b;
+        [Serializable]
+        public class SVMHypothesis : IHypothesis
+        {
+            [XmlArray]
+            public double[] W { get; set; }
+
+            [XmlElement]
+            public double B { get; set; }
+
+            public SVMHypothesis()
+            {
+            }
             
             // should I pass kernel here?
             public SVMHypothesis(double[] w, double b)
             {
                 this.W = w;
-                this.b = b;
+                this.B = b;
             }
 
-            public int Test(double[] features)
+            public int Predict(double[] features)
             {
-                return Math.Sign(Matrix.InnerProduct(W, features) + b);
+                return Math.Sign(Matrix.InnerProduct(W, features) + B);
             }
         }
     }

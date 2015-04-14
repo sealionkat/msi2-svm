@@ -8,6 +8,6 @@ namespace MiniSVM.Classifier
 {
     public interface IHypothesis
     {
-        int Test(double[] features);
+        int Predict(double[] features);
     }
 }

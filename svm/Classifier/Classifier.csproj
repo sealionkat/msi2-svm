@@ -60,6 +60,7 @@
     <Compile Include="IHypothesis.cs" />
     <Compile Include="SetReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmlTools.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

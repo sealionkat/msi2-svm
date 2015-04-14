@@ -17,8 +17,9 @@ namespace MiniSVM.Tester
             var dt = reader.ReadRaw(@"C:\Users\TrolleY\Desktop\data2.csv");
             var X = reader.GetTrainingData(dt);
             var Y = reader.GetTrainingLabels(dt);
-            var hypothesis = svm.CalculateHypothesis(X, Y);
-            Console.WriteLine(hypothesis.Test(new double[] { 2, 0 }));
+            svm.Compute(X, Y);
+            var hypothesis = svm.Hypothesis;
+            Console.WriteLine(hypothesis.Predict(new double[] { 2, 0 }));
         }
     }
 }
