@@ -17,11 +17,13 @@ namespace MiniSVM.SpamClassifier
         private TokenizerNms.Tokenizer tokenizer = null;
         public List<string> Spam { get; set; }
         public List<string> Ham { get; set; }
+        public Dictionary<string, int[]> trainingSet;
 
         public SpamClassifier()
         {
             InitializeComponent();
             tokenizer = new TokenizerNms.Tokenizer();
+            trainingSet = new Dictionary<string,int[]>();
         }
 
         private void buttonLoadSpam_Click(object sender, EventArgs e)
@@ -32,8 +34,11 @@ namespace MiniSVM.SpamClassifier
         private void ReadSpamCompleted(object sender, ProgressWorker<string, List<string>>.ProgressWorkCompletedArgs<List<string>> eventArgs)
         {
             var result = eventArgs.Result;
-            if (result!=null)
+            if (result != null)
+            {
                 Spam = result;
+                ProcessSpam();
+            }
         }
 
         private void buttonLoadHam_Click(object sender, EventArgs e)
@@ -45,7 +50,59 @@ namespace MiniSVM.SpamClassifier
         {
             var result = eventArgs.Result;
             if (result != null)
+            {
                 Ham = result;
+                ProcessHam();
+            }
+        }
+
+        private void ReadTrainingMatrix()
+        {
+
+        }
+
+        private void UpdateTrainingMatrix()
+        {
+
+        }
+
+        private void ProcessHam()
+        {
+            foreach (var word in Ham)
+            {
+                if (trainingSet.ContainsKey(word))
+                {
+                    var vecValue = trainingSet[word];
+                    ++vecValue[0];
+                    trainingSet[word] = vecValue;
+                }
+                else
+                {
+                    var vecValue = new int[2];
+                    vecValue[0] = 1;
+                    trainingSet.Add(word, vecValue);
+                }
+            }
+
+        }
+
+        private void ProcessSpam()
+        {
+            foreach (var word in Spam)
+            {
+                if (trainingSet.ContainsKey(word))
+                {
+                    var vecValue = trainingSet[word];
+                    ++vecValue[0];
+                    trainingSet[word] = vecValue;
+                }
+                else
+                {
+                    var vecValue = new int[2];
+                    vecValue[0] = 1;
+                    trainingSet.Add(word, vecValue);
+                }
+            }
         }
 
         private void ReadDirectory(ProgressWorker<string, List<string>>.ProgressWorkCompleted<List<string>> completedHandler)
