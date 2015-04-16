@@ -66,14 +66,8 @@ namespace MiniSVM.TokenizerNms
                     }
 
                     i = removed ? i : (i + 1);
-
-                }
-                
-                    
-                
+                }                
             }
-
-            
 
             return words;
         }

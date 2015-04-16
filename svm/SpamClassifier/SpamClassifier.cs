@@ -37,7 +37,7 @@ namespace MiniSVM.SpamClassifier
             if (result != null)
             {
                 Spam = result;
-                ProcessSpam();
+                ProcessMails(1);
             }
         }
 
@@ -52,57 +52,56 @@ namespace MiniSVM.SpamClassifier
             if (result != null)
             {
                 Ham = result;
-                ProcessHam();
+                ProcessMails(0);
             }
         }
 
         private void ReadTrainingMatrix()
         {
-
+            //xml deserialization
         }
 
-        private void UpdateTrainingMatrix()
+        private void SaveTrainingSet()
         {
-
+            //xml serialization
         }
 
-        private void ProcessHam()
+        private void UpdateTrainingSet(string word, int type) //type: 0 - ham, 1 - spam
         {
-            foreach (var word in Ham)
+            if (trainingSet != null && word != null && type != null)
             {
-                if (trainingSet.ContainsKey(word))
+                if (trainingSet.ContainsKey(word.ToLower()))
                 {
                     var vecValue = trainingSet[word];
-                    ++vecValue[0];
+                    ++vecValue[type];
                     trainingSet[word] = vecValue;
                 }
-                else
+                else //new word
                 {
                     var vecValue = new int[2];
-                    vecValue[0] = 1;
-                    trainingSet.Add(word, vecValue);
+                    vecValue[type] = 1;
+                    trainingSet.Add(word.ToLower(), vecValue);
                 }
             }
-
         }
 
-        private void ProcessSpam()
+        
+
+        private void ProcessMails(int type) //type: 0 - ham, 1 - spam
         {
-            foreach (var word in Spam)
+            var mails = (type == 1) ? Spam : Ham;
+            foreach (var mail in mails)
             {
-                if (trainingSet.ContainsKey(word))
+                //tokenization
+                var tokenizedMail = tokenizer.tokenizeString(mail);
+
+                //update training matrix
+                foreach (var word in tokenizedMail)
                 {
-                    var vecValue = trainingSet[word];
-                    ++vecValue[0];
-                    trainingSet[word] = vecValue;
-                }
-                else
-                {
-                    var vecValue = new int[2];
-                    vecValue[0] = 1;
-                    trainingSet.Add(word, vecValue);
-                }
+                    UpdateTrainingSet(word, type);
+                } 
             }
+
         }
 
         private void ReadDirectory(ProgressWorker<string, List<string>>.ProgressWorkCompleted<List<string>> completedHandler)
