@@ -68,7 +68,7 @@ namespace MiniSVM.SpamClassifier
 
         private void UpdateTrainingSet(string word, int type) //type: 0 - ham, 1 - spam
         {
-            if (trainingSet != null && word != null && type != null)
+            if (trainingSet != null && word != null)
             {
                 if (trainingSet.ContainsKey(word.ToLower()))
                 {
