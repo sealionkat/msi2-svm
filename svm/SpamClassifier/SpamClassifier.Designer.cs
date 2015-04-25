@@ -330,6 +330,7 @@
             this.buttonLoadUseless.TabIndex = 0;
             this.buttonLoadUseless.Text = "Load useless words list";
             this.buttonLoadUseless.UseVisualStyleBackColor = true;
+            this.buttonLoadUseless.Click += new System.EventHandler(this.buttonLoadUseless_Click);
             // 
             // statusStrip
             // 

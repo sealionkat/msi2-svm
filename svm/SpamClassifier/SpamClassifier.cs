@@ -93,7 +93,8 @@ namespace MiniSVM.SpamClassifier
             foreach (var mail in mails)
             {
                 //tokenization
-                var tokenizedMail = tokenizer.tokenizeString(mail);
+                var cleanedMail = tokenizer.removeHTML(mail);
+                var tokenizedMail = tokenizer.tokenizeString(cleanedMail);
 
                 //update training matrix
                 foreach (var word in tokenizedMail)
@@ -128,6 +129,11 @@ namespace MiniSVM.SpamClassifier
                 ++current;
             }
             args.Result = strings;
+        }
+
+        private void buttonLoadUseless_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
