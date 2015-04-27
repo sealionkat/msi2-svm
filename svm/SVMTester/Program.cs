@@ -18,7 +18,7 @@ namespace MiniSVM.Tester
             var X = reader.GetTrainingData(dt);
             var Y = reader.GetTrainingLabels(dt);
             svm.Compute(X, Y);
-            var hypothesis = svm.Hypothesis;
+            var hypothesis = svm.GetHypothesis();
             Console.WriteLine(hypothesis.Predict(new double[] { 2, 0 }));
         }
     }

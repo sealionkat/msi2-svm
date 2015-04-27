@@ -10,6 +10,6 @@ namespace MiniSVM.Classifier
     {
         bool Compute(double[,] trainingData, double[] trainingLabels);
 
-        IHypothesis Hypothesis { get; }
+        IHypothesis GetHypothesis();
     }
 }

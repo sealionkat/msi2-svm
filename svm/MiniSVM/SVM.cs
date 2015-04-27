@@ -138,14 +138,11 @@ namespace MiniSVM.Classifier
             return InternalCalculateHypothesis(trainingData, trainingLabels, out w, out b);
         }
 
-        public IHypothesis Hypothesis
+        public IHypothesis GetHypothesis()
         {
-            get
-            {
-                if (w == null)
-                    throw new InvalidOperationException("Hypothesis has not been computet yet");
-                return new SVMHypothesis(w, b); 
-            }
+            if (w == null)
+                throw new InvalidOperationException("Hypothesis has not been computet yet");
+            return new SVMHypothesis(w, b);
         }
 
         [Serializable]
