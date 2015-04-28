@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SVMTester", "SVMTester\SVMT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniSVM", "MiniSVM\MiniSVM.csproj", "{AAAD8BE7-C7CF-43BF-91C5-4A9FF3F2062A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibSVMPort", "LibSVMPort\LibSVMPort.csproj", "{778EE87E-8A86-4568-AE86-94AD22D3B47D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{AAAD8BE7-C7CF-43BF-91C5-4A9FF3F2062A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AAAD8BE7-C7CF-43BF-91C5-4A9FF3F2062A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AAAD8BE7-C7CF-43BF-91C5-4A9FF3F2062A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{778EE87E-8A86-4568-AE86-94AD22D3B47D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{778EE87E-8A86-4568-AE86-94AD22D3B47D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{778EE87E-8A86-4568-AE86-94AD22D3B47D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{778EE87E-8A86-4568-AE86-94AD22D3B47D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

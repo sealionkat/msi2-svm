@@ -45,6 +45,10 @@
       <Project>{ee45f71e-f324-41ab-8b8c-f5efbb97cf44}</Project>
       <Name>Classifier</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LibSVMPort\LibSVMPort.csproj">
+      <Project>{778ee87e-8a86-4568-ae86-94ad22d3b47d}</Project>
+      <Name>LibSVMPort</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MiniSVM\MiniSVM.csproj">
       <Project>{aaad8be7-c7cf-43bf-91c5-4a9ff3f2062a}</Project>
       <Name>MiniSVM</Name>
