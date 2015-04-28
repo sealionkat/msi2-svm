@@ -68,7 +68,7 @@ namespace MiniSVM.SpamClassifier
 
         private void UpdateTrainingSet(string word, int type) //type: 0 - ham, 1 - spam
         {
-            if (trainingSet != null && word != null && type != null)
+            if (trainingSet != null && word != null)
             {
                 if (trainingSet.ContainsKey(word.ToLower()))
                 {
@@ -93,7 +93,8 @@ namespace MiniSVM.SpamClassifier
             foreach (var mail in mails)
             {
                 //tokenization
-                var tokenizedMail = tokenizer.tokenizeString(mail);
+                var cleanedMail = tokenizer.removeHTML(mail);
+                var tokenizedMail = tokenizer.tokenizeString(cleanedMail);
 
                 //update training matrix
                 foreach (var word in tokenizedMail)
@@ -128,6 +129,11 @@ namespace MiniSVM.SpamClassifier
                 ++current;
             }
             args.Result = strings;
+        }
+
+        private void buttonLoadUseless_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
