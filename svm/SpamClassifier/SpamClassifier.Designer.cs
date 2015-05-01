@@ -244,7 +244,7 @@
             // labelHamCnt
             // 
             this.labelHamCnt.AutoSize = true;
-            this.labelHamCnt.Location = new System.Drawing.Point(397, 83);
+            this.labelHamCnt.Location = new System.Drawing.Point(215, 106);
             this.labelHamCnt.Name = "labelHamCnt";
             this.labelHamCnt.Size = new System.Drawing.Size(22, 13);
             this.labelHamCnt.TabIndex = 9;
@@ -253,7 +253,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(327, 83);
+            this.label6.Location = new System.Drawing.Point(145, 106);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(64, 13);
             this.label6.TabIndex = 8;
@@ -262,7 +262,7 @@
             // labelSpamCnt
             // 
             this.labelSpamCnt.AutoSize = true;
-            this.labelSpamCnt.Location = new System.Drawing.Point(273, 83);
+            this.labelSpamCnt.Location = new System.Drawing.Point(91, 106);
             this.labelSpamCnt.Name = "labelSpamCnt";
             this.labelSpamCnt.Size = new System.Drawing.Size(22, 13);
             this.labelSpamCnt.TabIndex = 7;
@@ -271,7 +271,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(197, 83);
+            this.label4.Location = new System.Drawing.Point(15, 106);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(70, 13);
             this.label4.TabIndex = 6;
@@ -279,12 +279,13 @@
             // 
             // buttonReset
             // 
-            this.buttonReset.Location = new System.Drawing.Point(18, 113);
+            this.buttonReset.Location = new System.Drawing.Point(18, 146);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(120, 23);
             this.buttonReset.TabIndex = 5;
             this.buttonReset.Text = "Reset training";
             this.buttonReset.UseVisualStyleBackColor = true;
+            this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
             // 
             // labelLastUpdate
             // 

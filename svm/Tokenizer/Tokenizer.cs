@@ -84,7 +84,7 @@ namespace MiniSVM.TokenizerNms
             string processingString = text.Trim().ToLower().Replace(",","").Replace(".", "").Replace(";", "").Replace("(", "").Replace(")", "").Replace("\"", "").Replace("\n", " ");
             List<string> words = new List<string>(processingString.Split(new Char[] {' ', '\t'}, StringSplitOptions.RemoveEmptyEntries));
 
-            if (uselessWords != null)
+            if (uselessWords != null && uselessWords.Count > 0)
             {
                 var i = 0;
                 while (i < words.Count)

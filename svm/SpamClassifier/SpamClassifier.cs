@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MiniSVM.TokenizerNms;
 using System.IO;
+using System.Configuration;
 
 namespace MiniSVM.SpamClassifier
 {
@@ -24,6 +25,15 @@ namespace MiniSVM.SpamClassifier
             InitializeComponent();
             tokenizer = new TokenizerNms.Tokenizer();
             trainingSet = new Dictionary<string,int[]>();
+            if (ConfigurationManager.AppSettings["spamCount"] != null && ConfigurationManager.AppSettings["spamCount"].Length > 0)
+            {
+                labelSpamCnt.Text = ConfigurationManager.AppSettings["spamCount"];
+            }
+            if (ConfigurationManager.AppSettings["hamCount"] != null && ConfigurationManager.AppSettings["hamCount"].Length > 0)
+            {
+                labelHamCnt.Text = ConfigurationManager.AppSettings["hamCount"];
+            }
+
         }
 
         private void buttonLoadSpam_Click(object sender, EventArgs e)
@@ -90,6 +100,18 @@ namespace MiniSVM.SpamClassifier
         private void ProcessMails(int type) //type: 0 - ham, 1 - spam
         {
             var mails = (type == 1) ? Spam : Ham;
+            if (type == 1)
+            {
+                var spamCount = Spam.Count.ToString();
+                labelSpamCnt.Text = spamCount;
+                ConfigurationManager.AppSettings["spamCount"] = spamCount;
+            }
+            else
+            {
+                var hamCount = Ham.Count.ToString();
+                labelHamCnt.Text = hamCount;
+                ConfigurationManager.AppSettings["hamCount"] = hamCount;
+            }
             foreach (var mail in mails)
             {
                 //tokenization
@@ -102,6 +124,7 @@ namespace MiniSVM.SpamClassifier
                     UpdateTrainingSet(word, type);
                 } 
             }
+            labelLastUpdate.Text = DateTime.Now.ToString();
 
         }
 
@@ -137,20 +160,18 @@ namespace MiniSVM.SpamClassifier
             var result = dialog.ShowDialog(this);
             if (result == DialogResult.OK)
             {
-                //MessageBox.Show(dialog.ToString());
-                //dialog.FileName
                 tokenizer.readUselessWords(dialog.FileName);
             }
         }
 
         private void buttonLoadUseless_Click(object sender, EventArgs e)
         {
-            //tokenizer.readUselessWords()
             ReadUselessWordsFile(sender);
         }
 
         private void buttonShowUseless_Click(object sender, EventArgs e)
         {
+            //todo: show data in new dialog
             var uselessWords = tokenizer.getUselessWords();
             var wordsList = "";
             foreach(var word in uselessWords) {
@@ -162,6 +183,14 @@ namespace MiniSVM.SpamClassifier
         private void buttonClearUseless_Click(object sender, EventArgs e)
         {
             tokenizer.clearUselessWords();
+        }
+
+        private void buttonReset_Click(object sender, EventArgs e)
+        {
+            //reset labels
+            //reset training set
+            labelSpamCnt.Text = "NA";
+            labelHamCnt.Text = "NA";
         }
     }
 }
