@@ -312,6 +312,7 @@
             this.buttonClearUseless.TabIndex = 2;
             this.buttonClearUseless.Text = "Clear useless words list";
             this.buttonClearUseless.UseVisualStyleBackColor = true;
+            this.buttonClearUseless.Click += new System.EventHandler(this.buttonClearUseless_Click);
             // 
             // buttonShowUseless
             // 
@@ -321,6 +322,7 @@
             this.buttonShowUseless.TabIndex = 1;
             this.buttonShowUseless.Text = "Show useless words list";
             this.buttonShowUseless.UseVisualStyleBackColor = true;
+            this.buttonShowUseless.Click += new System.EventHandler(this.buttonShowUseless_Click);
             // 
             // buttonLoadUseless
             // 

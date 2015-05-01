@@ -131,9 +131,37 @@ namespace MiniSVM.SpamClassifier
             args.Result = strings;
         }
 
+        private void ReadUselessWordsFile(object sender)
+        {
+            var dialog = new OpenFileDialog();
+            var result = dialog.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                //MessageBox.Show(dialog.ToString());
+                //dialog.FileName
+                tokenizer.readUselessWords(dialog.FileName);
+            }
+        }
+
         private void buttonLoadUseless_Click(object sender, EventArgs e)
         {
+            //tokenizer.readUselessWords()
+            ReadUselessWordsFile(sender);
+        }
 
+        private void buttonShowUseless_Click(object sender, EventArgs e)
+        {
+            var uselessWords = tokenizer.getUselessWords();
+            var wordsList = "";
+            foreach(var word in uselessWords) {
+                wordsList += word + '\n';
+            }
+            MessageBox.Show(wordsList);
+        }
+
+        private void buttonClearUseless_Click(object sender, EventArgs e)
+        {
+            tokenizer.clearUselessWords();
         }
     }
 }

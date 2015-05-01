@@ -35,7 +35,10 @@ namespace MiniSVM.TokenizerNms
                 {
                     List<string> words = new List<string>();
                     string str = "";
-                    ConfigurationManager.AppSettings["uselessWordsFile"] = filename;
+                    if (ConfigurationManager.AppSettings["uselessWordsFile"] == null || ConfigurationManager.AppSettings["uselessWordsFile"].Length == 0)
+                    {
+                        ConfigurationManager.AppSettings["uselessWordsFile"] = filename;
+                    }
                     while ((str = txt.ReadLine()) != null)
                     {
                         words.Add(str);
@@ -49,6 +52,15 @@ namespace MiniSVM.TokenizerNms
         public List<string> getUselessWords()
         {
             return uselessWords;
+        }
+
+        public void clearUselessWords()
+        {
+            uselessWords = new List<string>();
+            if (ConfigurationManager.AppSettings["uselessWordsFile"] != null)
+            {
+                ConfigurationManager.AppSettings["uselessWordsFile"] = "";
+            }
         }
 
         public string removeHeaders(string mail)
