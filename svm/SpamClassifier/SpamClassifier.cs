@@ -197,5 +197,19 @@ namespace MiniSVM.SpamClassifier
         {
 
         }
+
+        private void buttonClearTxt_Click(object sender, EventArgs e)
+        {
+            richTextBoxEmail.Text = "";
+        }
+
+        private void buttonClassifyTxt_Click(object sender, EventArgs e)
+        {
+            if (richTextBoxEmail.Text.Length > 0)
+            {
+                labelClassificationResult.Text = "processing...";
+            }
+            labelClassificationResult.Text = "NA";
+        }
     }
 }

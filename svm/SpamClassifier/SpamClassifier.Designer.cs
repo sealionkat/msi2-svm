@@ -205,6 +205,7 @@
             this.buttonClearTxt.TabIndex = 5;
             this.buttonClearTxt.Text = "Clear textarea";
             this.buttonClearTxt.UseVisualStyleBackColor = true;
+            this.buttonClearTxt.Click += new System.EventHandler(this.buttonClearTxt_Click);
             // 
             // labelClassificationResult
             // 
@@ -238,6 +239,7 @@
             this.buttonClassifyTxt.TabIndex = 2;
             this.buttonClassifyTxt.Text = "Classify";
             this.buttonClassifyTxt.UseVisualStyleBackColor = true;
+            this.buttonClassifyTxt.Click += new System.EventHandler(this.buttonClassifyTxt_Click);
             // 
             // richTextBoxEmail
             // 
@@ -245,7 +247,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxEmail.Location = new System.Drawing.Point(17, 45);
             this.richTextBoxEmail.Name = "richTextBoxEmail";
-            this.richTextBoxEmail.ReadOnly = true;
             this.richTextBoxEmail.Size = new System.Drawing.Size(938, 300);
             this.richTextBoxEmail.TabIndex = 1;
             this.richTextBoxEmail.Text = "";
