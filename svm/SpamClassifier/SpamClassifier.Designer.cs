@@ -32,8 +32,10 @@
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabLearning = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.dataGridViewSpam = new System.Windows.Forms.DataGridView();
             this.buttonLoadSpam = new System.Windows.Forms.Button();
             this.labelSpam = new System.Windows.Forms.Label();
+            this.dataGridViewHam = new System.Windows.Forms.DataGridView();
             this.buttonLoadHam = new System.Windows.Forms.Button();
             this.labelHam = new System.Windows.Forms.Label();
             this.tabClassifying = new System.Windows.Forms.TabPage();
@@ -61,6 +63,8 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSpam)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHam)).BeginInit();
             this.tabClassifying.SuspendLayout();
             this.tabSettings.SuspendLayout();
             this.SuspendLayout();
@@ -97,17 +101,32 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.dataGridViewSpam);
             this.splitContainer1.Panel1.Controls.Add(this.buttonLoadSpam);
             this.splitContainer1.Panel1.Controls.Add(this.labelSpam);
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.dataGridViewHam);
             this.splitContainer1.Panel2.Controls.Add(this.buttonLoadHam);
             this.splitContainer1.Panel2.Controls.Add(this.labelHam);
             this.splitContainer1.Size = new System.Drawing.Size(967, 448);
             this.splitContainer1.SplitterDistance = 483;
             this.splitContainer1.SplitterWidth = 10;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // dataGridViewSpam
+            // 
+            this.dataGridViewSpam.AllowUserToAddRows = false;
+            this.dataGridViewSpam.AllowUserToDeleteRows = false;
+            this.dataGridViewSpam.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewSpam.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewSpam.Location = new System.Drawing.Point(3, 55);
+            this.dataGridViewSpam.Name = "dataGridViewSpam";
+            this.dataGridViewSpam.Size = new System.Drawing.Size(477, 375);
+            this.dataGridViewSpam.TabIndex = 1;
             // 
             // buttonLoadSpam
             // 
@@ -128,6 +147,19 @@
             this.labelSpam.TabIndex = 0;
             this.labelSpam.Text = "SPAM";
             this.labelSpam.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // dataGridViewHam
+            // 
+            this.dataGridViewHam.AllowUserToAddRows = false;
+            this.dataGridViewHam.AllowUserToDeleteRows = false;
+            this.dataGridViewHam.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewHam.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewHam.Location = new System.Drawing.Point(3, 55);
+            this.dataGridViewHam.Name = "dataGridViewHam";
+            this.dataGridViewHam.Size = new System.Drawing.Size(462, 375);
+            this.dataGridViewHam.TabIndex = 2;
             // 
             // buttonLoadHam
             // 
@@ -176,6 +208,9 @@
             // 
             // labelClassificationResult
             // 
+            this.labelClassificationResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelClassificationResult.AutoSize = true;
             this.labelClassificationResult.Location = new System.Drawing.Point(206, 356);
             this.labelClassificationResult.Name = "labelClassificationResult";
@@ -185,6 +220,9 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(98, 356);
             this.label2.Name = "label2";
@@ -203,8 +241,7 @@
             // 
             // richTextBoxEmail
             // 
-            this.richTextBoxEmail.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.richTextBoxEmail.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBoxEmail.Location = new System.Drawing.Point(17, 45);
             this.richTextBoxEmail.Name = "richTextBoxEmail";
@@ -212,6 +249,7 @@
             this.richTextBoxEmail.Size = new System.Drawing.Size(938, 300);
             this.richTextBoxEmail.TabIndex = 1;
             this.richTextBoxEmail.Text = "";
+            this.richTextBoxEmail.TextChanged += new System.EventHandler(this.richTextBoxEmail_TextChanged);
             // 
             // buttonLoadEmail
             // 
@@ -360,6 +398,8 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSpam)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHam)).EndInit();
             this.tabClassifying.ResumeLayout(false);
             this.tabClassifying.PerformLayout();
             this.tabSettings.ResumeLayout(false);
@@ -397,6 +437,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label labelSpamCnt;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DataGridView dataGridViewSpam;
+        private System.Windows.Forms.DataGridView dataGridViewHam;
 
     }
 }

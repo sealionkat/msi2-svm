@@ -192,5 +192,10 @@ namespace MiniSVM.SpamClassifier
             labelSpamCnt.Text = "NA";
             labelHamCnt.Text = "NA";
         }
+
+        private void richTextBoxEmail_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
