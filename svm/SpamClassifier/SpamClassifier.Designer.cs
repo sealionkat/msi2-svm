@@ -50,6 +50,9 @@
             this.buttonClearUseless = new System.Windows.Forms.Button();
             this.buttonShowUseless = new System.Windows.Forms.Button();
             this.buttonLoadUseless = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBoxRecursive = new System.Windows.Forms.CheckBox();
             this.tabControlMain.SuspendLayout();
             this.tabLearning.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -60,6 +63,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHam)).BeginInit();
             this.tabClassifying.SuspendLayout();
             this.tabSettings.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlMain
@@ -151,7 +156,7 @@
             this.dataGridViewHam.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewHam.Location = new System.Drawing.Point(3, 55);
             this.dataGridViewHam.Name = "dataGridViewHam";
-            this.dataGridViewHam.Size = new System.Drawing.Size(450, 375);
+            this.dataGridViewHam.Size = new System.Drawing.Size(444, 375);
             this.dataGridViewHam.TabIndex = 2;
             // 
             // buttonLoadHam
@@ -256,10 +261,8 @@
             // 
             // tabSettings
             // 
-            this.tabSettings.Controls.Add(this.buttonReset);
-            this.tabSettings.Controls.Add(this.buttonClearUseless);
-            this.tabSettings.Controls.Add(this.buttonShowUseless);
-            this.tabSettings.Controls.Add(this.buttonLoadUseless);
+            this.tabSettings.Controls.Add(this.groupBox2);
+            this.tabSettings.Controls.Add(this.groupBox1);
             this.tabSettings.Location = new System.Drawing.Point(4, 22);
             this.tabSettings.Name = "tabSettings";
             this.tabSettings.Size = new System.Drawing.Size(973, 454);
@@ -269,19 +272,19 @@
             // 
             // buttonReset
             // 
-            this.buttonReset.Location = new System.Drawing.Point(18, 50);
+            this.buttonReset.Location = new System.Drawing.Point(6, 44);
             this.buttonReset.Name = "buttonReset";
-            this.buttonReset.Size = new System.Drawing.Size(120, 23);
+            this.buttonReset.Size = new System.Drawing.Size(159, 23);
             this.buttonReset.TabIndex = 5;
-            this.buttonReset.Text = "Reset training";
+            this.buttonReset.Text = "Reset training set";
             this.buttonReset.UseVisualStyleBackColor = true;
             this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
             // 
             // buttonClearUseless
             // 
-            this.buttonClearUseless.Location = new System.Drawing.Point(297, 21);
+            this.buttonClearUseless.Location = new System.Drawing.Point(6, 81);
             this.buttonClearUseless.Name = "buttonClearUseless";
-            this.buttonClearUseless.Size = new System.Drawing.Size(141, 23);
+            this.buttonClearUseless.Size = new System.Drawing.Size(159, 23);
             this.buttonClearUseless.TabIndex = 2;
             this.buttonClearUseless.Text = "Clear useless words list";
             this.buttonClearUseless.UseVisualStyleBackColor = true;
@@ -289,9 +292,9 @@
             // 
             // buttonShowUseless
             // 
-            this.buttonShowUseless.Location = new System.Drawing.Point(18, 21);
+            this.buttonShowUseless.Location = new System.Drawing.Point(6, 23);
             this.buttonShowUseless.Name = "buttonShowUseless";
-            this.buttonShowUseless.Size = new System.Drawing.Size(131, 23);
+            this.buttonShowUseless.Size = new System.Drawing.Size(159, 23);
             this.buttonShowUseless.TabIndex = 1;
             this.buttonShowUseless.Text = "Show useless words list";
             this.buttonShowUseless.UseVisualStyleBackColor = true;
@@ -299,13 +302,46 @@
             // 
             // buttonLoadUseless
             // 
-            this.buttonLoadUseless.Location = new System.Drawing.Point(155, 21);
+            this.buttonLoadUseless.Location = new System.Drawing.Point(6, 52);
             this.buttonLoadUseless.Name = "buttonLoadUseless";
-            this.buttonLoadUseless.Size = new System.Drawing.Size(136, 23);
+            this.buttonLoadUseless.Size = new System.Drawing.Size(159, 23);
             this.buttonLoadUseless.TabIndex = 0;
             this.buttonLoadUseless.Text = "Load useless words list";
             this.buttonLoadUseless.UseVisualStyleBackColor = true;
             this.buttonLoadUseless.Click += new System.EventHandler(this.buttonLoadUseless_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.buttonShowUseless);
+            this.groupBox1.Controls.Add(this.buttonLoadUseless);
+            this.groupBox1.Controls.Add(this.buttonClearUseless);
+            this.groupBox1.Location = new System.Drawing.Point(8, 13);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(171, 114);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Useless words";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.checkBoxRecursive);
+            this.groupBox2.Controls.Add(this.buttonReset);
+            this.groupBox2.Location = new System.Drawing.Point(8, 133);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(171, 78);
+            this.groupBox2.TabIndex = 7;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Training set";
+            // 
+            // checkBoxRecursive
+            // 
+            this.checkBoxRecursive.AutoSize = true;
+            this.checkBoxRecursive.Location = new System.Drawing.Point(6, 21);
+            this.checkBoxRecursive.Name = "checkBoxRecursive";
+            this.checkBoxRecursive.Size = new System.Drawing.Size(159, 17);
+            this.checkBoxRecursive.TabIndex = 6;
+            this.checkBoxRecursive.Text = "Read training set recursively";
+            this.checkBoxRecursive.UseVisualStyleBackColor = true;
             // 
             // SpamClassifier
             // 
@@ -328,6 +364,9 @@
             this.tabClassifying.ResumeLayout(false);
             this.tabClassifying.PerformLayout();
             this.tabSettings.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -355,6 +394,9 @@
         private System.Windows.Forms.Button buttonLoadHam;
         private System.Windows.Forms.DataGridView dataGridViewSpam;
         private System.Windows.Forms.DataGridView dataGridViewHam;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.CheckBox checkBoxRecursive;
+        private System.Windows.Forms.GroupBox groupBox1;
 
     }
 }

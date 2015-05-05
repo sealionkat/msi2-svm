@@ -127,7 +127,7 @@ namespace MiniSVM.SpamClassifier
             if (result == DialogResult.OK)
             {
                 new ProgressWorker<string, List<string>>(
-                    ReadDirectoryContent, dialog.SelectedPath, completedHandler, "Reading set", true).ShowDialog(this);
+                    ReadDirectoryContent, dialog.SelectedPath, completedHandler, "Reading set", true, true).ShowDialog(this);
             }
         }
 
@@ -135,15 +135,36 @@ namespace MiniSVM.SpamClassifier
             ProgressWorker<string, List<string>>.ProgressWorkerEventArgs<string, List<string>> args)
         {
             var strings = new List<string>();
-            var count = Directory.GetFiles(args.Argument).Length;
+            ReadDirectoryFiles(args.Argument, ref strings, args);
+            args.Result = strings;
+        }
+
+        private void ReadDirectoryFiles(string workingDirectory, ref List<string> output,
+            ProgressWorker<string, List<string>>.ProgressWorkerEventArgs<string, List<string>> args)
+        {
+            const int cutThreshold = 30;
+            var count = Directory.GetFiles(workingDirectory).Length;
             int current = 0;
-            foreach (string file in Directory.EnumerateFiles(args.Argument))
+            if (checkBoxRecursive.Checked)
+            {
+                foreach (string dir in Directory.EnumerateDirectories(workingDirectory))
+                {
+                    ReadDirectoryFiles(dir, ref output, args);
+                }
+                string workingDirectoryInfo = workingDirectory;
+                if (workingDirectoryInfo.Length > cutThreshold)
+                {
+                    workingDirectoryInfo = workingDirectoryInfo.Substring(workingDirectoryInfo.Length - cutThreshold, cutThreshold);
+                    workingDirectoryInfo = "..." + workingDirectoryInfo.Substring(workingDirectoryInfo.IndexOfAny(new[] { '\\', '/' }));
+                }
+                args.ChangeProgressInfo("Processing directory: " + workingDirectoryInfo);
+            }
+            foreach (string file in Directory.EnumerateFiles(workingDirectory))
             {
                 args.ReportProgress(current * 100 / count);
-                strings.Add(File.ReadAllText(file));
+                output.Add(File.ReadAllText(file));
                 ++current;
             }
-            args.Result = strings;
         }
 
         private void ReadUselessWordsFile(object sender)
@@ -152,7 +173,7 @@ namespace MiniSVM.SpamClassifier
             var result = dialog.ShowDialog(this);
             if (result == DialogResult.OK)
             {
-                MailTokenizer.readUselessWords(dialog.FileName);
+                MailTokenizer.ReadUselessWords(dialog.FileName);
             }
         }
 

@@ -43,6 +43,7 @@
             // 
             // infoLabel
             // 
+            this.infoLabel.AutoEllipsis = true;
             this.infoLabel.AutoSize = true;
             this.infoLabel.Location = new System.Drawing.Point(12, 13);
             this.infoLabel.Name = "infoLabel";

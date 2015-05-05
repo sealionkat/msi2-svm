@@ -21,11 +21,11 @@ namespace MiniSVM.Tokenizer
             uselessWordsFile = ConfigurationManager.AppSettings["uselessWordsFile"];
             if (uselessWordsFile != null && uselessWordsFile.Length > 0)
             {
-                readUselessWords(uselessWordsFile);
+                ReadUselessWords(uselessWordsFile);
             }
         }
 
-        public void readUselessWords(string filename)
+        public void ReadUselessWords(string filename)
         {
             if (filename.Length > 0)
             {
