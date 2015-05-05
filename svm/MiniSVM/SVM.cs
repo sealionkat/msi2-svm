@@ -34,7 +34,7 @@ namespace MiniSVM.Classifier
                 {
                     var xi = X.GetRow(i);
                     var xj = X.GetRow(j);
-                    h[i, j] = Y[i] * Y[j] * Kernel.Compute(xi, xj);
+                    h[i, j] = Kernel.Compute(xi, xj);
                 }
             return h;
         }
@@ -69,12 +69,14 @@ namespace MiniSVM.Classifier
                 constraints.Add(new LinearConstraint(numberOfVariables: 1)
                 {
                     VariablesAtIndices = new int[] { i },
+                    CombinedAs = new double[] { Y[i] },
                     ShouldBe = ConstraintType.GreaterThanOrEqualTo,
                     Value = 0
                 });
                 constraints.Add(new LinearConstraint(numberOfVariables: 1)
                 {
                     VariablesAtIndices = new int[] { i },
+                    CombinedAs = new double[] { Y[i] },
                     ShouldBe = ConstraintType.LesserThanOrEqualTo,
                     Value = C
                 });

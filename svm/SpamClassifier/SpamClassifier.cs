@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MiniSVM.TokenizerNms;
+using MiniSVM.Tokenizer;
 using System.IO;
 using System.Configuration;
 
@@ -15,16 +15,18 @@ namespace MiniSVM.SpamClassifier
 {
     public partial class SpamClassifier : Form
     {
-        private TokenizerNms.Tokenizer tokenizer = null;
+        private MailTokenizer MailTokenizer = null;
         public List<string> Spam { get; set; }
         public List<string> Ham { get; set; }
-        public Dictionary<string, int[]> trainingSet;
+        public Dictionary<string, Dictionary<MailType, int>> TrainingWordCounts { get; set; }
+        public List<Dictionary<string, int>> RawTrainingSet { get; set; }
 
         public SpamClassifier()
         {
             InitializeComponent();
-            tokenizer = new TokenizerNms.Tokenizer();
-            trainingSet = new Dictionary<string,int[]>();
+            MailTokenizer = new MailTokenizer();
+            TrainingWordCounts = new Dictionary<string, Dictionary<MailType, int>>();
+            RawTrainingSet = new List<Dictionary<string, int>>();
             if (ConfigurationManager.AppSettings["spamCount"] != null && ConfigurationManager.AppSettings["spamCount"].Length > 0)
             {
                 labelSpamCnt.Text = ConfigurationManager.AppSettings["spamCount"];
@@ -47,7 +49,7 @@ namespace MiniSVM.SpamClassifier
             if (result != null)
             {
                 Spam = result;
-                ProcessMails(1);
+                ProcessMails(MailType.Spam);
             }
         }
 
@@ -62,7 +64,7 @@ namespace MiniSVM.SpamClassifier
             if (result != null)
             {
                 Ham = result;
-                ProcessMails(0);
+                ProcessMails(MailType.Ham);
             }
         }
 
@@ -76,56 +78,48 @@ namespace MiniSVM.SpamClassifier
             //xml serialization
         }
 
-        private void UpdateTrainingSet(string word, int type) //type: 0 - ham, 1 - spam
+        private void UpdateTrainingWordCount(string word, MailType type)
         {
-            if (trainingSet != null && word != null)
+            if (TrainingWordCounts != null && word != null)
             {
-                if (trainingSet.ContainsKey(word.ToLower()))
+                if (TrainingWordCounts.ContainsKey(word.ToLower()))
                 {
-                    var vecValue = trainingSet[word];
+                    var vecValue = TrainingWordCounts[word];
                     ++vecValue[type];
-                    trainingSet[word] = vecValue;
+                    TrainingWordCounts[word] = vecValue;
                 }
                 else //new word
                 {
-                    var vecValue = new int[2];
+                    var vecValue = new Dictionary<MailType, int>();
+                    vecValue.Add(MailType.Ham, 0);
+                    vecValue.Add(MailType.Spam, 0);
                     vecValue[type] = 1;
-                    trainingSet.Add(word.ToLower(), vecValue);
+                    TrainingWordCounts.Add(word.ToLower(), vecValue);
                 }
             }
         }
 
-        
-
-        private void ProcessMails(int type) //type: 0 - ham, 1 - spam
+        private void ProcessMails(MailType type)
         {
-            var mails = (type == 1) ? Spam : Ham;
-            if (type == 1)
-            {
-                var spamCount = Spam.Count.ToString();
-                labelSpamCnt.Text = spamCount;
-                ConfigurationManager.AppSettings["spamCount"] = spamCount;
-            }
-            else
-            {
-                var hamCount = Ham.Count.ToString();
-                labelHamCnt.Text = hamCount;
-                ConfigurationManager.AppSettings["hamCount"] = hamCount;
-            }
+            var mails = (type == MailType.Spam) ? Spam : Ham;
             foreach (var mail in mails)
             {
                 //tokenization
-                var cleanedMail = tokenizer.removeHTML(mail);
-                var tokenizedMail = tokenizer.tokenizeString(cleanedMail);
+                var cleanedMail = MailTokenizer.removeHTML(mail);
+                var tokenizedMail = MailTokenizer.tokenizeString(cleanedMail);
 
                 //update training matrix
+                var trainingSetItem = new Dictionary<string, int>();
                 foreach (var word in tokenizedMail)
                 {
-                    UpdateTrainingSet(word, type);
-                } 
+                    if (!trainingSetItem.ContainsKey(word))
+                        trainingSetItem.Add(word, 0);
+                    trainingSetItem[word]++;
+                    UpdateTrainingWordCount(word, type);
+                }
+                RawTrainingSet.Add(trainingSetItem);
             }
             labelLastUpdate.Text = DateTime.Now.ToString();
-
         }
 
         private void ReadDirectory(ProgressWorker<string, List<string>>.ProgressWorkCompleted<List<string>> completedHandler)
@@ -160,7 +154,7 @@ namespace MiniSVM.SpamClassifier
             var result = dialog.ShowDialog(this);
             if (result == DialogResult.OK)
             {
-                tokenizer.readUselessWords(dialog.FileName);
+                MailTokenizer.readUselessWords(dialog.FileName);
             }
         }
 
@@ -172,7 +166,7 @@ namespace MiniSVM.SpamClassifier
         private void buttonShowUseless_Click(object sender, EventArgs e)
         {
             //todo: show data in new dialog
-            var uselessWords = tokenizer.getUselessWords();
+            var uselessWords = MailTokenizer.getUselessWords();
             var wordsList = "";
             foreach(var word in uselessWords) {
                 wordsList += word + '\n';
@@ -182,7 +176,7 @@ namespace MiniSVM.SpamClassifier
 
         private void buttonClearUseless_Click(object sender, EventArgs e)
         {
-            tokenizer.clearUselessWords();
+            MailTokenizer.clearUselessWords();
         }
 
         private void buttonReset_Click(object sender, EventArgs e)

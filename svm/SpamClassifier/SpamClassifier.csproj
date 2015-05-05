@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MailType.cs" />
     <Compile Include="ProgressWorker.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,7 +103,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Tokenizer\Tokenizer.csproj">
       <Project>{9b1f2da5-7758-4425-a48b-5eec6d78c8ff}</Project>
-      <Name>Tokenizer</Name>
+      <Name>SpamTokenizer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

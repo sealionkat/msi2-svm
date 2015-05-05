@@ -7,7 +7,7 @@
     <ProjectGuid>{9B1F2DA5-7758-4425-A48B-5EEC6D78C8FF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MiniSVM.TokenizerNms</RootNamespace>
+    <RootNamespace>MiniSVM.Tokenizer</RootNamespace>
     <AssemblyName>Tokenizer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -47,7 +47,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Tokenizer.cs" />
+    <Compile Include="MailTokenizer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
