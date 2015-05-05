@@ -118,7 +118,6 @@ namespace MiniSVM.SpamClassifier
                 RawTrainingSet.Add(trainingSetItem);
                 RawTrainingLabels.Add(type);
             }
-            labelLastUpdate.Text = DateTime.Now.ToString();
         }
 
         private void ReadDirectory(ProgressWorker<string, List<string>>.ProgressWorkCompleted<List<string>> completedHandler)
@@ -165,25 +164,28 @@ namespace MiniSVM.SpamClassifier
         private void buttonShowUseless_Click(object sender, EventArgs e)
         {
             //todo: show data in new dialog
-            var uselessWords = MailTokenizer.getUselessWords();
-            var wordsList = "";
-            foreach(var word in uselessWords) {
-                wordsList += word + '\n';
+            var uselessWords = MailTokenizer.UselessWords;
+            if (uselessWords == null)
+                MessageBox.Show("No useless words loaded yet!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            else
+            {
+                var wordsList = "";
+                foreach (var word in uselessWords)
+                {
+                    wordsList += word + '\n';
+                }
+                MessageBox.Show(wordsList);
             }
-            MessageBox.Show(wordsList);
         }
 
         private void buttonClearUseless_Click(object sender, EventArgs e)
         {
-            MailTokenizer.clearUselessWords();
+            MailTokenizer.ClearUselessWords();
         }
 
         private void buttonReset_Click(object sender, EventArgs e)
         {
-            //reset labels
-            //reset training set
-            labelSpamCnt.Text = "NA";
-            labelHamCnt.Text = "NA";
+            ClearSet();
         }
 
         private void richTextBoxEmail_TextChanged(object sender, EventArgs e)

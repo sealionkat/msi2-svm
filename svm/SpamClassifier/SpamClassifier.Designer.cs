@@ -46,17 +46,10 @@
             this.richTextBoxEmail = new System.Windows.Forms.RichTextBox();
             this.buttonLoadEmail = new System.Windows.Forms.Button();
             this.tabSettings = new System.Windows.Forms.TabPage();
-            this.labelHamCnt = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.labelSpamCnt = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.buttonReset = new System.Windows.Forms.Button();
-            this.labelLastUpdate = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.buttonClearUseless = new System.Windows.Forms.Button();
             this.buttonShowUseless = new System.Windows.Forms.Button();
             this.buttonLoadUseless = new System.Windows.Forms.Button();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.tabControlMain.SuspendLayout();
             this.tabLearning.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -158,7 +151,7 @@
             this.dataGridViewHam.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewHam.Location = new System.Drawing.Point(3, 55);
             this.dataGridViewHam.Name = "dataGridViewHam";
-            this.dataGridViewHam.Size = new System.Drawing.Size(462, 375);
+            this.dataGridViewHam.Size = new System.Drawing.Size(450, 375);
             this.dataGridViewHam.TabIndex = 2;
             // 
             // buttonLoadHam
@@ -201,9 +194,9 @@
             // 
             this.buttonClearTxt.Location = new System.Drawing.Point(98, 16);
             this.buttonClearTxt.Name = "buttonClearTxt";
-            this.buttonClearTxt.Size = new System.Drawing.Size(90, 23);
+            this.buttonClearTxt.Size = new System.Drawing.Size(76, 23);
             this.buttonClearTxt.TabIndex = 5;
-            this.buttonClearTxt.Text = "Clear textarea";
+            this.buttonClearTxt.Text = "Clear";
             this.buttonClearTxt.UseVisualStyleBackColor = true;
             this.buttonClearTxt.Click += new System.EventHandler(this.buttonClearTxt_Click);
             // 
@@ -263,13 +256,7 @@
             // 
             // tabSettings
             // 
-            this.tabSettings.Controls.Add(this.labelHamCnt);
-            this.tabSettings.Controls.Add(this.label6);
-            this.tabSettings.Controls.Add(this.labelSpamCnt);
-            this.tabSettings.Controls.Add(this.label4);
             this.tabSettings.Controls.Add(this.buttonReset);
-            this.tabSettings.Controls.Add(this.labelLastUpdate);
-            this.tabSettings.Controls.Add(this.label1);
             this.tabSettings.Controls.Add(this.buttonClearUseless);
             this.tabSettings.Controls.Add(this.buttonShowUseless);
             this.tabSettings.Controls.Add(this.buttonLoadUseless);
@@ -280,69 +267,15 @@
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
             // 
-            // labelHamCnt
-            // 
-            this.labelHamCnt.AutoSize = true;
-            this.labelHamCnt.Location = new System.Drawing.Point(215, 106);
-            this.labelHamCnt.Name = "labelHamCnt";
-            this.labelHamCnt.Size = new System.Drawing.Size(22, 13);
-            this.labelHamCnt.TabIndex = 9;
-            this.labelHamCnt.Text = "NA";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(145, 106);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(64, 13);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "HAM count:";
-            // 
-            // labelSpamCnt
-            // 
-            this.labelSpamCnt.AutoSize = true;
-            this.labelSpamCnt.Location = new System.Drawing.Point(91, 106);
-            this.labelSpamCnt.Name = "labelSpamCnt";
-            this.labelSpamCnt.Size = new System.Drawing.Size(22, 13);
-            this.labelSpamCnt.TabIndex = 7;
-            this.labelSpamCnt.Text = "NA";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 106);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(70, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "SPAM count:";
-            // 
             // buttonReset
             // 
-            this.buttonReset.Location = new System.Drawing.Point(18, 146);
+            this.buttonReset.Location = new System.Drawing.Point(18, 50);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(120, 23);
             this.buttonReset.TabIndex = 5;
             this.buttonReset.Text = "Reset training";
             this.buttonReset.UseVisualStyleBackColor = true;
             this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
-            // 
-            // labelLastUpdate
-            // 
-            this.labelLastUpdate.AutoSize = true;
-            this.labelLastUpdate.Location = new System.Drawing.Point(144, 83);
-            this.labelLastUpdate.Name = "labelLastUpdate";
-            this.labelLastUpdate.Size = new System.Drawing.Size(22, 13);
-            this.labelLastUpdate.TabIndex = 4;
-            this.labelLastUpdate.Text = "NA";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 83);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(123, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Training set last update: ";
             // 
             // buttonClearUseless
             // 
@@ -374,20 +307,11 @@
             this.buttonLoadUseless.UseVisualStyleBackColor = true;
             this.buttonLoadUseless.Click += new System.EventHandler(this.buttonLoadUseless_Click);
             // 
-            // statusStrip
-            // 
-            this.statusStrip.Location = new System.Drawing.Point(0, 458);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(981, 22);
-            this.statusStrip.TabIndex = 0;
-            this.statusStrip.Text = "statusStrip1";
-            // 
             // SpamClassifier
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(981, 480);
-            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.tabControlMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SpamClassifier";
@@ -404,9 +328,7 @@
             this.tabClassifying.ResumeLayout(false);
             this.tabClassifying.PerformLayout();
             this.tabSettings.ResumeLayout(false);
-            this.tabSettings.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -415,14 +337,11 @@
         private System.Windows.Forms.TabControl tabControlMain;
         private System.Windows.Forms.TabPage tabLearning;
         private System.Windows.Forms.TabPage tabClassifying;
-        private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Label labelSpam;
         private System.Windows.Forms.Label labelHam;
         private System.Windows.Forms.TabPage tabSettings;
         private System.Windows.Forms.Button buttonReset;
-        private System.Windows.Forms.Label labelLastUpdate;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonClearUseless;
         private System.Windows.Forms.Button buttonShowUseless;
         private System.Windows.Forms.Button buttonLoadUseless;
@@ -434,10 +353,6 @@
         private System.Windows.Forms.Button buttonClearTxt;
         private System.Windows.Forms.Button buttonLoadSpam;
         private System.Windows.Forms.Button buttonLoadHam;
-        private System.Windows.Forms.Label labelHamCnt;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label labelSpamCnt;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView dataGridViewSpam;
         private System.Windows.Forms.DataGridView dataGridViewHam;
 
