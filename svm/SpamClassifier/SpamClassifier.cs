@@ -20,22 +20,13 @@ namespace MiniSVM.SpamClassifier
         public List<string> Ham { get; set; }
         public Dictionary<string, Dictionary<MailType, int>> TrainingWordCounts { get; set; }
         public List<Dictionary<string, int>> RawTrainingSet { get; set; }
+        public List<MailType> RawTrainingLabels { get; set; }
 
         public SpamClassifier()
         {
             InitializeComponent();
             MailTokenizer = new MailTokenizer();
-            TrainingWordCounts = new Dictionary<string, Dictionary<MailType, int>>();
-            RawTrainingSet = new List<Dictionary<string, int>>();
-            if (ConfigurationManager.AppSettings["spamCount"] != null && ConfigurationManager.AppSettings["spamCount"].Length > 0)
-            {
-                labelSpamCnt.Text = ConfigurationManager.AppSettings["spamCount"];
-            }
-            if (ConfigurationManager.AppSettings["hamCount"] != null && ConfigurationManager.AppSettings["hamCount"].Length > 0)
-            {
-                labelHamCnt.Text = ConfigurationManager.AppSettings["hamCount"];
-            }
-
+            ClearSet();
         }
 
         private void buttonLoadSpam_Click(object sender, EventArgs e)
@@ -99,6 +90,13 @@ namespace MiniSVM.SpamClassifier
             }
         }
 
+        private void ClearSet()
+        {
+            TrainingWordCounts = new Dictionary<string, Dictionary<MailType, int>>();
+            RawTrainingSet = new List<Dictionary<string, int>>();
+            RawTrainingLabels = new List<MailType>();
+        }
+
         private void ProcessMails(MailType type)
         {
             var mails = (type == MailType.Spam) ? Spam : Ham;
@@ -118,6 +116,7 @@ namespace MiniSVM.SpamClassifier
                     UpdateTrainingWordCount(word, type);
                 }
                 RawTrainingSet.Add(trainingSetItem);
+                RawTrainingLabels.Add(type);
             }
             labelLastUpdate.Text = DateTime.Now.ToString();
         }
