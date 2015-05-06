@@ -27,6 +27,7 @@ namespace MiniSVM.SpamClassifier
             InitializeComponent();
             MailTokenizer = new MailTokenizer();
             ClearSet();
+
         }
 
         private void buttonLoadSpam_Click(object sender, EventArgs e)
@@ -103,7 +104,8 @@ namespace MiniSVM.SpamClassifier
             foreach (var mail in mails)
             {
                 //tokenization
-                var cleanedMail = MailTokenizer.removeHTML(mail);
+                var nonheadersMail = MailTokenizer.RemoveHeaders(mail);
+                var cleanedMail = MailTokenizer.RemoveHTML(nonheadersMail);
                 var tokenizedMail = MailTokenizer.tokenizeString(cleanedMail);
 
                 //update training matrix
