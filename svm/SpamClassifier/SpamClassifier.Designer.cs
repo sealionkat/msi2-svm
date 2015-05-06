@@ -33,9 +33,13 @@
             this.tabLearning = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridViewSpam = new System.Windows.Forms.DataGridView();
+            this.Word = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonLoadSpam = new System.Windows.Forms.Button();
             this.labelSpam = new System.Windows.Forms.Label();
             this.dataGridViewHam = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonLoadHam = new System.Windows.Forms.Button();
             this.labelHam = new System.Windows.Forms.Label();
             this.tabClassifying = new System.Windows.Forms.TabPage();
@@ -53,10 +57,6 @@
             this.buttonShowUseless = new System.Windows.Forms.Button();
             this.buttonLoadUseless = new System.Windows.Forms.Button();
             this.buttonClearUseless = new System.Windows.Forms.Button();
-            this.Word = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControlMain.SuspendLayout();
             this.tabLearning.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -134,6 +134,18 @@
             this.dataGridViewSpam.TabIndex = 1;
             this.dataGridViewSpam.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewSpam_CellContentClick);
             // 
+            // Word
+            // 
+            this.Word.HeaderText = "Word";
+            this.Word.Name = "Word";
+            this.Word.ReadOnly = true;
+            // 
+            // Count
+            // 
+            this.Count.HeaderText = "Count";
+            this.Count.Name = "Count";
+            this.Count.ReadOnly = true;
+            // 
             // buttonLoadSpam
             // 
             this.buttonLoadSpam.Location = new System.Drawing.Point(3, 26);
@@ -167,8 +179,20 @@
             this.dataGridViewTextBoxColumn2});
             this.dataGridViewHam.Location = new System.Drawing.Point(3, 55);
             this.dataGridViewHam.Name = "dataGridViewHam";
-            this.dataGridViewHam.Size = new System.Drawing.Size(438, 375);
+            this.dataGridViewHam.Size = new System.Drawing.Size(432, 375);
             this.dataGridViewHam.TabIndex = 2;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "Word";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "Count";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
             // 
             // buttonLoadHam
             // 
@@ -269,6 +293,7 @@
             this.buttonLoadEmail.TabIndex = 0;
             this.buttonLoadEmail.Text = "Load e-mail";
             this.buttonLoadEmail.UseVisualStyleBackColor = true;
+            this.buttonLoadEmail.Click += new System.EventHandler(this.buttonLoadEmail_Click);
             // 
             // tabSettings
             // 
@@ -353,30 +378,6 @@
             this.buttonClearUseless.Text = "Clear useless words list";
             this.buttonClearUseless.UseVisualStyleBackColor = true;
             this.buttonClearUseless.Click += new System.EventHandler(this.buttonClearUseless_Click);
-            // 
-            // Word
-            // 
-            this.Word.HeaderText = "Word";
-            this.Word.Name = "Word";
-            this.Word.ReadOnly = true;
-            // 
-            // Count
-            // 
-            this.Count.HeaderText = "Count";
-            this.Count.Name = "Count";
-            this.Count.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "Word";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "Count";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
             // 
             // SpamClassifier
             // 

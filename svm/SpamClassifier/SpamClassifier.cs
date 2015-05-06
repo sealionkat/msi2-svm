@@ -213,16 +213,26 @@ namespace MiniSVM.SpamClassifier
 
         private void buttonClassifyTxt_Click(object sender, EventArgs e)
         {
-            if (richTextBoxEmail.Text.Length > 0)
+            if (richTextBoxEmail.Text.Length == 0)
             {
-                labelClassificationResult.Text = "processing...";
+                MessageBox.Show("No mail loaded yet!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
             }
-            labelClassificationResult.Text = "NA";
         }
 
         private void dataGridViewSpam_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void buttonLoadEmail_Click(object sender, EventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            var result = dialog.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                richTextBoxEmail.Text = File.ReadAllText(dialog.FileName);
+            }
         }
     }
 }
