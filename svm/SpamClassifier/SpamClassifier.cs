@@ -85,6 +85,7 @@ namespace MiniSVM.SpamClassifier
             }
         }
 
+
         private void ClearSet()
         {
             TrainingWordCounts = new Dictionary<string, Dictionary<MailType, int>>();
@@ -92,7 +93,40 @@ namespace MiniSVM.SpamClassifier
             RawTrainingLabels = new List<MailType>();
         }
 
+
+        private void UpdateGridViews()
+        {
+            var hamRows = new List<string[]>();
+            var spamRows = new List<string[]>();
+            dataGridViewHam.Rows.Clear();
+            dataGridViewSpam.Rows.Clear();
+
+            foreach (KeyValuePair<string, Dictionary<MailType, int>> entry in TrainingWordCounts)
+            {
+                var value = entry.Value;
+                var key = entry.Key;
+                hamRows.Add(new string[] { key, value[MailType.Ham].ToString() });
+                spamRows.Add(new string[] { key, value[MailType.Spam].ToString() });
+            }
+
+            spamRows = spamRows.OrderByDescending(o => o[1]).ToList();
+            hamRows = hamRows.OrderByDescending(o => o[1]).ToList();
+
+            var spamGridRows = spamRows.ToArray<string[]>();
+            var hamGridRows = hamRows.ToArray<string[]>();
+
+            foreach (string[] row in spamGridRows)
+            {
+                dataGridViewSpam.Rows.Add(row);
+            }
+
+            foreach (string[] row in hamGridRows)
+            {
+                dataGridViewHam.Rows.Add(row);
+            }
+        }
         private void ProcessMail(string mail, MailType type)
+        
         {
             //tokenization
             var nonheadersMail = Tokenizer.RemoveHeaders(mail);
@@ -160,6 +194,8 @@ namespace MiniSVM.SpamClassifier
                 ProcessMail(File.ReadAllText(file), mailType);
                 ++current;
             }
+
+            //UpdateGridViews(); //TODO: po wczytaniu maili ma się to wywołać
         }
 
         private void ReadUselessWordsFile(object sender)
