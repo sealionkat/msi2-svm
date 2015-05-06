@@ -103,7 +103,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Tokenizer\Tokenizer.csproj">
       <Project>{9b1f2da5-7758-4425-a48b-5eec6d78c8ff}</Project>
-      <Name>SpamTokenizer</Name>
+      <Name>Tokenizer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

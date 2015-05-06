@@ -15,9 +15,7 @@ namespace MiniSVM.SpamClassifier
 {
     public partial class SpamClassifier : Form
     {
-        private MailTokenizer MailTokenizer = null;
-        public List<string> Spam { get; set; }
-        public List<string> Ham { get; set; }
+        private MailTokenizer Tokenizer = null;
         public Dictionary<string, Dictionary<MailType, int>> TrainingWordCounts { get; set; }
         public List<Dictionary<string, int>> RawTrainingSet { get; set; }
         public List<MailType> RawTrainingLabels { get; set; }
@@ -25,39 +23,32 @@ namespace MiniSVM.SpamClassifier
         public SpamClassifier()
         {
             InitializeComponent();
-            MailTokenizer = new MailTokenizer();
+            Tokenizer = new MailTokenizer();
             ClearSet();
+        }
 
+        class ProgessWorkerArgument
+        {
+            public string Directory { get; set; }
+            public MailType Type { get; set; }
         }
 
         private void buttonLoadSpam_Click(object sender, EventArgs e)
         {
-            ReadDirectory(ReadSpamCompleted);
+            ReadDirectory(MailType.Spam, ReadSpamCompleted);
         }
 
-        private void ReadSpamCompleted(object sender, ProgressWorker<string, List<string>>.ProgressWorkCompletedArgs<List<string>> eventArgs)
+        private void ReadSpamCompleted(object sender, ProgressWorker<ProgessWorkerArgument, object>.ProgressWorkCompletedArgs<object> eventArgs)
         {
-            var result = eventArgs.Result;
-            if (result != null)
-            {
-                Spam = result;
-                ProcessMails(MailType.Spam);
-            }
         }
 
         private void buttonLoadHam_Click(object sender, EventArgs e)
         {
-            ReadDirectory(ReadHamCompleted);
+            ReadDirectory(MailType.Ham, ReadHamCompleted);
         }
 
-        private void ReadHamCompleted(object sender, ProgressWorker<string, List<string>>.ProgressWorkCompletedArgs<List<string>> eventArgs)
+        private void ReadHamCompleted(object sender, ProgressWorker<ProgessWorkerArgument, object>.ProgressWorkCompletedArgs<object> eventArgs)
         {
-            var result = eventArgs.Result;
-            if (result != null)
-            {
-                Ham = result;
-                ProcessMails(MailType.Ham);
-            }
         }
 
         private void ReadTrainingMatrix()
@@ -98,51 +89,50 @@ namespace MiniSVM.SpamClassifier
             RawTrainingLabels = new List<MailType>();
         }
 
-        private void ProcessMails(MailType type)
+        private void ProcessMail(string mail, MailType type)
         {
-            var mails = (type == MailType.Spam) ? Spam : Ham;
-            foreach (var mail in mails)
-            {
-                //tokenization
-                var nonheadersMail = MailTokenizer.RemoveHeaders(mail);
-                var cleanedMail = MailTokenizer.RemoveHTML(nonheadersMail);
-                var tokenizedMail = MailTokenizer.tokenizeString(cleanedMail);
+            //tokenization
+            var nonheadersMail = Tokenizer.RemoveHeaders(mail);
+            var cleanedMail = Tokenizer.RemoveHTML(nonheadersMail);
+            var tokenizedMail = Tokenizer.tokenizeString(cleanedMail);
 
-                //update training matrix
-                var trainingSetItem = new Dictionary<string, int>();
-                foreach (var word in tokenizedMail)
-                {
-                    if (!trainingSetItem.ContainsKey(word))
-                        trainingSetItem.Add(word, 0);
-                    trainingSetItem[word]++;
-                    UpdateTrainingWordCount(word, type);
-                }
-                RawTrainingSet.Add(trainingSetItem);
-                RawTrainingLabels.Add(type);
+            //update training matrix
+            var trainingSetItem = new Dictionary<string, int>();
+            foreach (var word in tokenizedMail)
+            {
+                if (!trainingSetItem.ContainsKey(word))
+                    trainingSetItem.Add(word, 0);
+                trainingSetItem[word]++;
+                UpdateTrainingWordCount(word, type);
             }
+            RawTrainingSet.Add(trainingSetItem);
+            RawTrainingLabels.Add(type);
         }
 
-        private void ReadDirectory(ProgressWorker<string, List<string>>.ProgressWorkCompleted<List<string>> completedHandler)
+        private void ReadDirectory(MailType type, ProgressWorker<ProgessWorkerArgument, object>.ProgressWorkCompleted<object> completedHandler)
         {
             var dialog = new FolderBrowserDialog();
             var result = dialog.ShowDialog(this);
+            var argument = new ProgessWorkerArgument()
+            {
+                Directory = dialog.SelectedPath,
+                Type = type
+            };
             if (result == DialogResult.OK)
             {
-                new ProgressWorker<string, List<string>>(
-                    ReadDirectoryContent, dialog.SelectedPath, completedHandler, "Reading set", true, true).ShowDialog(this);
+                new ProgressWorker<ProgessWorkerArgument, object>(
+                    ReadDirectoryContent, argument, completedHandler, "Reading set", true, true).ShowDialog(this);
             }
         }
 
         private void ReadDirectoryContent(object sender,
-            ProgressWorker<string, List<string>>.ProgressWorkerEventArgs<string, List<string>> args)
+            ProgressWorker<ProgessWorkerArgument, object>.ProgressWorkerEventArgs<ProgessWorkerArgument, object> args)
         {
-            var strings = new List<string>();
-            ReadDirectoryFiles(args.Argument, ref strings, args);
-            args.Result = strings;
+            ReadDirectoryFiles(args.Argument.Directory, args.Argument.Type, args);
         }
 
-        private void ReadDirectoryFiles(string workingDirectory, ref List<string> output,
-            ProgressWorker<string, List<string>>.ProgressWorkerEventArgs<string, List<string>> args)
+        private void ReadDirectoryFiles(string workingDirectory, MailType mailType,
+            ProgressWorker<ProgessWorkerArgument, object>.ProgressWorkerEventArgs<ProgessWorkerArgument, object> args)
         {
             const int cutThreshold = 30;
             var count = Directory.GetFiles(workingDirectory).Length;
@@ -151,7 +141,7 @@ namespace MiniSVM.SpamClassifier
             {
                 foreach (string dir in Directory.EnumerateDirectories(workingDirectory))
                 {
-                    ReadDirectoryFiles(dir, ref output, args);
+                    ReadDirectoryFiles(dir, mailType, args);
                 }
                 string workingDirectoryInfo = workingDirectory;
                 if (workingDirectoryInfo.Length > cutThreshold)
@@ -164,7 +154,7 @@ namespace MiniSVM.SpamClassifier
             foreach (string file in Directory.EnumerateFiles(workingDirectory))
             {
                 args.ReportProgress(current * 100 / count);
-                output.Add(File.ReadAllText(file));
+                ProcessMail(File.ReadAllText(file), mailType);
                 ++current;
             }
         }
@@ -175,7 +165,7 @@ namespace MiniSVM.SpamClassifier
             var result = dialog.ShowDialog(this);
             if (result == DialogResult.OK)
             {
-                MailTokenizer.ReadUselessWords(dialog.FileName);
+                Tokenizer.ReadUselessWords(dialog.FileName);
             }
         }
 
@@ -187,7 +177,7 @@ namespace MiniSVM.SpamClassifier
         private void buttonShowUseless_Click(object sender, EventArgs e)
         {
             //todo: show data in new dialog
-            var uselessWords = MailTokenizer.UselessWords;
+            var uselessWords = Tokenizer.UselessWords;
             if (uselessWords == null)
                 MessageBox.Show("No useless words loaded yet!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             else
@@ -203,7 +193,7 @@ namespace MiniSVM.SpamClassifier
 
         private void buttonClearUseless_Click(object sender, EventArgs e)
         {
-            MailTokenizer.ClearUselessWords();
+            Tokenizer.ClearUselessWords();
         }
 
         private void buttonReset_Click(object sender, EventArgs e)
