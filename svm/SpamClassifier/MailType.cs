@@ -8,7 +8,7 @@ namespace MiniSVM.SpamClassifier
 {
     public enum MailType
     {
-        Spam = 1,
-        Ham = 0
+        Spam = -1,
+        Ham = 1
     }
 }

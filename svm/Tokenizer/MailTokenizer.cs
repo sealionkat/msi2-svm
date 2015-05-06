@@ -110,7 +110,7 @@ namespace MiniSVM.Tokenizer
             return Regex.Replace(output, "<[^>]*>", "");
         }
 
-        public List<string> tokenizeString(string text)
+        public List<string> TokenizeString(string text)
         {
             string processingString = text.Trim().ToLower().Replace(",", "").Replace(".", "").Replace(";", "").Replace("(", "").Replace(")", "").Replace("\"", "").Replace("\n", " ").Replace("\r", " ");
             List<string> words = new List<string>(processingString.Split(new Char[] {' ', '\t'}, StringSplitOptions.RemoveEmptyEntries));

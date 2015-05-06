@@ -10,15 +10,18 @@ using System.Windows.Forms;
 using MiniSVM.Tokenizer;
 using System.IO;
 using System.Configuration;
+using MiniSVM.Classifier;
 
 namespace MiniSVM.SpamClassifier
 {
     public partial class SpamClassifier : Form
     {
-        private MailTokenizer Tokenizer = null;
+        private MailTokenizer Tokenizer {get; set;}
         public Dictionary<string, Dictionary<MailType, int>> TrainingWordCounts { get; set; }
         public List<Dictionary<string, int>> RawTrainingSet { get; set; }
         public List<MailType> RawTrainingLabels { get; set; }
+        public IClassifier Classifier { get; set; }
+        public IHypothesis CurrentHypothesis { get; set; }
 
         public SpamClassifier()
         {
@@ -94,7 +97,7 @@ namespace MiniSVM.SpamClassifier
             //tokenization
             var nonheadersMail = Tokenizer.RemoveHeaders(mail);
             var cleanedMail = Tokenizer.RemoveHTML(nonheadersMail);
-            var tokenizedMail = Tokenizer.tokenizeString(cleanedMail);
+            var tokenizedMail = Tokenizer.TokenizeString(cleanedMail);
 
             //update training matrix
             var trainingSetItem = new Dictionary<string, int>();
@@ -218,6 +221,15 @@ namespace MiniSVM.SpamClassifier
                 MessageBox.Show("No mail loaded yet!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
+            if (CurrentHypothesis == null)
+            {
+                MessageBox.Show("No classifier learned yet!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            var tokenizedMail = Tokenizer.TokenizeString(richTextBoxEmail.Text);
+            var features = TokenizedMailToFeatures(tokenizedMail);
+            var result = CurrentHypothesis.Predict(features) > 0 ? MailType.Ham : MailType.Spam;
+            labelClassificationResult.Text = result.ToString();
         }
 
         private void dataGridViewSpam_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -233,6 +245,11 @@ namespace MiniSVM.SpamClassifier
             {
                 richTextBoxEmail.Text = File.ReadAllText(dialog.FileName);
             }
+        }
+
+        private double[] TokenizedMailToFeatures(List<string> tokenizedMail)
+        {
+            throw new NotImplementedException();
         }
     }
 }
