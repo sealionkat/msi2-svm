@@ -43,6 +43,7 @@ namespace MiniSVM.SpamClassifier
 
         private void ReadSpamCompleted(object sender, ProgressWorker<ProgessWorkerArgument, object>.ProgressWorkCompletedArgs<object> eventArgs)
         {
+            UpdateGridViews();
         }
 
         private void buttonLoadHam_Click(object sender, EventArgs e)
@@ -52,6 +53,7 @@ namespace MiniSVM.SpamClassifier
 
         private void ReadHamCompleted(object sender, ProgressWorker<ProgessWorkerArgument, object>.ProgressWorkCompletedArgs<object> eventArgs)
         {
+            UpdateGridViews();
         }
 
         private void ReadTrainingMatrix()
@@ -96,8 +98,8 @@ namespace MiniSVM.SpamClassifier
 
         private void UpdateGridViews()
         {
-            var hamRows = new List<string[]>();
-            var spamRows = new List<string[]>();
+            var hamRows = new List<object[]>();
+            var spamRows = new List<object[]>();
             dataGridViewHam.Rows.Clear();
             dataGridViewSpam.Rows.Clear();
 
@@ -105,22 +107,22 @@ namespace MiniSVM.SpamClassifier
             {
                 var value = entry.Value;
                 var key = entry.Key;
-                hamRows.Add(new string[] { key, value[MailType.Ham].ToString() });
-                spamRows.Add(new string[] { key, value[MailType.Spam].ToString() });
+                hamRows.Add(new object[] { key, value[MailType.Ham]});
+                spamRows.Add(new object[] { key, value[MailType.Spam]});
             }
 
             spamRows = spamRows.OrderByDescending(o => o[1]).ToList();
             hamRows = hamRows.OrderByDescending(o => o[1]).ToList();
 
-            var spamGridRows = spamRows.ToArray<string[]>();
-            var hamGridRows = hamRows.ToArray<string[]>();
+            var spamGridRows = spamRows.ToArray<object[]>();
+            var hamGridRows = hamRows.ToArray<object[]>();
 
-            foreach (string[] row in spamGridRows)
+            foreach (object[] row in spamGridRows)
             {
                 dataGridViewSpam.Rows.Add(row);
             }
 
-            foreach (string[] row in hamGridRows)
+            foreach (object[] row in hamGridRows)
             {
                 dataGridViewHam.Rows.Add(row);
             }
@@ -194,8 +196,6 @@ namespace MiniSVM.SpamClassifier
                 ProcessMail(File.ReadAllText(file), mailType);
                 ++current;
             }
-
-            //UpdateGridViews(); //TODO: po wczytaniu maili ma się to wywołać
         }
 
         private void ReadUselessWordsFile(object sender)
