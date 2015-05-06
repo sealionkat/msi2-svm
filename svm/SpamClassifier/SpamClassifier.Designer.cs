@@ -179,7 +179,7 @@
             this.dataGridViewTextBoxColumn2});
             this.dataGridViewHam.Location = new System.Drawing.Point(3, 55);
             this.dataGridViewHam.Name = "dataGridViewHam";
-            this.dataGridViewHam.Size = new System.Drawing.Size(432, 375);
+            this.dataGridViewHam.Size = new System.Drawing.Size(426, 375);
             this.dataGridViewHam.TabIndex = 2;
             // 
             // dataGridViewTextBoxColumn1

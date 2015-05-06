@@ -93,6 +93,8 @@ namespace MiniSVM.SpamClassifier
             TrainingWordCounts = new Dictionary<string, Dictionary<MailType, int>>();
             RawTrainingSet = new List<Dictionary<string, int>>();
             RawTrainingLabels = new List<MailType>();
+            dataGridViewHam.Rows.Clear();
+            dataGridViewSpam.Rows.Clear();
         }
 
 
@@ -126,6 +128,7 @@ namespace MiniSVM.SpamClassifier
             {
                 dataGridViewHam.Rows.Add(row);
             }
+            MessageBox.Show(TrainingWordCounts.Count.ToString() + " different words found.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
         private void ProcessMail(string mail, MailType type)
         
