@@ -46,13 +46,17 @@
             this.richTextBoxEmail = new System.Windows.Forms.RichTextBox();
             this.buttonLoadEmail = new System.Windows.Forms.Button();
             this.tabSettings = new System.Windows.Forms.TabPage();
-            this.buttonReset = new System.Windows.Forms.Button();
-            this.buttonClearUseless = new System.Windows.Forms.Button();
-            this.buttonShowUseless = new System.Windows.Forms.Button();
-            this.buttonLoadUseless = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.checkBoxRecursive = new System.Windows.Forms.CheckBox();
+            this.buttonReset = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.buttonShowUseless = new System.Windows.Forms.Button();
+            this.buttonLoadUseless = new System.Windows.Forms.Button();
+            this.buttonClearUseless = new System.Windows.Forms.Button();
+            this.Word = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControlMain.SuspendLayout();
             this.tabLearning.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -63,8 +67,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHam)).BeginInit();
             this.tabClassifying.SuspendLayout();
             this.tabSettings.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlMain
@@ -121,10 +125,14 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewSpam.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewSpam.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Word,
+            this.Count});
             this.dataGridViewSpam.Location = new System.Drawing.Point(3, 55);
             this.dataGridViewSpam.Name = "dataGridViewSpam";
             this.dataGridViewSpam.Size = new System.Drawing.Size(477, 375);
             this.dataGridViewSpam.TabIndex = 1;
+            this.dataGridViewSpam.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewSpam_CellContentClick);
             // 
             // buttonLoadSpam
             // 
@@ -154,9 +162,12 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewHam.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewHam.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2});
             this.dataGridViewHam.Location = new System.Drawing.Point(3, 55);
             this.dataGridViewHam.Name = "dataGridViewHam";
-            this.dataGridViewHam.Size = new System.Drawing.Size(444, 375);
+            this.dataGridViewHam.Size = new System.Drawing.Size(438, 375);
             this.dataGridViewHam.TabIndex = 2;
             // 
             // buttonLoadHam
@@ -270,6 +281,27 @@
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.checkBoxRecursive);
+            this.groupBox2.Controls.Add(this.buttonReset);
+            this.groupBox2.Location = new System.Drawing.Point(8, 133);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(171, 78);
+            this.groupBox2.TabIndex = 7;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Training set";
+            // 
+            // checkBoxRecursive
+            // 
+            this.checkBoxRecursive.AutoSize = true;
+            this.checkBoxRecursive.Location = new System.Drawing.Point(6, 21);
+            this.checkBoxRecursive.Name = "checkBoxRecursive";
+            this.checkBoxRecursive.Size = new System.Drawing.Size(159, 17);
+            this.checkBoxRecursive.TabIndex = 6;
+            this.checkBoxRecursive.Text = "Read training set recursively";
+            this.checkBoxRecursive.UseVisualStyleBackColor = true;
+            // 
             // buttonReset
             // 
             this.buttonReset.Location = new System.Drawing.Point(6, 44);
@@ -280,15 +312,17 @@
             this.buttonReset.UseVisualStyleBackColor = true;
             this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
             // 
-            // buttonClearUseless
+            // groupBox1
             // 
-            this.buttonClearUseless.Location = new System.Drawing.Point(6, 81);
-            this.buttonClearUseless.Name = "buttonClearUseless";
-            this.buttonClearUseless.Size = new System.Drawing.Size(159, 23);
-            this.buttonClearUseless.TabIndex = 2;
-            this.buttonClearUseless.Text = "Clear useless words list";
-            this.buttonClearUseless.UseVisualStyleBackColor = true;
-            this.buttonClearUseless.Click += new System.EventHandler(this.buttonClearUseless_Click);
+            this.groupBox1.Controls.Add(this.buttonShowUseless);
+            this.groupBox1.Controls.Add(this.buttonLoadUseless);
+            this.groupBox1.Controls.Add(this.buttonClearUseless);
+            this.groupBox1.Location = new System.Drawing.Point(8, 13);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(171, 114);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Useless words";
             // 
             // buttonShowUseless
             // 
@@ -310,38 +344,39 @@
             this.buttonLoadUseless.UseVisualStyleBackColor = true;
             this.buttonLoadUseless.Click += new System.EventHandler(this.buttonLoadUseless_Click);
             // 
-            // groupBox1
+            // buttonClearUseless
             // 
-            this.groupBox1.Controls.Add(this.buttonShowUseless);
-            this.groupBox1.Controls.Add(this.buttonLoadUseless);
-            this.groupBox1.Controls.Add(this.buttonClearUseless);
-            this.groupBox1.Location = new System.Drawing.Point(8, 13);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(171, 114);
-            this.groupBox1.TabIndex = 6;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Useless words";
+            this.buttonClearUseless.Location = new System.Drawing.Point(6, 81);
+            this.buttonClearUseless.Name = "buttonClearUseless";
+            this.buttonClearUseless.Size = new System.Drawing.Size(159, 23);
+            this.buttonClearUseless.TabIndex = 2;
+            this.buttonClearUseless.Text = "Clear useless words list";
+            this.buttonClearUseless.UseVisualStyleBackColor = true;
+            this.buttonClearUseless.Click += new System.EventHandler(this.buttonClearUseless_Click);
             // 
-            // groupBox2
+            // Word
             // 
-            this.groupBox2.Controls.Add(this.checkBoxRecursive);
-            this.groupBox2.Controls.Add(this.buttonReset);
-            this.groupBox2.Location = new System.Drawing.Point(8, 133);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(171, 78);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Training set";
+            this.Word.HeaderText = "Word";
+            this.Word.Name = "Word";
+            this.Word.ReadOnly = true;
             // 
-            // checkBoxRecursive
+            // Count
             // 
-            this.checkBoxRecursive.AutoSize = true;
-            this.checkBoxRecursive.Location = new System.Drawing.Point(6, 21);
-            this.checkBoxRecursive.Name = "checkBoxRecursive";
-            this.checkBoxRecursive.Size = new System.Drawing.Size(159, 17);
-            this.checkBoxRecursive.TabIndex = 6;
-            this.checkBoxRecursive.Text = "Read training set recursively";
-            this.checkBoxRecursive.UseVisualStyleBackColor = true;
+            this.Count.HeaderText = "Count";
+            this.Count.Name = "Count";
+            this.Count.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "Word";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "Count";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
             // 
             // SpamClassifier
             // 
@@ -364,9 +399,9 @@
             this.tabClassifying.ResumeLayout(false);
             this.tabClassifying.PerformLayout();
             this.tabSettings.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -397,6 +432,10 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox checkBoxRecursive;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Word;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Count;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
 
     }
 }

@@ -229,5 +229,10 @@ namespace MiniSVM.SpamClassifier
             }
             labelClassificationResult.Text = "NA";
         }
+
+        private void dataGridViewSpam_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
