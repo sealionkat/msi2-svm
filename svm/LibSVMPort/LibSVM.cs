@@ -31,9 +31,14 @@ namespace LibSVMPort
 
         public bool Compute(double[,] trainingData, double[] trainingLabels)
         {
+            return Compute(trainingData.ToArray(), trainingLabels);
+        }
+
+        public bool Compute(double[][] trainingData, double[] trainingLabels)
+        {
             var problem = new SvmProblem<double[]>()
             {
-                X = trainingData.ToArray(),
+                X = trainingData,
                 Y = trainingLabels
             };
             SVMParameter.Check(problem);

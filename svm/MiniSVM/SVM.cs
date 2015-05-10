@@ -172,5 +172,10 @@ namespace MiniSVM.Classifier
                 return Math.Sign(Matrix.InnerProduct(W, features) + B);
             }
         }
+
+        public bool Compute(double[][] trainingData, double[] trainingLabels)
+        {
+            return InternalCalculateHypothesis(trainingData.ToMatrix(), trainingLabels, out w, out b);
+        }
     }
 }

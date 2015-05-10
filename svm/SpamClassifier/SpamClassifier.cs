@@ -11,6 +11,7 @@ using MiniSVM.Tokenizer;
 using System.IO;
 using System.Configuration;
 using MiniSVM.Classifier;
+using LibSVMPort;
 
 namespace MiniSVM.SpamClassifier
 {
@@ -326,6 +327,19 @@ namespace MiniSVM.SpamClassifier
             double[][] trainingData;
             double[] trainingLabels;
             GetTrainingData(out trainingData, out trainingLabels);
+            Classifier = CreateClassifier();
+            if (!Classifier.Compute(trainingData, trainingLabels))
+                MessageBox.Show(this, "Training model failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            else
+            {
+                CurrentHypothesis = Classifier.GetHypothesis();
+                MessageBox.Show(this, "Training model finished", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+        }
+
+        private IClassifier CreateClassifier()
+        {
+            return new LibSVM();
         }
 
         private void GetTrainingData(out double[][] trainingData, out double[] trainingLabels)
