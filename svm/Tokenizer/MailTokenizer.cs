@@ -112,7 +112,18 @@ namespace MiniSVM.Tokenizer
 
         public List<string> TokenizeString(string text)
         {
-            string processingString = text.Trim().ToLower().Replace(",", "").Replace(".", "").Replace(";", "").Replace("(", "").Replace(")", "").Replace("\"", "").Replace("\n", " ").Replace("\r", " ").Replace("-", "");
+            string processingString = text.Trim().ToLower().
+                Replace(",", "").
+                Replace(".", "").
+                Replace(";", "").
+                Replace("(", "").
+                Replace(")", "").
+                Replace("?", "").
+                Replace("!", "").
+                Replace("\"", "").
+                Replace("\n", "").
+                Replace("\r", "").
+                Replace("-", "");
             List<string> words = new List<string>(processingString.Split(new Char[] {' ', '\t'}, StringSplitOptions.RemoveEmptyEntries));
 
             if (UselessWords != null && UselessWords.Count > 0)

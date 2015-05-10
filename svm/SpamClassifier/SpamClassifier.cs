@@ -22,11 +22,13 @@ namespace MiniSVM.SpamClassifier
         public List<MailType> RawTrainingLabels { get; set; }
         public IClassifier Classifier { get; set; }
         public IHypothesis CurrentHypothesis { get; set; }
+        public HashSet<string> SelectedFeatures { get; set; }
 
         public SpamClassifier()
         {
             InitializeComponent();
             Tokenizer = new MailTokenizer();
+            SelectedFeatures = new HashSet<string>();
             ClearSet();
         }
 
@@ -289,6 +291,57 @@ namespace MiniSVM.SpamClassifier
         private double[] TokenizedMailToFeatures(List<string> tokenizedMail)
         {
             throw new NotImplementedException();
+        }
+
+        private void buttonAddFromSelection_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridViewHam.SelectedRows)
+            {
+                SelectedFeatures.Add(row.Cells[0].Value.ToString());
+            }
+            foreach (DataGridViewRow row in dataGridViewSpam.SelectedRows)
+            {
+                SelectedFeatures.Add(row.Cells[0].Value.ToString());
+            }
+            UpdateSelectedFeaturesCount();
+        }
+
+        private void UpdateSelectedFeaturesCount()
+        {
+            if (SelectedFeatures.Count != 0)
+            {
+                labelSelectedFeaturesCount.Text = SelectedFeatures.Count.ToString();
+            }
+            else labelSelectedFeaturesCount.Text = "NA";
+        }
+
+        private void buttonClearFeatures_Click(object sender, EventArgs e)
+        {
+            SelectedFeatures.Clear();
+            UpdateSelectedFeaturesCount();
+        }
+
+        private void buttonTrain_Click(object sender, EventArgs e)
+        {
+            double[][] trainingData;
+            double[] trainingLabels;
+            GetTrainingData(out trainingData, out trainingLabels);
+        }
+
+        private void GetTrainingData(out double[][] trainingData, out double[] trainingLabels)
+        {
+            trainingData = new double[RawTrainingSet.Count][];
+            trainingLabels = new double[RawTrainingLabels.Count];
+            for (int i = 0; i < RawTrainingSet.Count; i++)
+            {
+                trainingData[i] = new double[SelectedFeatures.Count];
+                int j = 0;
+                foreach (var word in SelectedFeatures)
+                {
+                    trainingData[i][j++] = (RawTrainingSet[i].ContainsKey(word)) ? RawTrainingSet[i][word] : 0;
+                }
+                trainingLabels[i] = (int)RawTrainingLabels[i];
+            }
         }
     }
 }

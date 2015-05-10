@@ -68,7 +68,11 @@ namespace MiniSVM.SpamClassifier
             string info = e.UserState as string;
             if (info!=null)
                 this.infoLabel.Text = info;
+            if (this.ProgressChanged != null)
+                ProgressChanged(this, e);
         }
+
+        public event EventHandler<ProgressChangedEventArgs> ProgressChanged;
 
         private void ProgressWorkerOnLoad(object sender, EventArgs e)
         {
@@ -128,11 +132,11 @@ namespace MiniSVM.SpamClassifier
                 this.parent = parent;
             }
 
-            public void ReportProgress(int percentProgress)
+            public void ReportProgress(int percentProgress, object userData = null)
             {
                 if (!this.parent.ReportProgress)
                     throw new InvalidOperationException("Reporting progress not supported");
-                this.parent.backgroundWorker.ReportProgress(percentProgress);
+                this.parent.backgroundWorker.ReportProgress(percentProgress, userData);
             }
 
             public void ChangeProgressInfo(string info)
