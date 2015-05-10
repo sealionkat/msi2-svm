@@ -291,7 +291,20 @@ namespace MiniSVM.SpamClassifier
 
         private double[] TokenizedMailToFeatures(List<string> tokenizedMail)
         {
-            throw new NotImplementedException();
+            Dictionary<string, int> wordCounts = new Dictionary<string, int>();
+            double[] result = new double[SelectedFeatures.Count];
+            foreach (var word in tokenizedMail)
+            {
+                if (!wordCounts.ContainsKey(word))
+                    wordCounts.Add(word, 0);
+                wordCounts[word]++;
+            }
+            int j = 0;
+            foreach (var word in SelectedFeatures)
+            {
+                result[j++] = (wordCounts.ContainsKey(word)) ? wordCounts[word] : 0;
+            }
+            return result;
         }
 
         private void buttonAddFromSelection_Click(object sender, EventArgs e)
