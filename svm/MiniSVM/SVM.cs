@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace MiniSVM.Classifier
-{
+{/*
     public class SVM : IClassifier
     {
         public SVM(IKernel kernel, double C)
@@ -177,5 +177,5 @@ namespace MiniSVM.Classifier
         {
             return InternalCalculateHypothesis(trainingData.ToMatrix(), trainingLabels, out w, out b);
         }
-    }
+    }*/
 }

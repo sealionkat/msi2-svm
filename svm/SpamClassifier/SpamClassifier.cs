@@ -21,16 +21,16 @@ namespace MiniSVM.SpamClassifier
         public Dictionary<string, Dictionary<MailType, int>> TrainingWordCounts { get; set; }
         public List<Dictionary<string, int>> RawTrainingSet { get; set; }
         public List<MailType> RawTrainingLabels { get; set; }
-        public IClassifier Classifier { get; set; }
-        public IHypothesis CurrentHypothesis { get; set; }
+        public IClassifier<DoubleSparseVector> Classifier { get; set; }
+        public IHypothesis<DoubleSparseVector> CurrentHypothesis { get; set; }
         public HashSet<string> SelectedFeatures { get; set; }
-
         public SpamClassifier()
         {
             InitializeComponent();
             Tokenizer = new MailTokenizer();
             SelectedFeatures = new HashSet<string>();
             ClearSet();
+            comboBoxKernelType.SelectedIndex = 0;
         }
 
         class ProgessWorkerArgument
@@ -44,7 +44,7 @@ namespace MiniSVM.SpamClassifier
             ReadDirectory(MailType.Spam, ReadSpamCompleted);
         }
 
-        private void ReadSpamCompleted(object sender, ProgressWorker<ProgessWorkerArgument, object>.ProgressWorkCompletedArgs<object> eventArgs)
+        private void ReadSpamCompleted(object sender, ProgressWorker<ProgessWorkerArgument, object>.ProgressWorkCompletedArgs eventArgs)
         {
             UpdateGridViews();
         }
@@ -54,7 +54,7 @@ namespace MiniSVM.SpamClassifier
             ReadDirectory(MailType.Ham, ReadHamCompleted);
         }
 
-        private void ReadHamCompleted(object sender, ProgressWorker<ProgessWorkerArgument, object>.ProgressWorkCompletedArgs<object> eventArgs)
+        private void ReadHamCompleted(object sender, ProgressWorker<ProgessWorkerArgument, object>.ProgressWorkCompletedArgs eventArgs)
         {
             UpdateGridViews();
         }
@@ -89,8 +89,7 @@ namespace MiniSVM.SpamClassifier
                 }
             }
         }
-
-
+        
         private void ClearSet()
         {
             TrainingWordCounts = new Dictionary<string, Dictionary<MailType, int>>();
@@ -99,8 +98,7 @@ namespace MiniSVM.SpamClassifier
             dataGridViewHam.Rows.Clear();
             dataGridViewSpam.Rows.Clear();
         }
-
-
+        
         private void UpdateGridViews()
         {
             var hamRows = new List<object[]>();
@@ -133,6 +131,7 @@ namespace MiniSVM.SpamClassifier
             }
             MessageBox.Show(TrainingWordCounts.Count.ToString() + " different words found.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
+        
         private void ProcessMail(string mail, MailType type)
         
         {
@@ -154,7 +153,7 @@ namespace MiniSVM.SpamClassifier
             RawTrainingLabels.Add(type);
         }
 
-        private void ReadDirectory(MailType type, ProgressWorker<ProgessWorkerArgument, object>.ProgressWorkCompleted<object> completedHandler)
+        private void ReadDirectory(MailType type, ProgressWorker<ProgessWorkerArgument, object>.ProgressWorkCompleted completedHandler)
         {
             var dialog = new FolderBrowserDialog();
             var result = dialog.ShowDialog(this);
@@ -171,13 +170,13 @@ namespace MiniSVM.SpamClassifier
         }
 
         private void ReadDirectoryContent(object sender,
-            ProgressWorker<ProgessWorkerArgument, object>.ProgressWorkerEventArgs<ProgessWorkerArgument, object> args)
+            ProgressWorker<ProgessWorkerArgument, object>.ProgressWorkerEventArgs args)
         {
             ReadDirectoryFiles(args.Argument.Directory, args.Argument.Type, args);
         }
 
         private void ReadDirectoryFiles(string workingDirectory, MailType mailType,
-            ProgressWorker<ProgessWorkerArgument, object>.ProgressWorkerEventArgs<ProgessWorkerArgument, object> args)
+            ProgressWorker<ProgessWorkerArgument, object>.ProgressWorkerEventArgs args)
         {
             const int cutThreshold = 30;
             var count = Directory.GetFiles(workingDirectory).Length;
@@ -289,10 +288,10 @@ namespace MiniSVM.SpamClassifier
             }
         }
 
-        private double[] TokenizedMailToFeatures(List<string> tokenizedMail)
+        private DoubleSparseVector TokenizedMailToFeatures(List<string> tokenizedMail)
         {
             Dictionary<string, int> wordCounts = new Dictionary<string, int>();
-            double[] result = new double[SelectedFeatures.Count];
+            DoubleSparseVector result = new DoubleSparseVector();
             foreach (var word in tokenizedMail)
             {
                 if (!wordCounts.ContainsKey(word))
@@ -337,11 +336,23 @@ namespace MiniSVM.SpamClassifier
 
         private void buttonTrain_Click(object sender, EventArgs e)
         {
-            double[][] trainingData;
+            new ProgressWorker<object, object>(Train, null, TrainCompleted, null, false, true).ShowDialog(this);
+        }
+
+        public void Train(object sender, ProgressWorker<object, object>.ProgressWorkerEventArgs arg)
+        {
+            DoubleSparseVector[] trainingData;
             double[] trainingLabels;
+            arg.ChangeProgressInfo("Preparing learning data...");
             GetTrainingData(out trainingData, out trainingLabels);
+            arg.ChangeProgressInfo("Training SVM...");
             Classifier = CreateClassifier();
-            if (!Classifier.Compute(trainingData, trainingLabels))
+            arg.Result = Classifier.Compute(trainingData, trainingLabels);
+        }
+
+        public void TrainCompleted(object sender, ProgressWorker<object, object>.ProgressWorkCompletedArgs result)
+        {
+            if (!(result.Result as bool? ?? false))
                 MessageBox.Show(this, "Training model failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             else
             {
@@ -350,24 +361,57 @@ namespace MiniSVM.SpamClassifier
             }
         }
 
-        private IClassifier CreateClassifier()
+        private IClassifier<DoubleSparseVector> CreateClassifier()
         {
-            return new LibSVM();
+            return new LibSVM<DoubleSparseVector>()
+            {
+                SVMParameters = CreateParameters()
+            };
         }
 
-        private void GetTrainingData(out double[][] trainingData, out double[] trainingLabels)
+        private void GetTrainingData(out DoubleSparseVector[] trainingData, out double[] trainingLabels)
         {
-            trainingData = new double[RawTrainingSet.Count][];
+            trainingData = new DoubleSparseVector[RawTrainingSet.Count];
             trainingLabels = new double[RawTrainingLabels.Count];
             for (int i = 0; i < RawTrainingSet.Count; i++)
             {
-                trainingData[i] = new double[SelectedFeatures.Count];
+                trainingData[i] = new DoubleSparseVector();
                 int j = 0;
                 foreach (var word in SelectedFeatures)
                 {
                     trainingData[i][j++] = (RawTrainingSet[i].ContainsKey(word)) ? RawTrainingSet[i][word] : 0;
                 }
                 trainingLabels[i] = (int)RawTrainingLabels[i];
+            }
+        }
+
+        private void comboBoxKernelType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            numericUpDownGamma.Enabled = comboBoxKernelType.SelectedIndex != 0;
+        }
+
+        private SVMParams<DoubleSparseVector> CreateParameters()
+        {
+            return new SVMParams<DoubleSparseVector>()
+            {
+                Cost = (double)numericUpDownCost.Value,
+                Gamma = (double)numericUpDownGamma.Value,
+                Kernel = DoubleSparseVector.Multiply
+            };
+        }
+
+        private void buttonAutoselectFeatures_Click(object sender, EventArgs e)
+        {
+            int spamTh = 0, hamTh = 0;
+            int.TryParse(numericHamFeatures.Text, out hamTh);
+            int.TryParse(numericSpamFeatures.Text, out spamTh);
+            foreach (var item in TrainingWordCounts)
+            {
+                if (item.Value[MailType.Ham] > hamTh)
+                    SelectedFeatures.Add(item.Key);
+                if (item.Value[MailType.Spam] > spamTh)
+                    SelectedFeatures.Add(item.Key);
+                UpdateSelectedFeaturesCount();
             }
         }
     }

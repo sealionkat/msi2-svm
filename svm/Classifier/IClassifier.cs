@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace MiniSVM.Classifier
 {
-    public interface IClassifier
+    public interface IClassifier<TData>
     {
-        bool Compute(double[][] trainingData, double[] trainingLabels);
+        bool Compute(TData[] trainingData, double[] trainingLabels);
 
-        bool Compute(double[,] trainingData, double[] trainingLabels);
-
-        IHypothesis GetHypothesis();
+        IHypothesis<TData> GetHypothesis();
     }
 }

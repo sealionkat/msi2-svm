@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MiniSVM.Classifier
 {
-    public interface IHypothesis
+    public interface IHypothesis<TData>
     {
-        int Predict(double[] features);
+        int Predict(TData features);
     }
 }

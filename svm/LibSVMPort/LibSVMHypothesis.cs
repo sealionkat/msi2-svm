@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace LibSVMPort
 {
-    internal class LibSVMHypothesis : IHypothesis
+    internal class LibSVMHypothesis<TData> : IHypothesis<TData>
     {
-        internal SvmModel<double[]> Model { get; set; }
+        internal SvmModel<TData> Model { get; set; }
 
-        internal LibSVMHypothesis(SvmModel<double[]> model)
+        internal LibSVMHypothesis(SvmModel<TData> model)
         {
             Model = model;
         }
 
-        public int Predict(double[] features)
+        public int Predict(TData features)
         {
             return (int)Model.Predict(features);
         }

@@ -14,8 +14,8 @@ namespace MiniSVM.SpamClassifier
             where ArgumentType : class
             where ResultType : class
     {
-        public ProgressWorker(ProgressWorkHandler<ArgumentType, ResultType> handler, ArgumentType argument,
-            ProgressWorkCompleted<ResultType> completedHandler, string title = null,
+        public ProgressWorker(ProgressWorkHandler handler, ArgumentType argument,
+            ProgressWorkCompleted completedHandler, string title = null,
             bool reportProgress = false, bool reportInfo = false, bool supportCancelation = false)
         {
             InitializeComponent();
@@ -40,7 +40,7 @@ namespace MiniSVM.SpamClassifier
 
         void WorkCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            completedHandler(this, new ProgressWorkCompletedArgs<ResultType>(e));
+            completedHandler(this, new ProgressWorkCompletedArgs(e));
             if (this.progressBar.Style != ProgressBarStyle.Marquee)
             {
                 this.progressBar.Value = 100;
@@ -54,12 +54,12 @@ namespace MiniSVM.SpamClassifier
 
         public ArgumentType Argument { get; private set; }
 
-        private ProgressWorkHandler<ArgumentType, ResultType> workHandler;
-        private ProgressWorkCompleted<ResultType> completedHandler;
+        private ProgressWorkHandler workHandler;
+        private ProgressWorkCompleted completedHandler;
 
         private void DoWork(object sender, DoWorkEventArgs e)
         {
-            this.workHandler(this, new ProgressWorkerEventArgs<ArgumentType, ResultType>(this, e));
+            this.workHandler(this, new ProgressWorkerEventArgs(this, e));
         }
 
         private void OnProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -79,11 +79,9 @@ namespace MiniSVM.SpamClassifier
             this.backgroundWorker.RunWorkerAsync(this.Argument);
         }
 
-        public delegate void ProgressWorkCompleted<RType>(object sender, ProgressWorkCompletedArgs<RType> eventArgs)
-            where RType : class;
+        public delegate void ProgressWorkCompleted(object sender, ProgressWorkCompletedArgs eventArgs);
 
-        public class ProgressWorkCompletedArgs<RType>
-            where RType : class
+        public class ProgressWorkCompletedArgs
         {
             RunWorkerCompletedEventArgs args;
             public ProgressWorkCompletedArgs(RunWorkerCompletedEventArgs sourceArgs)
@@ -107,26 +105,24 @@ namespace MiniSVM.SpamClassifier
                 }
             }
 
-            public RType Result
+            public ResultType Result
             {
                 get
                 {
-                    return this.args.Result as RType;
+                    return this.args.Result as ResultType;
                 }
             }
         }
 
-        public delegate void ProgressWorkHandler<AType, RType>(object sender,
-            ProgressWorkerEventArgs<ArgumentType, ResultType> eventArgs);
+        public delegate void ProgressWorkHandler(object sender,
+            ProgressWorkerEventArgs eventArgs);
 
-        public class ProgressWorkerEventArgs<AType, RType> : EventArgs
-            where AType : class
-            where RType : class
+        public class ProgressWorkerEventArgs : EventArgs
         {
             DoWorkEventArgs args;
-            ProgressWorker<AType, RType> parent;
+            ProgressWorker<ArgumentType, ResultType> parent;
 
-            public ProgressWorkerEventArgs(ProgressWorker<AType, RType> parent, DoWorkEventArgs sourceArgs)
+            public ProgressWorkerEventArgs(ProgressWorker<ArgumentType, ResultType> parent, DoWorkEventArgs sourceArgs)
             {
                 this.args = sourceArgs;
                 this.parent = parent;
@@ -146,11 +142,11 @@ namespace MiniSVM.SpamClassifier
                 this.parent.backgroundWorker.ReportProgress(this.parent.progressBar.Value, info);
             }
 
-            public AType Argument
+            public ArgumentType Argument
             {
                 get
                 {
-                    return args.Argument as AType;
+                    return args.Argument as ArgumentType;
                 }
             }
 
@@ -166,11 +162,11 @@ namespace MiniSVM.SpamClassifier
                 }
             }
 
-            public RType Result
+            public ResultType Result
             {
                 get
                 {
-                    return args.Result as RType;
+                    return args.Result as ResultType;
                 }
                 set
                 {

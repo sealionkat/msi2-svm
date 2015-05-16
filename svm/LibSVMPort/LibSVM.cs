@@ -9,14 +9,29 @@ using LibSvm;
 
 namespace LibSVMPort
 {
-    public class LibSVM : IClassifier
+    public class LibSVM<TData> : IClassifier<TData>
     {
         public LibSVM()
         {
             Svm.SetPrintStringFunction((s) => { });
-            SVMParameter = new SvmParameter<double[]>()
+            SVMParameters = new SVMParams<TData>()
             {
-                KernelFunc = Kernels.Linear(),
+                Cost = 1,
+                Gamma = 1,
+                Kernel = (f, s) => 0
+            };
+        }
+        private SvmModel<TData> SVMModel { get; set; }
+
+        private SvmParameter<TData> InternalParameter { get; set; }
+
+        public SVMParams<TData> SVMParameters { get; set; }
+        
+        public bool Compute(TData[] trainingData, double[] trainingLabels)
+        {
+            InternalParameter = new SvmParameter<TData>()
+            {
+                KernelFunc = SVMParameters.Kernel,
                 SvmType = SvmType.C_SVC,
                 CacheSize = 128,
                 C = 1,
@@ -24,31 +39,19 @@ namespace LibSVMPort
                 Shrinking = true,
                 Probability = false
             };
-        }
-        private SvmModel<double[]> SVMModel { get; set; }
-
-        public SvmParameter<double[]> SVMParameter { get; set; }
-
-        public bool Compute(double[,] trainingData, double[] trainingLabels)
-        {
-            return Compute(trainingData.ToArray(), trainingLabels);
-        }
-
-        public bool Compute(double[][] trainingData, double[] trainingLabels)
-        {
-            var problem = new SvmProblem<double[]>()
+            var problem = new SvmProblem<TData>()
             {
                 X = trainingData,
                 Y = trainingLabels
             };
-            SVMParameter.Check(problem);
-            SVMModel = Svm.Train(problem, SVMParameter);
+            InternalParameter.Check(problem);
+            SVMModel = Svm.Train(problem, InternalParameter);
             return SVMModel != null;
         }
 
-        public IHypothesis GetHypothesis()
+        public IHypothesis<TData> GetHypothesis()
         {
-            return new LibSVMHypothesis(SVMModel);
+            return new LibSVMHypothesis<TData>(SVMModel);
         }
     }
 }

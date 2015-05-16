@@ -49,6 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MailType.cs" />
+    <Compile Include="NumericTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ProgressWorker.cs">
       <SubType>Form</SubType>
     </Compile>
