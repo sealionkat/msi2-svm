@@ -66,6 +66,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpamClassifierModel.cs" />
+    <Compile Include="TrainingSetReader.cs" />
     <EmbeddedResource Include="ProgressWorker.resx">
       <DependentUpon>ProgressWorker.cs</DependentUpon>
     </EmbeddedResource>

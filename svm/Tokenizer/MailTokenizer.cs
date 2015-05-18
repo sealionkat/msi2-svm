@@ -20,6 +20,7 @@ namespace MiniSVM.Tokenizer
         
         public MailTokenizer() //constructor
         {
+            UselessWords = new HashSet<string>();
             uselessWordsFile = ConfigurationManager.AppSettings["uselessWordsFile"];
             if (uselessWordsFile != null && uselessWordsFile.Length > 0)
             {
