@@ -68,24 +68,36 @@ namespace MiniSVM.Classifier
         {
             var me = first.Items.GetEnumerator();
             var oe = second.Items.GetEnumerator();
-            bool undone = me.MoveNext() && oe.MoveNext();
-            while (undone)
+            bool meundone = me.MoveNext();
+            bool oeundone = oe.MoveNext();
+            while (oeundone && meundone)
             {
-                while (undone && me.Current.Key > oe.Current.Key)
+                while (oeundone && meundone && me.Current.Key > oe.Current.Key)
                 {
                     callback(oe.Current.Key, 0, oe.Current.Value);
-                    undone = oe.MoveNext();
+                    oeundone = oe.MoveNext();
                 }
-                while (undone && me.Current.Key < oe.Current.Key)
+                while (oeundone && meundone && me.Current.Key < oe.Current.Key)
                 {
                     callback(me.Current.Key, me.Current.Value, 0);
-                    undone = me.MoveNext();
+                    meundone = me.MoveNext();
                 }
-                if (undone && me.Current.Key == oe.Current.Key)
+                if (oeundone && meundone && me.Current.Key == oe.Current.Key)
                 {
                     callback(me.Current.Key, me.Current.Value, oe.Current.Value);
-                    undone = me.MoveNext() && oe.MoveNext();
+                    meundone = me.MoveNext();
+                    oeundone = oe.MoveNext();
                 }
+            }
+            while (oeundone)
+            {
+                callback(oe.Current.Key, 0, oe.Current.Value);
+                oeundone = oe.MoveNext();
+            }
+            while (meundone)
+            {
+                callback(me.Current.Key, me.Current.Value, 0);
+                meundone = me.MoveNext();
             }
         }
         
