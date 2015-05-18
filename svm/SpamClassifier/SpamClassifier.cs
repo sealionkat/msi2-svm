@@ -129,7 +129,7 @@ namespace MiniSVM.SpamClassifier
             {
                 dataGridViewHam.Rows.Add(row);
             }
-            MessageBox.Show(TrainingWordCounts.Count.ToString() + " different words found.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            MessageBox.Show(this, TrainingWordCounts.Count.ToString() + " different words found.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
         
         private void ProcessMail(string mail, MailType type)
@@ -387,15 +387,18 @@ namespace MiniSVM.SpamClassifier
 
         private void comboBoxKernelType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            numericUpDownGamma.Enabled = comboBoxKernelType.SelectedIndex != 0;
+            numericGamma.Enabled = comboBoxKernelType.SelectedIndex != 0;
         }
 
         private SVMParams<DoubleSparseVector> CreateParameters()
         {
+            double gamma = 0, cost = 0;
+            double.TryParse(numericGamma.Text, out gamma);
+            double.TryParse(numericCost.Text, out cost);
             return new SVMParams<DoubleSparseVector>()
             {
-                Cost = (double)numericUpDownCost.Value,
-                Gamma = (double)numericUpDownGamma.Value,
+                Cost = cost,
+                Gamma = gamma,
                 Kernel = DoubleSparseVector.Multiply
             };
         }

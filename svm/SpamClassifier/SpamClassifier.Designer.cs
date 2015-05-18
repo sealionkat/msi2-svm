@@ -30,6 +30,22 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpamClassifier));
             this.tabControlMain = new System.Windows.Forms.TabControl();
+            this.tabSettings = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.numericHamFeatures = new MiniSVM.SpamClassifier.NumericTextBox();
+            this.numericSpamFeatures = new MiniSVM.SpamClassifier.NumericTextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.comboBoxKernelType = new System.Windows.Forms.ComboBox();
+            this.checkBoxRecursive = new System.Windows.Forms.CheckBox();
+            this.buttonReset = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.buttonShowUseless = new System.Windows.Forms.Button();
+            this.buttonLoadUseless = new System.Windows.Forms.Button();
+            this.buttonClearUseless = new System.Windows.Forms.Button();
             this.tabLearning = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -50,6 +66,7 @@
             this.labelHam = new System.Windows.Forms.Label();
             this.buttonLoadHam = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonAutoselectFeatures = new System.Windows.Forms.Button();
             this.buttonTrain = new System.Windows.Forms.Button();
             this.buttonClearFeatures = new System.Windows.Forms.Button();
             this.buttonAddFromSelection = new System.Windows.Forms.Button();
@@ -62,28 +79,12 @@
             this.buttonClassifyTxt = new System.Windows.Forms.Button();
             this.richTextBoxEmail = new System.Windows.Forms.RichTextBox();
             this.buttonLoadEmail = new System.Windows.Forms.Button();
-            this.tabSettings = new System.Windows.Forms.TabPage();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.numericUpDownGamma = new System.Windows.Forms.NumericUpDown();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.comboBoxKernelType = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.checkBoxRecursive = new System.Windows.Forms.CheckBox();
-            this.buttonReset = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.buttonShowUseless = new System.Windows.Forms.Button();
-            this.buttonLoadUseless = new System.Windows.Forms.Button();
-            this.buttonClearUseless = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.numericUpDownCost = new System.Windows.Forms.NumericUpDown();
-            this.buttonAutoselectFeatures = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.numericHamFeatures = new MiniSVM.SpamClassifier.NumericTextBox();
-            this.numericSpamFeatures = new MiniSVM.SpamClassifier.NumericTextBox();
+            this.numericCost = new MiniSVM.SpamClassifier.NumericTextBox();
+            this.numericGamma = new MiniSVM.SpamClassifier.NumericTextBox();
             this.tabControlMain.SuspendLayout();
+            this.tabSettings.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tabLearning.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -100,13 +101,6 @@
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabClassifying.SuspendLayout();
-            this.tabSettings.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownGamma)).BeginInit();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCost)).BeginInit();
-            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlMain
@@ -120,6 +114,176 @@
             this.tabControlMain.SelectedIndex = 0;
             this.tabControlMain.Size = new System.Drawing.Size(981, 480);
             this.tabControlMain.TabIndex = 1;
+            // 
+            // tabSettings
+            // 
+            this.tabSettings.Controls.Add(this.groupBox4);
+            this.tabSettings.Controls.Add(this.groupBox1);
+            this.tabSettings.Location = new System.Drawing.Point(4, 22);
+            this.tabSettings.Name = "tabSettings";
+            this.tabSettings.Size = new System.Drawing.Size(973, 454);
+            this.tabSettings.TabIndex = 2;
+            this.tabSettings.Text = "Settings";
+            this.tabSettings.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.numericGamma);
+            this.groupBox4.Controls.Add(this.numericCost);
+            this.groupBox4.Controls.Add(this.buttonReset);
+            this.groupBox4.Controls.Add(this.checkBoxRecursive);
+            this.groupBox4.Controls.Add(this.numericHamFeatures);
+            this.groupBox4.Controls.Add(this.numericSpamFeatures);
+            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Controls.Add(this.label6);
+            this.groupBox4.Controls.Add(this.label5);
+            this.groupBox4.Controls.Add(this.comboBoxKernelType);
+            this.groupBox4.Controls.Add(this.label4);
+            this.groupBox4.Controls.Add(this.label3);
+            this.groupBox4.Location = new System.Drawing.Point(8, 133);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(298, 318);
+            this.groupBox4.TabIndex = 9;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Training";
+            // 
+            // numericHamFeatures
+            // 
+            this.numericHamFeatures.AllowSpace = false;
+            this.numericHamFeatures.Location = new System.Drawing.Point(187, 145);
+            this.numericHamFeatures.Name = "numericHamFeatures";
+            this.numericHamFeatures.Size = new System.Drawing.Size(100, 20);
+            this.numericHamFeatures.TabIndex = 3;
+            this.numericHamFeatures.Text = "10";
+            // 
+            // numericSpamFeatures
+            // 
+            this.numericSpamFeatures.AllowSpace = false;
+            this.numericSpamFeatures.Location = new System.Drawing.Point(187, 119);
+            this.numericSpamFeatures.Name = "numericSpamFeatures";
+            this.numericSpamFeatures.Size = new System.Drawing.Size(100, 20);
+            this.numericSpamFeatures.TabIndex = 2;
+            this.numericSpamFeatures.Text = "20";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(11, 148);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(170, 13);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "Autoselect ham features threshold:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 122);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(175, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Autoselect spam features threshold:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(150, 74);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(31, 13);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Cost:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(135, 48);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(46, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Gamma:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(118, 21);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(63, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Kernel type:";
+            // 
+            // comboBoxKernelType
+            // 
+            this.comboBoxKernelType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxKernelType.FormattingEnabled = true;
+            this.comboBoxKernelType.Items.AddRange(new object[] {
+            "Linear",
+            "Gaussian"});
+            this.comboBoxKernelType.Location = new System.Drawing.Point(187, 18);
+            this.comboBoxKernelType.Name = "comboBoxKernelType";
+            this.comboBoxKernelType.Size = new System.Drawing.Size(100, 21);
+            this.comboBoxKernelType.TabIndex = 0;
+            this.comboBoxKernelType.SelectedIndexChanged += new System.EventHandler(this.comboBoxKernelType_SelectedIndexChanged);
+            // 
+            // checkBoxRecursive
+            // 
+            this.checkBoxRecursive.AutoSize = true;
+            this.checkBoxRecursive.Location = new System.Drawing.Point(22, 293);
+            this.checkBoxRecursive.Name = "checkBoxRecursive";
+            this.checkBoxRecursive.Size = new System.Drawing.Size(159, 17);
+            this.checkBoxRecursive.TabIndex = 6;
+            this.checkBoxRecursive.Text = "Read training set recursively";
+            this.checkBoxRecursive.UseVisualStyleBackColor = true;
+            // 
+            // buttonReset
+            // 
+            this.buttonReset.Location = new System.Drawing.Point(187, 289);
+            this.buttonReset.Name = "buttonReset";
+            this.buttonReset.Size = new System.Drawing.Size(100, 23);
+            this.buttonReset.TabIndex = 5;
+            this.buttonReset.Text = "Reset training set";
+            this.buttonReset.UseVisualStyleBackColor = true;
+            this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.buttonShowUseless);
+            this.groupBox1.Controls.Add(this.buttonLoadUseless);
+            this.groupBox1.Controls.Add(this.buttonClearUseless);
+            this.groupBox1.Location = new System.Drawing.Point(8, 13);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(298, 114);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Useless words";
+            // 
+            // buttonShowUseless
+            // 
+            this.buttonShowUseless.Location = new System.Drawing.Point(6, 23);
+            this.buttonShowUseless.Name = "buttonShowUseless";
+            this.buttonShowUseless.Size = new System.Drawing.Size(159, 23);
+            this.buttonShowUseless.TabIndex = 1;
+            this.buttonShowUseless.Text = "Show useless words list";
+            this.buttonShowUseless.UseVisualStyleBackColor = true;
+            this.buttonShowUseless.Click += new System.EventHandler(this.buttonShowUseless_Click);
+            // 
+            // buttonLoadUseless
+            // 
+            this.buttonLoadUseless.Location = new System.Drawing.Point(6, 52);
+            this.buttonLoadUseless.Name = "buttonLoadUseless";
+            this.buttonLoadUseless.Size = new System.Drawing.Size(159, 23);
+            this.buttonLoadUseless.TabIndex = 0;
+            this.buttonLoadUseless.Text = "Load useless words list";
+            this.buttonLoadUseless.UseVisualStyleBackColor = true;
+            this.buttonLoadUseless.Click += new System.EventHandler(this.buttonLoadUseless_Click);
+            // 
+            // buttonClearUseless
+            // 
+            this.buttonClearUseless.Location = new System.Drawing.Point(6, 81);
+            this.buttonClearUseless.Name = "buttonClearUseless";
+            this.buttonClearUseless.Size = new System.Drawing.Size(159, 23);
+            this.buttonClearUseless.TabIndex = 2;
+            this.buttonClearUseless.Text = "Clear useless words list";
+            this.buttonClearUseless.UseVisualStyleBackColor = true;
+            this.buttonClearUseless.Click += new System.EventHandler(this.buttonClearUseless_Click);
             // 
             // tabLearning
             // 
@@ -343,6 +507,16 @@
             this.panel1.Size = new System.Drawing.Size(163, 442);
             this.panel1.TabIndex = 1;
             // 
+            // buttonAutoselectFeatures
+            // 
+            this.buttonAutoselectFeatures.Location = new System.Drawing.Point(7, 55);
+            this.buttonAutoselectFeatures.Name = "buttonAutoselectFeatures";
+            this.buttonAutoselectFeatures.Size = new System.Drawing.Size(153, 23);
+            this.buttonAutoselectFeatures.TabIndex = 5;
+            this.buttonAutoselectFeatures.Text = "Autoselect features";
+            this.buttonAutoselectFeatures.UseVisualStyleBackColor = true;
+            this.buttonAutoselectFeatures.Click += new System.EventHandler(this.buttonAutoselectFeatures_Click);
+            // 
             // buttonTrain
             // 
             this.buttonTrain.Location = new System.Drawing.Point(7, 110);
@@ -473,240 +647,23 @@
             this.buttonLoadEmail.UseVisualStyleBackColor = true;
             this.buttonLoadEmail.Click += new System.EventHandler(this.buttonLoadEmail_Click);
             // 
-            // tabSettings
+            // numericCost
             // 
-            this.tabSettings.Controls.Add(this.groupBox4);
-            this.tabSettings.Controls.Add(this.groupBox3);
-            this.tabSettings.Controls.Add(this.groupBox2);
-            this.tabSettings.Controls.Add(this.groupBox1);
-            this.tabSettings.Location = new System.Drawing.Point(4, 22);
-            this.tabSettings.Name = "tabSettings";
-            this.tabSettings.Size = new System.Drawing.Size(973, 454);
-            this.tabSettings.TabIndex = 2;
-            this.tabSettings.Text = "Settings";
-            this.tabSettings.UseVisualStyleBackColor = true;
+            this.numericCost.AllowSpace = false;
+            this.numericCost.Location = new System.Drawing.Point(187, 71);
+            this.numericCost.Name = "numericCost";
+            this.numericCost.Size = new System.Drawing.Size(100, 20);
+            this.numericCost.TabIndex = 7;
+            this.numericCost.Text = "1";
             // 
-            // groupBox3
+            // numericGamma
             // 
-            this.groupBox3.Controls.Add(this.numericUpDownCost);
-            this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Controls.Add(this.numericUpDownGamma);
-            this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Controls.Add(this.comboBoxKernelType);
-            this.groupBox3.Location = new System.Drawing.Point(8, 218);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(351, 124);
-            this.groupBox3.TabIndex = 8;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "SVM parameters";
-            // 
-            // numericUpDownGamma
-            // 
-            this.numericUpDownGamma.Enabled = false;
-            this.numericUpDownGamma.Location = new System.Drawing.Point(72, 60);
-            this.numericUpDownGamma.Maximum = new decimal(new int[] {
-            -1,
-            -1,
-            -1,
-            0});
-            this.numericUpDownGamma.Name = "numericUpDownGamma";
-            this.numericUpDownGamma.Size = new System.Drawing.Size(138, 20);
-            this.numericUpDownGamma.TabIndex = 4;
-            this.numericUpDownGamma.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 62);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(43, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Gamma";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 27);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(60, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Kernel type";
-            // 
-            // comboBoxKernelType
-            // 
-            this.comboBoxKernelType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxKernelType.FormattingEnabled = true;
-            this.comboBoxKernelType.Items.AddRange(new object[] {
-            "Linear",
-            "Gaussian"});
-            this.comboBoxKernelType.Location = new System.Drawing.Point(72, 24);
-            this.comboBoxKernelType.Name = "comboBoxKernelType";
-            this.comboBoxKernelType.Size = new System.Drawing.Size(138, 21);
-            this.comboBoxKernelType.TabIndex = 0;
-            this.comboBoxKernelType.SelectedIndexChanged += new System.EventHandler(this.comboBoxKernelType_SelectedIndexChanged);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.checkBoxRecursive);
-            this.groupBox2.Controls.Add(this.buttonReset);
-            this.groupBox2.Location = new System.Drawing.Point(8, 133);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(351, 78);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Training set";
-            // 
-            // checkBoxRecursive
-            // 
-            this.checkBoxRecursive.AutoSize = true;
-            this.checkBoxRecursive.Location = new System.Drawing.Point(6, 21);
-            this.checkBoxRecursive.Name = "checkBoxRecursive";
-            this.checkBoxRecursive.Size = new System.Drawing.Size(159, 17);
-            this.checkBoxRecursive.TabIndex = 6;
-            this.checkBoxRecursive.Text = "Read training set recursively";
-            this.checkBoxRecursive.UseVisualStyleBackColor = true;
-            // 
-            // buttonReset
-            // 
-            this.buttonReset.Location = new System.Drawing.Point(6, 44);
-            this.buttonReset.Name = "buttonReset";
-            this.buttonReset.Size = new System.Drawing.Size(159, 23);
-            this.buttonReset.TabIndex = 5;
-            this.buttonReset.Text = "Reset training set";
-            this.buttonReset.UseVisualStyleBackColor = true;
-            this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.buttonShowUseless);
-            this.groupBox1.Controls.Add(this.buttonLoadUseless);
-            this.groupBox1.Controls.Add(this.buttonClearUseless);
-            this.groupBox1.Location = new System.Drawing.Point(8, 13);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(351, 114);
-            this.groupBox1.TabIndex = 6;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Useless words";
-            // 
-            // buttonShowUseless
-            // 
-            this.buttonShowUseless.Location = new System.Drawing.Point(6, 23);
-            this.buttonShowUseless.Name = "buttonShowUseless";
-            this.buttonShowUseless.Size = new System.Drawing.Size(159, 23);
-            this.buttonShowUseless.TabIndex = 1;
-            this.buttonShowUseless.Text = "Show useless words list";
-            this.buttonShowUseless.UseVisualStyleBackColor = true;
-            this.buttonShowUseless.Click += new System.EventHandler(this.buttonShowUseless_Click);
-            // 
-            // buttonLoadUseless
-            // 
-            this.buttonLoadUseless.Location = new System.Drawing.Point(6, 52);
-            this.buttonLoadUseless.Name = "buttonLoadUseless";
-            this.buttonLoadUseless.Size = new System.Drawing.Size(159, 23);
-            this.buttonLoadUseless.TabIndex = 0;
-            this.buttonLoadUseless.Text = "Load useless words list";
-            this.buttonLoadUseless.UseVisualStyleBackColor = true;
-            this.buttonLoadUseless.Click += new System.EventHandler(this.buttonLoadUseless_Click);
-            // 
-            // buttonClearUseless
-            // 
-            this.buttonClearUseless.Location = new System.Drawing.Point(6, 81);
-            this.buttonClearUseless.Name = "buttonClearUseless";
-            this.buttonClearUseless.Size = new System.Drawing.Size(159, 23);
-            this.buttonClearUseless.TabIndex = 2;
-            this.buttonClearUseless.Text = "Clear useless words list";
-            this.buttonClearUseless.UseVisualStyleBackColor = true;
-            this.buttonClearUseless.Click += new System.EventHandler(this.buttonClearUseless_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 96);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(28, 13);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "Cost";
-            // 
-            // numericUpDownCost
-            // 
-            this.numericUpDownCost.Location = new System.Drawing.Point(72, 94);
-            this.numericUpDownCost.Maximum = new decimal(new int[] {
-            -1,
-            -1,
-            -1,
-            0});
-            this.numericUpDownCost.Name = "numericUpDownCost";
-            this.numericUpDownCost.Size = new System.Drawing.Size(138, 20);
-            this.numericUpDownCost.TabIndex = 6;
-            this.numericUpDownCost.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // buttonAutoselectFeatures
-            // 
-            this.buttonAutoselectFeatures.Location = new System.Drawing.Point(7, 55);
-            this.buttonAutoselectFeatures.Name = "buttonAutoselectFeatures";
-            this.buttonAutoselectFeatures.Size = new System.Drawing.Size(153, 23);
-            this.buttonAutoselectFeatures.TabIndex = 5;
-            this.buttonAutoselectFeatures.Text = "Autoselect features";
-            this.buttonAutoselectFeatures.UseVisualStyleBackColor = true;
-            this.buttonAutoselectFeatures.Click += new System.EventHandler(this.buttonAutoselectFeatures_Click);
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.numericHamFeatures);
-            this.groupBox4.Controls.Add(this.numericSpamFeatures);
-            this.groupBox4.Controls.Add(this.label7);
-            this.groupBox4.Controls.Add(this.label6);
-            this.groupBox4.Location = new System.Drawing.Point(8, 351);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(351, 100);
-            this.groupBox4.TabIndex = 9;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Features";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 27);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(175, 13);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Autoselect spam features threshold:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 53);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(170, 13);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "Autoselect ham features threshold:";
-            // 
-            // numericHamFeatures
-            // 
-            this.numericHamFeatures.AllowSpace = false;
-            this.numericHamFeatures.Location = new System.Drawing.Point(187, 50);
-            this.numericHamFeatures.Name = "numericHamFeatures";
-            this.numericHamFeatures.Size = new System.Drawing.Size(100, 20);
-            this.numericHamFeatures.TabIndex = 3;
-            this.numericHamFeatures.Text = "10";
-            // 
-            // numericSpamFeatures
-            // 
-            this.numericSpamFeatures.AllowSpace = false;
-            this.numericSpamFeatures.Location = new System.Drawing.Point(187, 24);
-            this.numericSpamFeatures.Name = "numericSpamFeatures";
-            this.numericSpamFeatures.Size = new System.Drawing.Size(100, 20);
-            this.numericSpamFeatures.TabIndex = 2;
-            this.numericSpamFeatures.Text = "20";
+            this.numericGamma.AllowSpace = false;
+            this.numericGamma.Location = new System.Drawing.Point(187, 45);
+            this.numericGamma.Name = "numericGamma";
+            this.numericGamma.Size = new System.Drawing.Size(100, 20);
+            this.numericGamma.TabIndex = 8;
+            this.numericGamma.Text = "1";
             // 
             // SpamClassifier
             // 
@@ -719,6 +676,10 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Spam classification";
             this.tabControlMain.ResumeLayout(false);
+            this.tabSettings.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
             this.tabLearning.ResumeLayout(false);
             this.tableLayoutPanel.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -737,16 +698,6 @@
             this.panel1.PerformLayout();
             this.tabClassifying.ResumeLayout(false);
             this.tabClassifying.PerformLayout();
-            this.tabSettings.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownGamma)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCost)).EndInit();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -773,7 +724,6 @@
         private System.Windows.Forms.Button buttonLoadSpam;
         private System.Windows.Forms.Button buttonLoadHam;
         private System.Windows.Forms.DataGridView dataGridViewSpam;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox checkBoxRecursive;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Word;
@@ -794,19 +744,18 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.Button buttonClearFeatures;
         private System.Windows.Forms.Button buttonTrain;
-        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBoxKernelType;
-        private System.Windows.Forms.NumericUpDown numericUpDownGamma;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.NumericUpDown numericUpDownCost;
         private System.Windows.Forms.Button buttonAutoselectFeatures;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private NumericTextBox numericSpamFeatures;
         private NumericTextBox numericHamFeatures;
+        private NumericTextBox numericCost;
+        private NumericTextBox numericGamma;
 
     }
 }
