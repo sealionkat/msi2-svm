@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KernelType.cs" />
     <Compile Include="MailType.cs" />
     <Compile Include="NumericTextBox.cs">
       <SubType>Component</SubType>

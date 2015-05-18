@@ -127,14 +127,14 @@ namespace MiniSVM.SpamClassifier
             return CurrentHypothesis.Predict(features) > 0 ? MailType.Ham : MailType.Spam;
         }
 
-        public bool Train(double gamma, double cost, TrainingStepCallback callback)
+        public bool Train(KernelType type, double gamma, double cost, TrainingStepCallback callback)
         {
             DoubleSparseVector[] trainingData;
             double[] trainingLabels;
             callback(TrainingStep.PreparingSet);
             GetTrainingData(out trainingData, out trainingLabels);
             callback(TrainingStep.TrainingClassifier);
-            Classifier = CreateClassifier(gamma, cost);
+            Classifier = CreateClassifier(type, gamma, cost);
             if (Classifier.Compute(trainingData, trainingLabels))
             {
                 CurrentHypothesis = Classifier.GetHypothesis();
@@ -142,20 +142,20 @@ namespace MiniSVM.SpamClassifier
             }
             return false;
         }
-        private IClassifier<DoubleSparseVector> CreateClassifier(double gamma, double cost)
+        private IClassifier<DoubleSparseVector> CreateClassifier(KernelType type, double gamma, double cost)
         {
             return new LibSVM<DoubleSparseVector>()
             {
-                SVMParameters = CreateParameters(gamma, cost)
+                SVMParameters = CreateParameters(type, gamma, cost)
             };
         }
-        private SVMParams<DoubleSparseVector> CreateParameters(double gamma, double cost)
+        private SVMParams<DoubleSparseVector> CreateParameters(KernelType type, double gamma, double cost)
         {
             return new SVMParams<DoubleSparseVector>()
             {
                 Cost = cost,
                 Gamma = gamma,
-                Kernel = DoubleSparseVector.Multiply
+                Kernel = (type == KernelType.Gaussian) ? DoubleSparseVector.GaussianDistance(gamma) : DoubleSparseVector.Multiply
             };
         }
     }

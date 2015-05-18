@@ -62,34 +62,61 @@ namespace MiniSVM.Classifier
 
     public class DoubleSparseVector : SparseVector<double>
     {
-        public double Multiply(DoubleSparseVector other)
+        public static void LookupElements(DoubleSparseVector first,
+            DoubleSparseVector second,
+            LookupElementsCallback callback)
         {
-            double result = 0;
-            var me = this.Items.GetEnumerator();
-            var oe = other.Items.GetEnumerator();
+            var me = first.Items.GetEnumerator();
+            var oe = second.Items.GetEnumerator();
             bool undone = me.MoveNext() && oe.MoveNext();
             while (undone)
             {
                 while (undone && me.Current.Key > oe.Current.Key)
                 {
+                    callback(oe.Current.Key, 0, oe.Current.Value);
                     undone = oe.MoveNext();
                 }
                 while (undone && me.Current.Key < oe.Current.Key)
                 {
+                    callback(me.Current.Key, me.Current.Value, 0);
                     undone = me.MoveNext();
                 }
                 if (undone && me.Current.Key == oe.Current.Key)
                 {
-                    result += me.Current.Value * oe.Current.Value;
+                    callback(me.Current.Key, me.Current.Value, oe.Current.Value);
                     undone = me.MoveNext() && oe.MoveNext();
                 }
             }
+        }
+        
+        public static double Multiply(DoubleSparseVector first, DoubleSparseVector second)
+        {
+            double result = 0;
+            LookupElements(first, second,
+                (i, fv, sv) => { result += fv * sv; });
             return result;
         }
 
-        public static double Multiply(DoubleSparseVector first, DoubleSparseVector second)
+        public static double Distance2(DoubleSparseVector first, DoubleSparseVector second)
         {
-            return first.Multiply(second);
+            double result = 0;
+            LookupElements(first, second,
+                (i, fv, sv) => { result += (fv - sv) * (fv - sv); });
+            return result;
+        }
+        public static double Distance(DoubleSparseVector first, DoubleSparseVector second)
+        {
+            return Math.Sqrt(Distance2(first, second));
+        }
+
+        public static double GaussianDistance(DoubleSparseVector first, DoubleSparseVector second, double gamma)
+        {
+            return Math.Exp(-gamma*Distance2(first, second));
+        }
+
+        public static Func<DoubleSparseVector, DoubleSparseVector, double> GaussianDistance(double gamma)
+        {
+            return (f, s) => GaussianDistance(f, s, gamma);
         }
 
         public double[] ToArray()
@@ -102,4 +129,6 @@ namespace MiniSVM.Classifier
             return result;
         }
     }
+
+    public delegate void LookupElementsCallback(int col, double meVal, double otherVal);
 }

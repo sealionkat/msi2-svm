@@ -236,15 +236,30 @@ namespace MiniSVM.SpamClassifier
                 MessageBox.Show(this, "No features selected!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-            new ProgressWorker<object, object>(Train, null, TrainCompleted, null, false, true).ShowDialog(this);
+            double gamma = 0, cost = 0;
+            double.TryParse(numericGamma.Text, out gamma);
+            double.TryParse(numericCost.Text, out cost);
+            KernelType type = KernelType.Linear;
+            if (comboBoxKernelType.SelectedIndex == 1)
+            {
+                type = KernelType.Gaussian;
+            }
+            new ProgressWorker<object, object>(Train, new object[]
+                {
+                    type,
+                    gamma,
+                    cost
+                }, TrainCompleted, null, false, true).ShowDialog(this);
         }
 
         public void Train(object sender, ProgressWorker<object, object>.ProgressWorkerEventArgs arg)
         {
-            double gamma = 0, cost = 0;
-            double.TryParse(numericGamma.Text, out gamma);
-            double.TryParse(numericCost.Text, out cost);
-            arg.Result = Model.Train(gamma, cost, (s) =>
+            double gamma, cost;
+            KernelType type;
+            type = (KernelType)(arg.Argument as object[])[0];
+            gamma = (double)(arg.Argument as object[])[1];
+            cost = (double)(arg.Argument as object[])[2];
+            arg.Result = Model.Train(type, gamma, cost, (s) =>
                 {
                     switch (s)
                     {
