@@ -278,7 +278,9 @@ namespace MiniSVM.SpamClassifier
             if (!(result.Result as bool? ?? false))
                 MessageBox.Show(this, "Training Model failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             else
-                MessageBox.Show(this, "Training Model finished", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                MessageBox.Show(this, "Training Model finished\n"+
+                    "Training time: " + result.Time.ToString(@"hh\:mm\:ss"),
+                    "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
         private void comboBoxKernelType_SelectedIndexChanged(object sender, EventArgs e)

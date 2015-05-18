@@ -41,6 +41,7 @@ namespace MiniSVM.SpamClassifier
         void WorkCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             Timer.Stop();
+            this.Hide();
             completedHandler(this, new ProgressWorkCompletedArgs(e)
                 {
                     Time = (DateTime.Now - StartTime)
@@ -49,7 +50,6 @@ namespace MiniSVM.SpamClassifier
             {
                 this.progressBar.Value = 100;
             }
-            this.Hide();
         }
 
         public bool ReportInfo { get; private set; }
