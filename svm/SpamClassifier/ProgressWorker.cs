@@ -40,7 +40,11 @@ namespace MiniSVM.SpamClassifier
 
         void WorkCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            completedHandler(this, new ProgressWorkCompletedArgs(e));
+            Timer.Stop();
+            completedHandler(this, new ProgressWorkCompletedArgs(e)
+                {
+                    Time = (DateTime.Now - StartTime)
+                });
             if (this.progressBar.Style != ProgressBarStyle.Marquee)
             {
                 this.progressBar.Value = 100;
@@ -52,14 +56,20 @@ namespace MiniSVM.SpamClassifier
 
         public bool ReportProgress { get; private set; }
 
+        public DateTime StartTime { get; private set; }
+
+        private Timer Timer { get; set; }
+
         public ArgumentType Argument { get; private set; }
 
         private ProgressWorkHandler workHandler;
         private ProgressWorkCompleted completedHandler;
+        private ProgressWorkerEventArgs currentArgs;
 
         private void DoWork(object sender, DoWorkEventArgs e)
         {
-            this.workHandler(this, new ProgressWorkerEventArgs(this, e));
+            currentArgs = new ProgressWorkerEventArgs(this, e);
+            this.workHandler(this, currentArgs);
         }
 
         private void OnProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -76,6 +86,15 @@ namespace MiniSVM.SpamClassifier
 
         private void ProgressWorkerOnLoad(object sender, EventArgs e)
         {
+            StartTime = DateTime.Now;
+            Timer = new Timer();
+            Timer.Interval = 1000;
+            Timer.Tick += (sv, ev) =>
+                {
+                    currentArgs.CurrentTime = (DateTime.Now - StartTime);
+                    labelTime.Text = currentArgs.CurrentTime.ToString(@"hh\:mm\:ss");
+                };
+            Timer.Start();
             this.backgroundWorker.RunWorkerAsync(this.Argument);
         }
 
@@ -105,6 +124,8 @@ namespace MiniSVM.SpamClassifier
                 }
             }
 
+            public TimeSpan Time { get; set; }
+
             public ResultType Result
             {
                 get
@@ -121,6 +142,27 @@ namespace MiniSVM.SpamClassifier
         {
             DoWorkEventArgs args;
             ProgressWorker<ArgumentType, ResultType> parent;
+
+            private TimeSpan time;
+            object syncroot = new object();
+
+            public TimeSpan CurrentTime
+            {
+                get 
+                {
+                    lock (syncroot)
+                    {
+                        return time; 
+                    }
+                }
+                set 
+                {
+                    lock (syncroot)
+                    {
+                        time = value;
+                    }
+                }
+            }
 
             public ProgressWorkerEventArgs(ProgressWorker<ArgumentType, ResultType> parent, DoWorkEventArgs sourceArgs)
             {
