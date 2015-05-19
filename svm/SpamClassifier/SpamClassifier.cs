@@ -239,6 +239,7 @@ namespace MiniSVM.SpamClassifier
             double gamma = 0, cost = 0;
             double.TryParse(numericGamma.Text, out gamma);
             double.TryParse(numericCost.Text, out cost);
+            int testSize = this.trackBarTest.Value;
             KernelType type = KernelType.Linear;
             if (comboBoxKernelType.SelectedIndex == 1)
             {
@@ -248,7 +249,8 @@ namespace MiniSVM.SpamClassifier
                 {
                     type,
                     gamma,
-                    cost
+                    cost,
+                    testSize
                 }, TrainCompleted, null, false, true).ShowDialog(this);
         }
 
@@ -259,7 +261,8 @@ namespace MiniSVM.SpamClassifier
             type = (KernelType)(arg.Argument as object[])[0];
             gamma = (double)(arg.Argument as object[])[1];
             cost = (double)(arg.Argument as object[])[2];
-            arg.Result = Model.Train(type, gamma, cost, (s) =>
+            int testSize = (int)(arg.Argument as object[])[3];
+            arg.Result = Model.Train(type, gamma, cost, testSize, (s) =>
                 {
                     switch (s)
                     {
@@ -269,16 +272,21 @@ namespace MiniSVM.SpamClassifier
                         case TrainingStep.TrainingClassifier:
                             arg.ChangeProgressInfo("Training SVM...");
                             break;
+                        case TrainingStep.TestingClassifier:
+                            arg.ChangeProgressInfo("Testing SVM...");
+                            break;
                     }
                 });
         }
 
         public void TrainCompleted(object sender, ProgressWorker<object, object>.ProgressWorkCompletedArgs result)
         {
-            if (!(result.Result as bool? ?? false))
+            float res = result.Result as float? ?? -1;
+            if (res<0)
                 MessageBox.Show(this, "Training Model failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             else
                 MessageBox.Show(this, "Training Model finished\n"+
+                    "Training quality: " + (100*res).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "%\n" +
                     "Training time: " + result.Time.ToString(@"hh\:mm\:ss"),
                     "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
@@ -295,6 +303,24 @@ namespace MiniSVM.SpamClassifier
             int.TryParse(numericSpamFeatures.Text, out spamTh);
             Model.AutoSelectFeatures(spamTh, hamTh);
             UpdateSelectedFeaturesCount();
+        }
+
+        private void trackBarTest_ValueChanged(object sender, EventArgs e)
+        {
+            numericTestPercent.Text = trackBarTest.Value.ToString();
+        }
+
+        private void numericTestPercent_TextChanged(object sender, EventArgs e)
+        {
+            if (numericTestPercent.IntValue>trackBarTest.Maximum)
+            {
+                numericTestPercent.Text = trackBarTest.Maximum.ToString();
+            }
+            if (numericTestPercent.IntValue < trackBarTest.Minimum)
+            {
+                numericTestPercent.Text = trackBarTest.Minimum.ToString();
+            }
+            trackBarTest.Value = numericTestPercent.IntValue;
         }
     }
 }

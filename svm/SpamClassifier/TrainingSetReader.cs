@@ -11,24 +11,22 @@ namespace MiniSVM.SpamClassifier
     public class TrainingSetReader
     {
         public Dictionary<string, Dictionary<MailType, int>> TrainingWordCounts { get; set; }
-        public List<Dictionary<string, int>> RawTrainingSet { get; set; }
-        public List<MailType> RawTrainingLabels { get; set; }
+        public List<Dictionary<string, int>> RawSpamTrainingSet { get; set; }
+        public List<Dictionary<string, int>> RawHamTrainingSet { get; set; }
 
         private MailTokenizer Tokenizer { get; set; }
 
         public TrainingSetReader(MailTokenizer tokenizer)
         {
             Tokenizer = tokenizer;
-            TrainingWordCounts = new Dictionary<string, Dictionary<MailType, int>>();
-            RawTrainingSet = new List<Dictionary<string, int>>();
-            RawTrainingLabels = new List<MailType>();
+            ClearSet();
         }
 
         public void ClearSet()
         {
             TrainingWordCounts = new Dictionary<string, Dictionary<MailType, int>>();
-            RawTrainingSet = new List<Dictionary<string, int>>();
-            RawTrainingLabels = new List<MailType>();
+            RawSpamTrainingSet = new List<Dictionary<string, int>>();
+            RawHamTrainingSet = new List<Dictionary<string, int>>();
         }
 
         private void ProcessMail(string mail, MailType type)
@@ -47,8 +45,14 @@ namespace MiniSVM.SpamClassifier
                 trainingSetItem[word]++;
                 UpdateTrainingWordCount(word, type);
             }
-            RawTrainingSet.Add(trainingSetItem);
-            RawTrainingLabels.Add(type);
+            if (type==MailType.Ham)
+            {
+                RawHamTrainingSet.Add(trainingSetItem);
+            }
+            else
+            {
+                RawSpamTrainingSet.Add(trainingSetItem);
+            }
         }
 
         private void UpdateTrainingWordCount(string word, MailType type)

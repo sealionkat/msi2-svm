@@ -9,8 +9,6 @@ namespace MiniSVM.SpamClassifier
     public class SpamClassifierModel
     {
         public Dictionary<string, Dictionary<MailType, int>> TrainingWordCounts { get { return Reader.TrainingWordCounts; } }
-        private List<Dictionary<string, int>> RawTrainingSet { get { return Reader.RawTrainingSet; } }
-        private List<MailType> RawTrainingLabels { get { return Reader.RawTrainingLabels; } }
         private HashSet<string> SelectedFeaturesSet { get; set; }
         public IClassifier<DoubleSparseVector> Classifier { get; set; }
         public IHypothesis<DoubleSparseVector> CurrentHypothesis { get; set; }
@@ -40,40 +38,6 @@ namespace MiniSVM.SpamClassifier
             Reader.ReadDirectoryFiles(directory, type, recursive);
             Reader.ProgressChanged -= progressHandler;
             Reader.ProcessingDirectory -= directoryHandler;
-        }
-
-        private DoubleSparseVector TokenizedMailToFeatures(List<string> tokenizedMail)
-        {
-            Dictionary<string, int> wordCounts = new Dictionary<string, int>();
-            DoubleSparseVector result = new DoubleSparseVector();
-            foreach (var word in tokenizedMail)
-            {
-                if (!wordCounts.ContainsKey(word))
-                    wordCounts.Add(word, 0);
-                wordCounts[word]++;
-            }
-            int j = 0;
-            foreach (var word in SelectedFeaturesSet)
-            {
-                result[j++] = (wordCounts.ContainsKey(word)) ? wordCounts[word] : 0;
-            }
-            return result;
-        }
-        
-        public void GetTrainingData(out DoubleSparseVector[] trainingData, out double[] trainingLabels)
-        {
-            trainingData = new DoubleSparseVector[RawTrainingSet.Count];
-            trainingLabels = new double[RawTrainingLabels.Count];
-            for (int i = 0; i < RawTrainingSet.Count; i++)
-            {
-                trainingData[i] = new DoubleSparseVector();
-                int j = 0;
-                foreach (var word in SelectedFeaturesSet)
-                {
-                    trainingData[i][j++] = (RawTrainingSet[i].ContainsKey(word)) ? RawTrainingSet[i][word] : 0;
-                }
-                trainingLabels[i] = (int)RawTrainingLabels[i];
-            }
         }
 
         public void AutoSelectFeatures(int spamTh, int hamTh)
@@ -123,25 +87,45 @@ namespace MiniSVM.SpamClassifier
         public MailType Predict(string mail)
         {
             var tokenizedMail = Tokenizer.TokenizeString(mail);
-            var features = TokenizedMailToFeatures(tokenizedMail);
+            var features = new SvmDataManager().TokenizedMailToFeatures(SelectedFeaturesSet, tokenizedMail);
             return CurrentHypothesis.Predict(features) > 0 ? MailType.Ham : MailType.Spam;
         }
-
-        public bool Train(KernelType type, double gamma, double cost, TrainingStepCallback callback)
+        public MailType Predict(DoubleSparseVector mail)
         {
-            DoubleSparseVector[] trainingData;
-            double[] trainingLabels;
+            return CurrentHypothesis.Predict(mail) > 0 ? MailType.Ham : MailType.Spam;
+        }
+
+        public float Train(KernelType type, double gamma, double cost, int testSetPercent, TrainingStepCallback callback)
+        {
             callback(TrainingStep.PreparingSet);
-            GetTrainingData(out trainingData, out trainingLabels);
+            var svmData = new SvmDataManager(Reader.RawSpamTrainingSet, Reader.RawHamTrainingSet, SelectedFeaturesSet);
+            svmData.CalculateTrainingData(testSetPercent);
             callback(TrainingStep.TrainingClassifier);
             Classifier = CreateClassifier(type, gamma, cost);
-            if (Classifier.Compute(trainingData, trainingLabels))
+            if (Classifier.Compute(svmData.TrainingData, svmData.TrainingLabels))
             {
                 CurrentHypothesis = Classifier.GetHypothesis();
-                return true;
+                callback(TrainingStep.TestingClassifier);
+                return Test(svmData.TestData, svmData.TestLabels);
             }
-            return false;
+            return -1;
         }
+
+        private float Test(DoubleSparseVector[] testData, double[] testLabels)
+        {
+            int errors = 0;
+            for (int i = 0; i < testData.Length; i++)
+            {
+                var result = Predict(testData[i]);
+                var expected = (testLabels[i] > 0) ? MailType.Ham : MailType.Spam;
+                if (result!=expected)
+                {
+                    errors++;
+                }
+            }
+            return 1 - (((float)errors) / testData.Length);
+        }
+
         private IClassifier<DoubleSparseVector> CreateClassifier(KernelType type, double gamma, double cost)
         {
             return new LibSVM<DoubleSparseVector>()
@@ -165,6 +149,7 @@ namespace MiniSVM.SpamClassifier
     public enum TrainingStep
     {
         PreparingSet,
-        TrainingClassifier
+        TrainingClassifier,
+        TestingClassifier
     }
 }

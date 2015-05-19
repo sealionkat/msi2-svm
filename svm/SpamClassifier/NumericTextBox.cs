@@ -58,7 +58,9 @@ namespace MiniSVM.SpamClassifier
         {
             get
             {
-                return Int32.Parse(this.Text);
+                int value = 0;
+                Int32.TryParse(this.Text, out value);
+                return value;
             }
         }
 
@@ -66,7 +68,9 @@ namespace MiniSVM.SpamClassifier
         {
             get
             {
-                return Decimal.Parse(this.Text);
+                decimal value = 0;
+                Decimal.TryParse(this.Text, out value);
+                return value;
             }
         }
 

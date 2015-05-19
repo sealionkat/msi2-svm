@@ -10,7 +10,7 @@
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="dispoFsing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -32,16 +32,21 @@
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.trackBarTest = new MiniSVM.SpamClassifier.TransparentTrackBar();
+            this.numericTestPercent = new MiniSVM.SpamClassifier.NumericTextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.numericGamma = new MiniSVM.SpamClassifier.NumericTextBox();
+            this.numericCost = new MiniSVM.SpamClassifier.NumericTextBox();
+            this.buttonReset = new System.Windows.Forms.Button();
+            this.checkBoxRecursive = new System.Windows.Forms.CheckBox();
             this.numericHamFeatures = new MiniSVM.SpamClassifier.NumericTextBox();
             this.numericSpamFeatures = new MiniSVM.SpamClassifier.NumericTextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.comboBoxKernelType = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.comboBoxKernelType = new System.Windows.Forms.ComboBox();
-            this.checkBoxRecursive = new System.Windows.Forms.CheckBox();
-            this.buttonReset = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.buttonShowUseless = new System.Windows.Forms.Button();
             this.buttonLoadUseless = new System.Windows.Forms.Button();
@@ -79,11 +84,10 @@
             this.buttonClassifyTxt = new System.Windows.Forms.Button();
             this.richTextBoxEmail = new System.Windows.Forms.RichTextBox();
             this.buttonLoadEmail = new System.Windows.Forms.Button();
-            this.numericCost = new MiniSVM.SpamClassifier.NumericTextBox();
-            this.numericGamma = new MiniSVM.SpamClassifier.NumericTextBox();
             this.tabControlMain.SuspendLayout();
             this.tabSettings.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarTest)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.tabLearning.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
@@ -128,6 +132,9 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.trackBarTest);
+            this.groupBox4.Controls.Add(this.numericTestPercent);
+            this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.numericGamma);
             this.groupBox4.Controls.Add(this.numericCost);
             this.groupBox4.Controls.Add(this.buttonReset);
@@ -147,28 +154,98 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Training";
             // 
+            // trackBarTest
+            // 
+            this.trackBarTest.AutoSize = false;
+            this.trackBarTest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.trackBarTest.Location = new System.Drawing.Point(99, 194);
+            this.trackBarTest.Maximum = 50;
+            this.trackBarTest.Name = "trackBarTest";
+            this.trackBarTest.Size = new System.Drawing.Size(141, 16);
+            this.trackBarTest.TabIndex = 11;
+            this.trackBarTest.TickFrequency = 10;
+            this.trackBarTest.Value = 20;
+            this.trackBarTest.ValueChanged += new System.EventHandler(this.trackBarTest_ValueChanged);
+            // 
+            // numericTestPercent
+            // 
+            this.numericTestPercent.AllowSpace = false;
+            this.numericTestPercent.Location = new System.Drawing.Point(246, 194);
+            this.numericTestPercent.Name = "numericTestPercent";
+            this.numericTestPercent.Size = new System.Drawing.Size(41, 20);
+            this.numericTestPercent.TabIndex = 10;
+            this.numericTestPercent.Text = "20";
+            this.numericTestPercent.TextChanged += new System.EventHandler(this.numericTestPercent_TextChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 197);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(87, 13);
+            this.label8.TabIndex = 9;
+            this.label8.Text = "Test set percent:";
+            // 
+            // numericGamma
+            // 
+            this.numericGamma.AllowSpace = false;
+            this.numericGamma.Location = new System.Drawing.Point(246, 45);
+            this.numericGamma.Name = "numericGamma";
+            this.numericGamma.Size = new System.Drawing.Size(41, 20);
+            this.numericGamma.TabIndex = 8;
+            this.numericGamma.Text = "0";
+            // 
+            // numericCost
+            // 
+            this.numericCost.AllowSpace = false;
+            this.numericCost.Location = new System.Drawing.Point(246, 71);
+            this.numericCost.Name = "numericCost";
+            this.numericCost.Size = new System.Drawing.Size(41, 20);
+            this.numericCost.TabIndex = 7;
+            this.numericCost.Text = "0";
+            // 
+            // buttonReset
+            // 
+            this.buttonReset.Location = new System.Drawing.Point(187, 289);
+            this.buttonReset.Name = "buttonReset";
+            this.buttonReset.Size = new System.Drawing.Size(100, 23);
+            this.buttonReset.TabIndex = 5;
+            this.buttonReset.Text = "Reset training set";
+            this.buttonReset.UseVisualStyleBackColor = true;
+            this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
+            // 
+            // checkBoxRecursive
+            // 
+            this.checkBoxRecursive.AutoSize = true;
+            this.checkBoxRecursive.Location = new System.Drawing.Point(22, 293);
+            this.checkBoxRecursive.Name = "checkBoxRecursive";
+            this.checkBoxRecursive.Size = new System.Drawing.Size(159, 17);
+            this.checkBoxRecursive.TabIndex = 6;
+            this.checkBoxRecursive.Text = "Read training set recursively";
+            this.checkBoxRecursive.UseVisualStyleBackColor = true;
+            // 
             // numericHamFeatures
             // 
             this.numericHamFeatures.AllowSpace = false;
-            this.numericHamFeatures.Location = new System.Drawing.Point(187, 145);
+            this.numericHamFeatures.Location = new System.Drawing.Point(246, 145);
             this.numericHamFeatures.Name = "numericHamFeatures";
-            this.numericHamFeatures.Size = new System.Drawing.Size(100, 20);
+            this.numericHamFeatures.Size = new System.Drawing.Size(41, 20);
             this.numericHamFeatures.TabIndex = 3;
-            this.numericHamFeatures.Text = "10";
+            this.numericHamFeatures.Text = "0";
             // 
             // numericSpamFeatures
             // 
             this.numericSpamFeatures.AllowSpace = false;
-            this.numericSpamFeatures.Location = new System.Drawing.Point(187, 119);
+            this.numericSpamFeatures.Location = new System.Drawing.Point(246, 119);
             this.numericSpamFeatures.Name = "numericSpamFeatures";
-            this.numericSpamFeatures.Size = new System.Drawing.Size(100, 20);
+            this.numericSpamFeatures.Size = new System.Drawing.Size(41, 20);
             this.numericSpamFeatures.TabIndex = 2;
-            this.numericSpamFeatures.Text = "20";
+            this.numericSpamFeatures.Text = "0";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(11, 148);
+            this.label7.Location = new System.Drawing.Point(70, 148);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(170, 13);
             this.label7.TabIndex = 1;
@@ -177,7 +254,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 122);
+            this.label6.Location = new System.Drawing.Point(65, 122);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(175, 13);
             this.label6.TabIndex = 0;
@@ -186,29 +263,11 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(150, 74);
+            this.label5.Location = new System.Drawing.Point(209, 74);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(31, 13);
             this.label5.TabIndex = 5;
             this.label5.Text = "Cost:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(135, 48);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(46, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Gamma:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(118, 21);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(63, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Kernel type:";
             // 
             // comboBoxKernelType
             // 
@@ -223,25 +282,23 @@
             this.comboBoxKernelType.TabIndex = 0;
             this.comboBoxKernelType.SelectedIndexChanged += new System.EventHandler(this.comboBoxKernelType_SelectedIndexChanged);
             // 
-            // checkBoxRecursive
+            // label4
             // 
-            this.checkBoxRecursive.AutoSize = true;
-            this.checkBoxRecursive.Location = new System.Drawing.Point(22, 293);
-            this.checkBoxRecursive.Name = "checkBoxRecursive";
-            this.checkBoxRecursive.Size = new System.Drawing.Size(159, 17);
-            this.checkBoxRecursive.TabIndex = 6;
-            this.checkBoxRecursive.Text = "Read training set recursively";
-            this.checkBoxRecursive.UseVisualStyleBackColor = true;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(194, 48);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(46, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Gamma:";
             // 
-            // buttonReset
+            // label3
             // 
-            this.buttonReset.Location = new System.Drawing.Point(187, 289);
-            this.buttonReset.Name = "buttonReset";
-            this.buttonReset.Size = new System.Drawing.Size(100, 23);
-            this.buttonReset.TabIndex = 5;
-            this.buttonReset.Text = "Reset training set";
-            this.buttonReset.UseVisualStyleBackColor = true;
-            this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(118, 21);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(63, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Kernel type:";
             // 
             // groupBox1
             // 
@@ -647,24 +704,6 @@
             this.buttonLoadEmail.UseVisualStyleBackColor = true;
             this.buttonLoadEmail.Click += new System.EventHandler(this.buttonLoadEmail_Click);
             // 
-            // numericCost
-            // 
-            this.numericCost.AllowSpace = false;
-            this.numericCost.Location = new System.Drawing.Point(187, 71);
-            this.numericCost.Name = "numericCost";
-            this.numericCost.Size = new System.Drawing.Size(100, 20);
-            this.numericCost.TabIndex = 7;
-            this.numericCost.Text = "1";
-            // 
-            // numericGamma
-            // 
-            this.numericGamma.AllowSpace = false;
-            this.numericGamma.Location = new System.Drawing.Point(187, 45);
-            this.numericGamma.Name = "numericGamma";
-            this.numericGamma.Size = new System.Drawing.Size(100, 20);
-            this.numericGamma.TabIndex = 8;
-            this.numericGamma.Text = "1";
-            // 
             // SpamClassifier
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -679,6 +718,7 @@
             this.tabSettings.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarTest)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.tabLearning.ResumeLayout(false);
             this.tableLayoutPanel.ResumeLayout(false);
@@ -756,6 +796,9 @@
         private NumericTextBox numericHamFeatures;
         private NumericTextBox numericCost;
         private NumericTextBox numericGamma;
+        private System.Windows.Forms.Label label8;
+        private NumericTextBox numericTestPercent;
+        private TransparentTrackBar trackBarTest;
 
     }
 }
