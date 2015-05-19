@@ -116,7 +116,7 @@
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(981, 480);
+            this.tabControlMain.Size = new System.Drawing.Size(981, 440);
             this.tabControlMain.TabIndex = 1;
             // 
             // tabSettings
@@ -125,7 +125,7 @@
             this.tabSettings.Controls.Add(this.groupBox1);
             this.tabSettings.Location = new System.Drawing.Point(4, 22);
             this.tabSettings.Name = "tabSettings";
-            this.tabSettings.Size = new System.Drawing.Size(973, 454);
+            this.tabSettings.Size = new System.Drawing.Size(973, 414);
             this.tabSettings.TabIndex = 2;
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
@@ -149,7 +149,7 @@
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Location = new System.Drawing.Point(8, 133);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(298, 318);
+            this.groupBox4.Size = new System.Drawing.Size(298, 272);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Training";
@@ -193,7 +193,7 @@
             this.numericGamma.Name = "numericGamma";
             this.numericGamma.Size = new System.Drawing.Size(41, 20);
             this.numericGamma.TabIndex = 8;
-            this.numericGamma.Text = "0";
+            this.numericGamma.Text = "1";
             // 
             // numericCost
             // 
@@ -202,11 +202,11 @@
             this.numericCost.Name = "numericCost";
             this.numericCost.Size = new System.Drawing.Size(41, 20);
             this.numericCost.TabIndex = 7;
-            this.numericCost.Text = "0";
+            this.numericCost.Text = "1";
             // 
             // buttonReset
             // 
-            this.buttonReset.Location = new System.Drawing.Point(187, 289);
+            this.buttonReset.Location = new System.Drawing.Point(187, 240);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(100, 23);
             this.buttonReset.TabIndex = 5;
@@ -217,7 +217,7 @@
             // checkBoxRecursive
             // 
             this.checkBoxRecursive.AutoSize = true;
-            this.checkBoxRecursive.Location = new System.Drawing.Point(22, 293);
+            this.checkBoxRecursive.Location = new System.Drawing.Point(22, 244);
             this.checkBoxRecursive.Name = "checkBoxRecursive";
             this.checkBoxRecursive.Size = new System.Drawing.Size(159, 17);
             this.checkBoxRecursive.TabIndex = 6;
@@ -231,7 +231,7 @@
             this.numericHamFeatures.Name = "numericHamFeatures";
             this.numericHamFeatures.Size = new System.Drawing.Size(41, 20);
             this.numericHamFeatures.TabIndex = 3;
-            this.numericHamFeatures.Text = "0";
+            this.numericHamFeatures.Text = "10";
             // 
             // numericSpamFeatures
             // 
@@ -240,7 +240,7 @@
             this.numericSpamFeatures.Name = "numericSpamFeatures";
             this.numericSpamFeatures.Size = new System.Drawing.Size(41, 20);
             this.numericSpamFeatures.TabIndex = 2;
-            this.numericSpamFeatures.Text = "0";
+            this.numericSpamFeatures.Text = "20";
             // 
             // label7
             // 
@@ -348,7 +348,7 @@
             this.tabLearning.Location = new System.Drawing.Point(4, 22);
             this.tabLearning.Name = "tabLearning";
             this.tabLearning.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLearning.Size = new System.Drawing.Size(973, 454);
+            this.tabLearning.Size = new System.Drawing.Size(973, 414);
             this.tabLearning.TabIndex = 0;
             this.tabLearning.Text = "Learning";
             this.tabLearning.UseVisualStyleBackColor = true;
@@ -365,7 +365,7 @@
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 1;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(967, 448);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(967, 408);
             this.tableLayoutPanel.TabIndex = 9;
             // 
             // splitContainer1
@@ -382,7 +382,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tableLayoutPanel2);
-            this.splitContainer1.Size = new System.Drawing.Size(792, 442);
+            this.splitContainer1.Size = new System.Drawing.Size(792, 402);
             this.splitContainer1.SplitterDistance = 390;
             this.splitContainer1.SplitterWidth = 10;
             this.splitContainer1.TabIndex = 0;
@@ -397,18 +397,18 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.99095F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 88.00905F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(390, 442);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.42786F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85.57214F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(390, 402);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // panel3
             // 
             this.panel3.Controls.Add(this.dataGridViewSpam);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(3, 55);
+            this.panel3.Location = new System.Drawing.Point(3, 60);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(384, 384);
+            this.panel3.Size = new System.Drawing.Size(384, 339);
             this.panel3.TabIndex = 1;
             // 
             // dataGridViewSpam
@@ -423,7 +423,7 @@
             this.dataGridViewSpam.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewSpam.Name = "dataGridViewSpam";
             this.dataGridViewSpam.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewSpam.Size = new System.Drawing.Size(384, 384);
+            this.dataGridViewSpam.Size = new System.Drawing.Size(384, 339);
             this.dataGridViewSpam.TabIndex = 1;
             this.dataGridViewSpam.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewSpam_CellContentClick);
             // 
@@ -446,7 +446,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(384, 46);
+            this.panel2.Size = new System.Drawing.Size(384, 51);
             this.panel2.TabIndex = 0;
             // 
             // buttonLoadSpam
@@ -479,18 +479,18 @@
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.99095F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 88.00905F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(392, 442);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.42786F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85.57214F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(392, 402);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
             // panel4
             // 
             this.panel4.Controls.Add(this.dataGridViewHam);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(3, 55);
+            this.panel4.Location = new System.Drawing.Point(3, 60);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(386, 384);
+            this.panel4.Size = new System.Drawing.Size(386, 339);
             this.panel4.TabIndex = 1;
             // 
             // dataGridViewHam
@@ -505,7 +505,7 @@
             this.dataGridViewHam.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewHam.Name = "dataGridViewHam";
             this.dataGridViewHam.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewHam.Size = new System.Drawing.Size(386, 384);
+            this.dataGridViewHam.Size = new System.Drawing.Size(386, 339);
             this.dataGridViewHam.TabIndex = 3;
             // 
             // dataGridViewTextBoxColumn1
@@ -527,7 +527,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(3, 3);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(386, 46);
+            this.panel5.Size = new System.Drawing.Size(386, 51);
             this.panel5.TabIndex = 0;
             // 
             // labelHam
@@ -561,7 +561,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(801, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(163, 442);
+            this.panel1.Size = new System.Drawing.Size(163, 402);
             this.panel1.TabIndex = 1;
             // 
             // buttonAutoselectFeatures
@@ -607,7 +607,7 @@
             // labelSelectedFeaturesCount
             // 
             this.labelSelectedFeaturesCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelSelectedFeaturesCount.Location = new System.Drawing.Point(95, 9);
+            this.labelSelectedFeaturesCount.Location = new System.Drawing.Point(95, -31);
             this.labelSelectedFeaturesCount.Name = "labelSelectedFeaturesCount";
             this.labelSelectedFeaturesCount.Size = new System.Drawing.Size(65, 13);
             this.labelSelectedFeaturesCount.TabIndex = 1;
@@ -634,7 +634,7 @@
             this.tabClassifying.Location = new System.Drawing.Point(4, 22);
             this.tabClassifying.Name = "tabClassifying";
             this.tabClassifying.Padding = new System.Windows.Forms.Padding(3);
-            this.tabClassifying.Size = new System.Drawing.Size(973, 454);
+            this.tabClassifying.Size = new System.Drawing.Size(973, 414);
             this.tabClassifying.TabIndex = 1;
             this.tabClassifying.Text = "Classifying";
             this.tabClassifying.UseVisualStyleBackColor = true;
@@ -708,9 +708,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(981, 480);
+            this.ClientSize = new System.Drawing.Size(981, 440);
             this.Controls.Add(this.tabControlMain);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "SpamClassifier";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Spam classification";
