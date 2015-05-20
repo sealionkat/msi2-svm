@@ -95,7 +95,7 @@ namespace MiniSVM.Classifier
                    .ToDictionary(s => s.Key, s => s.Value));
             NullValue = source.NullValue;
             Items = resultItems;
-            Length = resultItems.Max(s => s.Key);
+            Length = (resultItems.Count > 0) ? resultItems.Max(s => s.Key) : 0;
         }
 
         public static SparseVector<TValue> FromSerializable(SerializableSparseVector<TValue> source)
@@ -192,8 +192,24 @@ namespace MiniSVM.Classifier
 
     public class SerializableSparseVector<TValue>
     {
+        public SerializableSparseVector()
+        {
+            Items = new Item[0];
+            NullValue = default(TValue);
+        }
+
+        private Item[] items;
+
         [XmlElement]
-        public Item[] Items { get; set; }
+        public Item[] Items
+        {
+            get { return items; }
+            set 
+            {
+                items = value ?? new Item[0]; 
+            }
+        }
+
 
         [XmlElement]
         public TValue NullValue { get; set; }

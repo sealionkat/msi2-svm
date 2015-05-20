@@ -336,14 +336,20 @@ namespace MiniSVM.SpamClassifier
             var result = dialog.ShowDialog(this);
             if (result == DialogResult.OK)
             {
-                if (Model.SaveModel(dialog.FileName))
-                {
-                    MessageBox.Show(this, "Model saved successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show(this, "Saving model failed!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
+                new ProgressWorker<object, object>((snd, arg) =>
+                    {
+                        arg.Result = Model.SaveModel(arg.Argument as string);
+                    }, dialog.FileName, (snd, arg) =>
+                    {
+                        if ((arg.Result as bool?) ?? false)
+                        {
+                            MessageBox.Show(this, "Model saved successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show(this, "Saving model failed!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                    }).ShowDialog(this);
             }
         }
 
@@ -354,15 +360,21 @@ namespace MiniSVM.SpamClassifier
             var result = dialog.ShowDialog(this);
             if (result == DialogResult.OK)
             {
-                if(Model.LoadModel(dialog.FileName))
+                new ProgressWorker<object, object>((snd, arg) =>
                 {
-                    UpdateSelectedFeaturesCount();
-                    MessageBox.Show(this, "Model loaded successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
+                    arg.Result = Model.LoadModel(arg.Argument as string);
+                }, dialog.FileName, (snd, arg) =>
                 {
-                    MessageBox.Show(this, "Loading model failed!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
+                    if (Model.LoadModel(dialog.FileName))
+                    {
+                        UpdateSelectedFeaturesCount();
+                        MessageBox.Show(this, "Model loaded successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, "Loading model failed!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }).ShowDialog(this);
             }
         }
 
