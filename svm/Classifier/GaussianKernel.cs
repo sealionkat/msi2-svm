@@ -8,6 +8,9 @@ namespace MiniSVM.Classifier
 {
     public class GaussianKernel : Kernel
     {
+        public GaussianKernel()
+        {
+        }
         public GaussianKernel(double gamma)
         {
             Gamma = gamma;

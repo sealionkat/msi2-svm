@@ -173,10 +173,15 @@ namespace MiniSVM.SpamClassifier
             }
             catch (Exception)
             {
-                CurrentHypothesis = null;
-                SelectedFeaturesSet = new HashSet<string>();
+                ClearModel();
                 return false;
             }
+        }
+
+        public void ClearModel()
+        {
+            CurrentHypothesis = null;
+            SelectedFeaturesSet = new HashSet<string>();
         }
     }
 

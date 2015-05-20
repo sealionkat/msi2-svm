@@ -32,9 +32,15 @@
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.trackBarTest = new MiniSVM.SpamClassifier.TransparentTrackBar();
+            this.numericTestPercent = new MiniSVM.SpamClassifier.NumericTextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.numericGamma = new MiniSVM.SpamClassifier.NumericTextBox();
+            this.numericCost = new MiniSVM.SpamClassifier.NumericTextBox();
             this.buttonReset = new System.Windows.Forms.Button();
             this.checkBoxRecursive = new System.Windows.Forms.CheckBox();
+            this.numericHamFeatures = new MiniSVM.SpamClassifier.NumericTextBox();
+            this.numericSpamFeatures = new MiniSVM.SpamClassifier.NumericTextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -65,6 +71,8 @@
             this.labelHam = new System.Windows.Forms.Label();
             this.buttonLoadHam = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonLoadModel = new System.Windows.Forms.Button();
+            this.buttonSaveModel = new System.Windows.Forms.Button();
             this.buttonAutoselectFeatures = new System.Windows.Forms.Button();
             this.buttonTrain = new System.Windows.Forms.Button();
             this.buttonClearFeatures = new System.Windows.Forms.Button();
@@ -78,17 +86,11 @@
             this.buttonClassifyTxt = new System.Windows.Forms.Button();
             this.richTextBoxEmail = new System.Windows.Forms.RichTextBox();
             this.buttonLoadEmail = new System.Windows.Forms.Button();
-            this.buttonSaveModel = new System.Windows.Forms.Button();
-            this.buttonLoadModel = new System.Windows.Forms.Button();
-            this.trackBarTest = new MiniSVM.SpamClassifier.TransparentTrackBar();
-            this.numericTestPercent = new MiniSVM.SpamClassifier.NumericTextBox();
-            this.numericGamma = new MiniSVM.SpamClassifier.NumericTextBox();
-            this.numericCost = new MiniSVM.SpamClassifier.NumericTextBox();
-            this.numericHamFeatures = new MiniSVM.SpamClassifier.NumericTextBox();
-            this.numericSpamFeatures = new MiniSVM.SpamClassifier.NumericTextBox();
+            this.buttonClearModel = new System.Windows.Forms.Button();
             this.tabControlMain.SuspendLayout();
             this.tabSettings.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarTest)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.tabLearning.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
@@ -106,7 +108,6 @@
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabClassifying.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarTest)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControlMain
@@ -156,6 +157,29 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Training";
             // 
+            // trackBarTest
+            // 
+            this.trackBarTest.AutoSize = false;
+            this.trackBarTest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.trackBarTest.Location = new System.Drawing.Point(99, 194);
+            this.trackBarTest.Maximum = 50;
+            this.trackBarTest.Name = "trackBarTest";
+            this.trackBarTest.Size = new System.Drawing.Size(141, 16);
+            this.trackBarTest.TabIndex = 5;
+            this.trackBarTest.TickFrequency = 10;
+            this.trackBarTest.Value = 20;
+            this.trackBarTest.ValueChanged += new System.EventHandler(this.trackBarTest_ValueChanged);
+            // 
+            // numericTestPercent
+            // 
+            this.numericTestPercent.AllowSpace = false;
+            this.numericTestPercent.Location = new System.Drawing.Point(246, 194);
+            this.numericTestPercent.Name = "numericTestPercent";
+            this.numericTestPercent.Size = new System.Drawing.Size(41, 20);
+            this.numericTestPercent.TabIndex = 6;
+            this.numericTestPercent.Text = "20";
+            this.numericTestPercent.TextChanged += new System.EventHandler(this.numericTestPercent_TextChanged);
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -164,6 +188,24 @@
             this.label8.Size = new System.Drawing.Size(87, 13);
             this.label8.TabIndex = 9;
             this.label8.Text = "Test set percent:";
+            // 
+            // numericGamma
+            // 
+            this.numericGamma.AllowSpace = false;
+            this.numericGamma.Location = new System.Drawing.Point(246, 45);
+            this.numericGamma.Name = "numericGamma";
+            this.numericGamma.Size = new System.Drawing.Size(41, 20);
+            this.numericGamma.TabIndex = 1;
+            this.numericGamma.Text = "1";
+            // 
+            // numericCost
+            // 
+            this.numericCost.AllowSpace = false;
+            this.numericCost.Location = new System.Drawing.Point(246, 71);
+            this.numericCost.Name = "numericCost";
+            this.numericCost.Size = new System.Drawing.Size(41, 20);
+            this.numericCost.TabIndex = 2;
+            this.numericCost.Text = "1";
             // 
             // buttonReset
             // 
@@ -184,6 +226,24 @@
             this.checkBoxRecursive.TabIndex = 7;
             this.checkBoxRecursive.Text = "Read training set recursively";
             this.checkBoxRecursive.UseVisualStyleBackColor = true;
+            // 
+            // numericHamFeatures
+            // 
+            this.numericHamFeatures.AllowSpace = false;
+            this.numericHamFeatures.Location = new System.Drawing.Point(246, 145);
+            this.numericHamFeatures.Name = "numericHamFeatures";
+            this.numericHamFeatures.Size = new System.Drawing.Size(41, 20);
+            this.numericHamFeatures.TabIndex = 4;
+            this.numericHamFeatures.Text = "10";
+            // 
+            // numericSpamFeatures
+            // 
+            this.numericSpamFeatures.AllowSpace = false;
+            this.numericSpamFeatures.Location = new System.Drawing.Point(246, 119);
+            this.numericSpamFeatures.Name = "numericSpamFeatures";
+            this.numericSpamFeatures.Size = new System.Drawing.Size(41, 20);
+            this.numericSpamFeatures.TabIndex = 3;
+            this.numericSpamFeatures.Text = "20";
             // 
             // label7
             // 
@@ -495,6 +555,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.buttonClearModel);
             this.panel1.Controls.Add(this.buttonLoadModel);
             this.panel1.Controls.Add(this.buttonSaveModel);
             this.panel1.Controls.Add(this.buttonAutoselectFeatures);
@@ -508,6 +569,26 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(163, 402);
             this.panel1.TabIndex = 1;
+            // 
+            // buttonLoadModel
+            // 
+            this.buttonLoadModel.Location = new System.Drawing.Point(7, 180);
+            this.buttonLoadModel.Name = "buttonLoadModel";
+            this.buttonLoadModel.Size = new System.Drawing.Size(153, 23);
+            this.buttonLoadModel.TabIndex = 7;
+            this.buttonLoadModel.Text = "Load model";
+            this.buttonLoadModel.UseVisualStyleBackColor = true;
+            this.buttonLoadModel.Click += new System.EventHandler(this.buttonLoadModel_Click);
+            // 
+            // buttonSaveModel
+            // 
+            this.buttonSaveModel.Location = new System.Drawing.Point(7, 151);
+            this.buttonSaveModel.Name = "buttonSaveModel";
+            this.buttonSaveModel.Size = new System.Drawing.Size(153, 23);
+            this.buttonSaveModel.TabIndex = 6;
+            this.buttonSaveModel.Text = "Save model";
+            this.buttonSaveModel.UseVisualStyleBackColor = true;
+            this.buttonSaveModel.Click += new System.EventHandler(this.buttonSaveModel_Click);
             // 
             // buttonAutoselectFeatures
             // 
@@ -649,84 +730,15 @@
             this.buttonLoadEmail.UseVisualStyleBackColor = true;
             this.buttonLoadEmail.Click += new System.EventHandler(this.buttonLoadEmail_Click);
             // 
-            // buttonSaveModel
+            // buttonClearModel
             // 
-            this.buttonSaveModel.Location = new System.Drawing.Point(7, 151);
-            this.buttonSaveModel.Name = "buttonSaveModel";
-            this.buttonSaveModel.Size = new System.Drawing.Size(153, 23);
-            this.buttonSaveModel.TabIndex = 6;
-            this.buttonSaveModel.Text = "Save model";
-            this.buttonSaveModel.UseVisualStyleBackColor = true;
-            this.buttonSaveModel.Click += new System.EventHandler(this.buttonSaveModel_Click);
-            // 
-            // buttonLoadModel
-            // 
-            this.buttonLoadModel.Location = new System.Drawing.Point(7, 180);
-            this.buttonLoadModel.Name = "buttonLoadModel";
-            this.buttonLoadModel.Size = new System.Drawing.Size(153, 23);
-            this.buttonLoadModel.TabIndex = 7;
-            this.buttonLoadModel.Text = "Load model";
-            this.buttonLoadModel.UseVisualStyleBackColor = true;
-            this.buttonLoadModel.Click += new System.EventHandler(this.buttonLoadModel_Click);
-            // 
-            // trackBarTest
-            // 
-            this.trackBarTest.AutoSize = false;
-            this.trackBarTest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.trackBarTest.Location = new System.Drawing.Point(99, 194);
-            this.trackBarTest.Maximum = 50;
-            this.trackBarTest.Name = "trackBarTest";
-            this.trackBarTest.Size = new System.Drawing.Size(141, 16);
-            this.trackBarTest.TabIndex = 5;
-            this.trackBarTest.TickFrequency = 10;
-            this.trackBarTest.Value = 20;
-            this.trackBarTest.ValueChanged += new System.EventHandler(this.trackBarTest_ValueChanged);
-            // 
-            // numericTestPercent
-            // 
-            this.numericTestPercent.AllowSpace = false;
-            this.numericTestPercent.Location = new System.Drawing.Point(246, 194);
-            this.numericTestPercent.Name = "numericTestPercent";
-            this.numericTestPercent.Size = new System.Drawing.Size(41, 20);
-            this.numericTestPercent.TabIndex = 6;
-            this.numericTestPercent.Text = "20";
-            this.numericTestPercent.TextChanged += new System.EventHandler(this.numericTestPercent_TextChanged);
-            // 
-            // numericGamma
-            // 
-            this.numericGamma.AllowSpace = false;
-            this.numericGamma.Location = new System.Drawing.Point(246, 45);
-            this.numericGamma.Name = "numericGamma";
-            this.numericGamma.Size = new System.Drawing.Size(41, 20);
-            this.numericGamma.TabIndex = 1;
-            this.numericGamma.Text = "1";
-            // 
-            // numericCost
-            // 
-            this.numericCost.AllowSpace = false;
-            this.numericCost.Location = new System.Drawing.Point(246, 71);
-            this.numericCost.Name = "numericCost";
-            this.numericCost.Size = new System.Drawing.Size(41, 20);
-            this.numericCost.TabIndex = 2;
-            this.numericCost.Text = "1";
-            // 
-            // numericHamFeatures
-            // 
-            this.numericHamFeatures.AllowSpace = false;
-            this.numericHamFeatures.Location = new System.Drawing.Point(246, 145);
-            this.numericHamFeatures.Name = "numericHamFeatures";
-            this.numericHamFeatures.Size = new System.Drawing.Size(41, 20);
-            this.numericHamFeatures.TabIndex = 4;
-            this.numericHamFeatures.Text = "10";
-            // 
-            // numericSpamFeatures
-            // 
-            this.numericSpamFeatures.AllowSpace = false;
-            this.numericSpamFeatures.Location = new System.Drawing.Point(246, 119);
-            this.numericSpamFeatures.Name = "numericSpamFeatures";
-            this.numericSpamFeatures.Size = new System.Drawing.Size(41, 20);
-            this.numericSpamFeatures.TabIndex = 3;
-            this.numericSpamFeatures.Text = "20";
+            this.buttonClearModel.Location = new System.Drawing.Point(7, 209);
+            this.buttonClearModel.Name = "buttonClearModel";
+            this.buttonClearModel.Size = new System.Drawing.Size(153, 23);
+            this.buttonClearModel.TabIndex = 8;
+            this.buttonClearModel.Text = "Clear model";
+            this.buttonClearModel.UseVisualStyleBackColor = true;
+            this.buttonClearModel.Click += new System.EventHandler(this.buttonClearModel_Click);
             // 
             // SpamClassifier
             // 
@@ -744,6 +756,7 @@
             this.tabSettings.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarTest)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.tabLearning.ResumeLayout(false);
             this.tableLayoutPanel.ResumeLayout(false);
@@ -763,7 +776,6 @@
             this.panel1.PerformLayout();
             this.tabClassifying.ResumeLayout(false);
             this.tabClassifying.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarTest)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -827,6 +839,7 @@
         private TransparentTrackBar trackBarTest;
         private System.Windows.Forms.Button buttonSaveModel;
         private System.Windows.Forms.Button buttonLoadModel;
+        private System.Windows.Forms.Button buttonClearModel;
 
     }
 }

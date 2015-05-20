@@ -365,5 +365,15 @@ namespace MiniSVM.SpamClassifier
                 }
             }
         }
+
+        private void buttonClearModel_Click(object sender, EventArgs e)
+        {
+            if (Model.CurrentHypothesis == null)
+            {
+                MessageBox.Show(this, "No classifier learned yet!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            Model.ClearModel();
+        }
     }
 }
