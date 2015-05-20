@@ -13,9 +13,9 @@ namespace MiniSVM.SpamClassifier
         public List<Dictionary<string, int>> HamTrainingSet { get; set; }
         public HashSet<string> SelectedFeatures { get; set; }
 
-        public DoubleSparseVector[] TrainingData { get; set; }
+        public SparseVector<double>[] TrainingData { get; set; }
         public double[] TrainingLabels { get; set; }
-        public DoubleSparseVector[] TestData { get; set; }
+        public SparseVector<double>[] TestData { get; set; }
         public double[] TestLabels { get; set; }
 
         public SvmDataManager(List<Dictionary<string, int>> spamTrainingSet,
@@ -43,9 +43,9 @@ namespace MiniSVM.SpamClassifier
             int hamTrainingSetSize = HamTrainingSet.Count - hamTestSetSize;
             int[] permutation = Enumerable.Range(0, hamTrainingSetSize).ToArray();
             var random = new Random();
-            TrainingData = new DoubleSparseVector[spamTrainingSetSize + hamTrainingSetSize];
+            TrainingData = new SparseVector<double>[spamTrainingSetSize + hamTrainingSetSize];
             TrainingLabels = new double[spamTrainingSetSize + hamTrainingSetSize];
-            TestData = new DoubleSparseVector[totalSetSize - TrainingData.Length];
+            TestData = new SparseVector<double>[totalSetSize - TrainingData.Length];
             TestLabels = new double[totalSetSize - TrainingData.Length];
 
             int currentElement = 0;
@@ -81,19 +81,19 @@ namespace MiniSVM.SpamClassifier
                 ++currentElement;
             }
         }
-        public DoubleSparseVector TokenizedMailToFeatures(List<string> tokenizedMail)
+        public SparseVector<double> TokenizedMailToFeatures(List<string> tokenizedMail)
         {
             return TokenizedMailToFeatures(SelectedFeatures, tokenizedMail);
         }
-        public DoubleSparseVector TokenizedMailToFeatures(Dictionary<string, int> tokenizedMail)
+        public SparseVector<double> TokenizedMailToFeatures(Dictionary<string, int> tokenizedMail)
         {
             return TokenizedMailToFeatures(SelectedFeatures, tokenizedMail);
         }
 
-        public DoubleSparseVector TokenizedMailToFeatures(HashSet<string> features, List<string> tokenizedMail)
+        public SparseVector<double> TokenizedMailToFeatures(HashSet<string> features, List<string> tokenizedMail)
         {
             Dictionary<string, int> wordCounts = new Dictionary<string, int>();
-            DoubleSparseVector result = new DoubleSparseVector();
+            SparseVector<double> result = new SparseVector<double>();
             foreach (var word in tokenizedMail)
             {
                 if (!wordCounts.ContainsKey(word))
@@ -103,9 +103,9 @@ namespace MiniSVM.SpamClassifier
             return TokenizedMailToFeatures(features, wordCounts);
         }
 
-        public DoubleSparseVector TokenizedMailToFeatures(HashSet<string> features, Dictionary<string, int> tokenizedMail)
+        public SparseVector<double> TokenizedMailToFeatures(HashSet<string> features, Dictionary<string, int> tokenizedMail)
         {
-            DoubleSparseVector result = new DoubleSparseVector();
+            SparseVector<double> result = new SparseVector<double>();
             int j = 0;
             foreach (var word in features)
             {

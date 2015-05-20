@@ -9,29 +9,27 @@ using LibSvm;
 
 namespace LibSVMPort
 {
-    public class LibSVM<TData> : IClassifier<TData>
+    public class LibSVM : IClassifier
     {
         public LibSVM()
         {
             Svm.SetPrintStringFunction((s) => { });
-            SVMParameters = new SVMParams<TData>()
+            SVMParameters = new SVMParams()
             {
-                Cost = 1,
-                Gamma = 1,
-                Kernel = (f, s) => 0
+                Cost = 1
             };
         }
-        private SvmModel<TData> SVMModel { get; set; }
+        private SvmModel<SparseVector<double>> SVMModel { get; set; }
 
-        private SvmParameter<TData> InternalParameter { get; set; }
+        private SvmParameter<SparseVector<double>> InternalParameter { get; set; }
 
-        public SVMParams<TData> SVMParameters { get; set; }
-        
-        public bool Compute(TData[] trainingData, double[] trainingLabels)
+        public SVMParams SVMParameters { get; set; }
+
+        public bool Compute(SparseVector<double>[] trainingData, double[] trainingLabels)
         {
-            InternalParameter = new SvmParameter<TData>()
+            InternalParameter = new SvmParameter<SparseVector<double>>()
             {
-                KernelFunc = SVMParameters.Kernel,
+                KernelFunc = SVMParameters.Kernel.GetFunc(),
                 SvmType = SvmType.C_SVC,
                 CacheSize = 128,
                 C = 1,
@@ -39,7 +37,7 @@ namespace LibSVMPort
                 Shrinking = true,
                 Probability = false
             };
-            var problem = new SvmProblem<TData>()
+            var problem = new SvmProblem<SparseVector<double>>()
             {
                 X = trainingData,
                 Y = trainingLabels
@@ -49,9 +47,9 @@ namespace LibSVMPort
             return SVMModel != null;
         }
 
-        public IHypothesis<TData> GetHypothesis()
+        public IHypothesis GetHypothesis()
         {
-            return new LibSVMHypothesis<TData>(SVMModel);
+            return new LibSVMHypothesis(SVMModel, SVMParameters.Kernel);
         }
     }
 }

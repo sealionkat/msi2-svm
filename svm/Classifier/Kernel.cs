@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace MiniSVM.Classifier
 {
-    public interface IClassifier
+    public abstract class Kernel
     {
-        bool Compute(SparseVector<double>[] trainingData, double[] trainingLabels);
-
-        IHypothesis GetHypothesis();
+        public abstract Func<SparseVector<double>, SparseVector<double>, double> GetFunc();
     }
 }

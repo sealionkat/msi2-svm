@@ -3,22 +3,45 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace MiniSVM.Classifier
 {
-    public class SparseVector<TValue> : IEnumerable<KeyValuePair<int, TValue>>
+    public class SparseVector<TValue>
     {
-        public SparseVector(TValue nullValue = default(TValue))
+        public SparseVector()
+        {
+            NullValue = default(TValue);
+            Items = new SortedDictionary<int, TValue>();
+        }
+
+        public SparseVector(TValue nullValue)
         {
             NullValue = nullValue;
             Items = new SortedDictionary<int, TValue>();
         }
 
+        [XmlIgnore]
         public TValue NullValue { get; protected set; }
 
-        protected SortedDictionary<int, TValue> Items { get; set; }
+        [XmlIgnore]
+        public SortedDictionary<int, TValue> Items { get; set; }
 
+        [XmlIgnore]
         public int Length { get; protected set; }
+
+        [XmlElement]
+        public SerializableSparseVector<TValue> Serializable 
+        {
+            get
+            {
+                return this.AsSerializable();
+            }
+            set
+            {
+                InitFromSerializable(value);
+            }
+        }
 
         public TValue this[int col]
         {
@@ -43,7 +66,7 @@ namespace MiniSVM.Classifier
             }
         }
 
-        public IEnumerator<KeyValuePair<int,TValue>> GetEnumerator()
+        public IEnumerable<KeyValuePair<int, TValue>> Elements()
         {
             foreach (var item in Items)
             {
@@ -51,20 +74,40 @@ namespace MiniSVM.Classifier
             }
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        public SerializableSparseVector<TValue> AsSerializable()
         {
-            foreach (var item in Items)
+            var result = new SerializableSparseVector<TValue>()
             {
-                yield return item;
-            }
+                Items = this.Items.Select(s=>new SerializableSparseVector<TValue>.Item()
+                    {
+                        Key = s.Key,
+                        Value = s.Value
+                    }).ToArray(),
+                NullValue = this.NullValue
+            };
+            return result;
         }
-    }
 
-    public class DoubleSparseVector : SparseVector<double>
-    {
-        public static void LookupElements(DoubleSparseVector first,
-            DoubleSparseVector second,
-            LookupElementsCallback callback)
+        private void InitFromSerializable(SerializableSparseVector<TValue> source)
+        {
+            var resultItems = new SortedDictionary<int, TValue>(
+                   source.Items.Where(s => !EqualityComparer<TValue>.Default.Equals(s.Value, source.NullValue))
+                   .ToDictionary(s => s.Key, s => s.Value));
+            NullValue = source.NullValue;
+            Items = resultItems;
+            Length = resultItems.Max(s => s.Key);
+        }
+
+        public static SparseVector<TValue> FromSerializable(SerializableSparseVector<TValue> source)
+        {
+            var result = new SparseVector<TValue>();
+            result.InitFromSerializable(source);
+            return result;
+        }
+
+        public static void LookupElements(SparseVector<TValue> first,
+            SparseVector<TValue> second,
+            LookupElementsCallback<TValue> callback)
         {
             var me = first.Items.GetEnumerator();
             var oe = second.Items.GetEnumerator();
@@ -74,12 +117,12 @@ namespace MiniSVM.Classifier
             {
                 while (oeundone && meundone && me.Current.Key > oe.Current.Key)
                 {
-                    callback(oe.Current.Key, 0, oe.Current.Value);
+                    callback(oe.Current.Key, first.NullValue, oe.Current.Value);
                     oeundone = oe.MoveNext();
                 }
                 while (oeundone && meundone && me.Current.Key < oe.Current.Key)
                 {
-                    callback(me.Current.Key, me.Current.Value, 0);
+                    callback(me.Current.Key, me.Current.Value, first.NullValue);
                     meundone = me.MoveNext();
                 }
                 if (oeundone && meundone && me.Current.Key == oe.Current.Key)
@@ -91,49 +134,19 @@ namespace MiniSVM.Classifier
             }
             while (oeundone)
             {
-                callback(oe.Current.Key, 0, oe.Current.Value);
+                callback(oe.Current.Key, first.NullValue, oe.Current.Value);
                 oeundone = oe.MoveNext();
             }
             while (meundone)
             {
-                callback(me.Current.Key, me.Current.Value, 0);
+                callback(me.Current.Key, me.Current.Value, first.NullValue);
                 meundone = me.MoveNext();
             }
         }
-        
-        public static double Multiply(DoubleSparseVector first, DoubleSparseVector second)
-        {
-            double result = 0;
-            LookupElements(first, second,
-                (i, fv, sv) => { result += fv * sv; });
-            return result;
-        }
 
-        public static double Distance2(DoubleSparseVector first, DoubleSparseVector second)
+        public TValue[] ToArray()
         {
-            double result = 0;
-            LookupElements(first, second,
-                (i, fv, sv) => { result += (fv - sv) * (fv - sv); });
-            return result;
-        }
-        public static double Distance(DoubleSparseVector first, DoubleSparseVector second)
-        {
-            return Math.Sqrt(Distance2(first, second));
-        }
-
-        public static double GaussianDistance(DoubleSparseVector first, DoubleSparseVector second, double gamma)
-        {
-            return Math.Exp(-gamma*Distance2(first, second));
-        }
-
-        public static Func<DoubleSparseVector, DoubleSparseVector, double> GaussianDistance(double gamma)
-        {
-            return (f, s) => GaussianDistance(f, s, gamma);
-        }
-
-        public double[] ToArray()
-        {
-            var result = new double[this.Length];
+            var result = Enumerable.Repeat(NullValue, Length).ToArray();
             foreach (var item in this.Items)
             {
                 result[item.Key] = item.Value;
@@ -142,5 +155,56 @@ namespace MiniSVM.Classifier
         }
     }
 
-    public delegate void LookupElementsCallback(int col, double meVal, double otherVal);
+    public static class DoubleSparseVectorExtensions
+    {
+        public static double Multiply(this SparseVector<double> first, SparseVector<double> second)
+        {
+            double result = 0;
+            SparseVector<double>.LookupElements(first, second,
+                (i, fv, sv) => { result += fv * sv; });
+            return result;
+        }
+
+        public static double Distance2(SparseVector<double> first, SparseVector<double> second)
+        {
+            double result = 0;
+            SparseVector<double>.LookupElements(first, second,
+                (i, fv, sv) => { result += (fv - sv) * (fv - sv); });
+            return result;
+        }
+        public static double Distance(SparseVector<double> first, SparseVector<double> second)
+        {
+            return Math.Sqrt(Distance2(first, second));
+        }
+
+        public static double GaussianDistance(SparseVector<double> first, SparseVector<double> second, double gamma)
+        {
+            return Math.Exp(-gamma*Distance2(first, second));
+        }
+
+        public static Func<SparseVector<double>, SparseVector<double>, double> GaussianDistance(double gamma)
+        {
+            return (f, s) => GaussianDistance(f, s, gamma);
+        }
+    }
+
+    public delegate void LookupElementsCallback<TValue>(int col, TValue meVal, TValue otherVal);
+
+    public class SerializableSparseVector<TValue>
+    {
+        [XmlElement]
+        public Item[] Items { get; set; }
+
+        [XmlElement]
+        public TValue NullValue { get; set; }
+
+        public class Item
+        {
+            [XmlElement]
+            public int Key { get; set; }
+
+            [XmlElement]
+            public TValue Value { get; set; }
+        }
+    }
 }

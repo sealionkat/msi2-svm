@@ -78,6 +78,8 @@
             this.buttonClassifyTxt = new System.Windows.Forms.Button();
             this.richTextBoxEmail = new System.Windows.Forms.RichTextBox();
             this.buttonLoadEmail = new System.Windows.Forms.Button();
+            this.buttonSaveModel = new System.Windows.Forms.Button();
+            this.buttonLoadModel = new System.Windows.Forms.Button();
             this.trackBarTest = new MiniSVM.SpamClassifier.TransparentTrackBar();
             this.numericTestPercent = new MiniSVM.SpamClassifier.NumericTextBox();
             this.numericGamma = new MiniSVM.SpamClassifier.NumericTextBox();
@@ -493,6 +495,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.buttonLoadModel);
+            this.panel1.Controls.Add(this.buttonSaveModel);
             this.panel1.Controls.Add(this.buttonAutoselectFeatures);
             this.panel1.Controls.Add(this.buttonTrain);
             this.panel1.Controls.Add(this.buttonClearFeatures);
@@ -644,6 +648,26 @@
             this.buttonLoadEmail.Text = "Load e-mail";
             this.buttonLoadEmail.UseVisualStyleBackColor = true;
             this.buttonLoadEmail.Click += new System.EventHandler(this.buttonLoadEmail_Click);
+            // 
+            // buttonSaveModel
+            // 
+            this.buttonSaveModel.Location = new System.Drawing.Point(7, 151);
+            this.buttonSaveModel.Name = "buttonSaveModel";
+            this.buttonSaveModel.Size = new System.Drawing.Size(153, 23);
+            this.buttonSaveModel.TabIndex = 6;
+            this.buttonSaveModel.Text = "Save model";
+            this.buttonSaveModel.UseVisualStyleBackColor = true;
+            this.buttonSaveModel.Click += new System.EventHandler(this.buttonSaveModel_Click);
+            // 
+            // buttonLoadModel
+            // 
+            this.buttonLoadModel.Location = new System.Drawing.Point(7, 180);
+            this.buttonLoadModel.Name = "buttonLoadModel";
+            this.buttonLoadModel.Size = new System.Drawing.Size(153, 23);
+            this.buttonLoadModel.TabIndex = 7;
+            this.buttonLoadModel.Text = "Load model";
+            this.buttonLoadModel.UseVisualStyleBackColor = true;
+            this.buttonLoadModel.Click += new System.EventHandler(this.buttonLoadModel_Click);
             // 
             // trackBarTest
             // 
@@ -801,6 +825,8 @@
         private System.Windows.Forms.Label label8;
         private NumericTextBox numericTestPercent;
         private TransparentTrackBar trackBarTest;
+        private System.Windows.Forms.Button buttonSaveModel;
+        private System.Windows.Forms.Button buttonLoadModel;
 
     }
 }

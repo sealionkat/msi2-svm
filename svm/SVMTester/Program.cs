@@ -22,13 +22,13 @@ namespace MiniSVM.Tester
             svm.Compute(X, Y);
             var hypothesis = svm.GetHypothesis();
             Console.WriteLine(hypothesis.Predict(new double[] { 2, 0 }));*/
-            /*DoubleSparseVector first = new DoubleSparseVector();
+            /*SparseVector<double> first = new SparseVector<double>();
             first[1] = 1;
-            DoubleSparseVector second = new DoubleSparseVector();
-            second[3] = 1;
-            Console.WriteLine(DoubleSparseVector.Multiply(first, second));
-            Console.WriteLine(DoubleSparseVector.Distance2(first, second));
-            Console.WriteLine(DoubleSparseVector.GaussianDistance(first, second, 1));*/
+            var ser = first.AsSerializable();
+            var str = ser.ToXmlString();
+            Console.WriteLine(str);
+            SparseVector<double> second = SparseVector<double>.FromSerializable(str.FromXmlString<SerializableSparseVector<double>>());
+            Console.WriteLine(second);*/
         }
     }
 }

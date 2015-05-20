@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="LibSVM.cs" />
     <Compile Include="LibSVMHypothesis.cs" />
+    <Compile Include="LibSVMModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

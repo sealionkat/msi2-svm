@@ -134,7 +134,7 @@ namespace MiniSVM.SpamClassifier
             //todo: show data in new dialog
             var uselessWords = Model.UselessWords;
             if (uselessWords == null)
-                MessageBox.Show("No useless words loaded yet!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(this, "No useless words loaded yet!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             else
             {
                 var wordsList = "";
@@ -170,12 +170,12 @@ namespace MiniSVM.SpamClassifier
         {
             if (richTextBoxEmail.Text.Length == 0)
             {
-                MessageBox.Show("No mail loaded yet!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(this, "No mail loaded yet!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
             if (Model.CurrentHypothesis == null)
             {
-                MessageBox.Show("No classifier learned yet!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(this, "No classifier learned yet!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
             labelClassificationResult.Text = Model.Predict(richTextBoxEmail.Text).ToString();
@@ -321,6 +321,49 @@ namespace MiniSVM.SpamClassifier
                 numericTestPercent.Text = trackBarTest.Minimum.ToString();
             }
             trackBarTest.Value = numericTestPercent.IntValue;
+        }
+
+        private void buttonSaveModel_Click(object sender, EventArgs e)
+        {
+            if (Model.CurrentHypothesis == null)
+            {
+                MessageBox.Show(this, "No classifier learned yet!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            var dialog = new SaveFileDialog();
+            dialog.Filter = "Modele SVM (*.svm)|*.svm";
+            var result = dialog.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                if (Model.SaveModel(dialog.FileName))
+                {
+                    MessageBox.Show(this, "Model saved successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show(this, "Saving model failed!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+        }
+
+        private void buttonLoadModel_Click(object sender, EventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Filter = "Modele SVM (*.svm)|*.svm";
+            var result = dialog.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                if(Model.LoadModel(dialog.FileName))
+                {
+                    UpdateSelectedFeaturesCount();
+                    MessageBox.Show(this, "Model loaded successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show(this, "Loading model failed!", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
         }
     }
 }

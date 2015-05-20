@@ -3,6 +3,8 @@ using MiniSVM.Classifier;
 using MiniSVM.Tokenizer;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace MiniSVM.SpamClassifier
 {
@@ -10,8 +12,8 @@ namespace MiniSVM.SpamClassifier
     {
         public Dictionary<string, Dictionary<MailType, int>> TrainingWordCounts { get { return Reader.TrainingWordCounts; } }
         private HashSet<string> SelectedFeaturesSet { get; set; }
-        public IClassifier<DoubleSparseVector> Classifier { get; set; }
-        public IHypothesis<DoubleSparseVector> CurrentHypothesis { get; set; }
+        public IClassifier Classifier { get; set; }
+        public IHypothesis CurrentHypothesis { get; set; }
 
         public SpamClassifierModel()
         {
@@ -90,7 +92,7 @@ namespace MiniSVM.SpamClassifier
             var features = new SvmDataManager().TokenizedMailToFeatures(SelectedFeaturesSet, tokenizedMail);
             return CurrentHypothesis.Predict(features) > 0 ? MailType.Ham : MailType.Spam;
         }
-        public MailType Predict(DoubleSparseVector mail)
+        public MailType Predict(SparseVector<double> mail)
         {
             return CurrentHypothesis.Predict(mail) > 0 ? MailType.Ham : MailType.Spam;
         }
@@ -111,7 +113,7 @@ namespace MiniSVM.SpamClassifier
             return -1;
         }
 
-        private float Test(DoubleSparseVector[] testData, double[] testLabels)
+        private float Test(SparseVector<double>[] testData, double[] testLabels)
         {
             int errors = 0;
             for (int i = 0; i < testData.Length; i++)
@@ -126,21 +128,55 @@ namespace MiniSVM.SpamClassifier
             return 1 - (((float)errors) / testData.Length);
         }
 
-        private IClassifier<DoubleSparseVector> CreateClassifier(KernelType type, double gamma, double cost)
+        private IClassifier CreateClassifier(KernelType type, double gamma, double cost)
         {
-            return new LibSVM<DoubleSparseVector>()
+            return new LibSVM()
             {
                 SVMParameters = CreateParameters(type, gamma, cost)
             };
         }
-        private SVMParams<DoubleSparseVector> CreateParameters(KernelType type, double gamma, double cost)
+        private SVMParams CreateParameters(KernelType type, double gamma, double cost)
         {
-            return new SVMParams<DoubleSparseVector>()
+            return new SVMParams()
             {
                 Cost = cost,
-                Gamma = gamma,
-                Kernel = (type == KernelType.Gaussian) ? DoubleSparseVector.GaussianDistance(gamma) : DoubleSparseVector.Multiply
+                Kernel = (type == KernelType.Gaussian) ? 
+                    (Kernel)new GaussianKernel(gamma) : 
+                    (Kernel)new LinearKernel()
             };
+        }
+
+        public bool SaveModel(string filename)
+        {
+            try
+            {
+                CurrentHypothesis.Save(filename);
+                string featuresPath = Path.ChangeExtension(filename, ".ftr");
+                File.WriteAllText(featuresPath, SelectedFeaturesSet.ToXmlString());
+                return true;
+            }
+            catch(Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool LoadModel(string filename)
+        {
+            try
+            {
+                CurrentHypothesis = new LibSVMHypothesis();
+                CurrentHypothesis.Load(filename);
+                string featuresPath = Path.ChangeExtension(filename, ".ftr");
+                SelectedFeaturesSet = File.ReadAllText(featuresPath).FromXmlString<HashSet<string>>();
+                return true;
+            }
+            catch (Exception)
+            {
+                CurrentHypothesis = null;
+                SelectedFeaturesSet = new HashSet<string>();
+                return false;
+            }
         }
     }
 
