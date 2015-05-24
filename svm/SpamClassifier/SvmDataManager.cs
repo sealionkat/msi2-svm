@@ -11,7 +11,7 @@ namespace MiniSVM.SpamClassifier
     {
         public List<Dictionary<string, int>> SpamTrainingSet { get; set; }
         public List<Dictionary<string, int>> HamTrainingSet { get; set; }
-        public HashSet<string> SelectedFeatures { get; set; }
+        public SortedSet<string> SelectedFeatures { get; set; }
 
         public SparseVector<double>[] TrainingData { get; set; }
         public double[] TrainingLabels { get; set; }
@@ -20,7 +20,7 @@ namespace MiniSVM.SpamClassifier
 
         public SvmDataManager(List<Dictionary<string, int>> spamTrainingSet,
             List<Dictionary<string, int>> hamTrainingSet,
-            HashSet<string> selectedFeatures)
+            SortedSet<string> selectedFeatures)
         {
             SpamTrainingSet = spamTrainingSet;
             HamTrainingSet = hamTrainingSet;
@@ -31,7 +31,7 @@ namespace MiniSVM.SpamClassifier
         {
             SpamTrainingSet = new List<Dictionary<string, int>>();
             HamTrainingSet = new List<Dictionary<string, int>>();
-            SelectedFeatures = new HashSet<string>();
+            SelectedFeatures = new SortedSet<string>();
         }
 
         public void CalculateTrainingData(int testSetPercent)
@@ -90,7 +90,7 @@ namespace MiniSVM.SpamClassifier
             return TokenizedMailToFeatures(SelectedFeatures, tokenizedMail);
         }
 
-        public SparseVector<double> TokenizedMailToFeatures(HashSet<string> features, List<string> tokenizedMail)
+        public SparseVector<double> TokenizedMailToFeatures(SortedSet<string> features, List<string> tokenizedMail)
         {
             Dictionary<string, int> wordCounts = new Dictionary<string, int>();
             SparseVector<double> result = new SparseVector<double>();
@@ -103,7 +103,7 @@ namespace MiniSVM.SpamClassifier
             return TokenizedMailToFeatures(features, wordCounts);
         }
 
-        public SparseVector<double> TokenizedMailToFeatures(HashSet<string> features, Dictionary<string, int> tokenizedMail)
+        public SparseVector<double> TokenizedMailToFeatures(SortedSet<string> features, Dictionary<string, int> tokenizedMail)
         {
             SparseVector<double> result = new SparseVector<double>();
             int j = 0;

@@ -5,13 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
+using System.Linq;
 
 namespace MiniSVM.SpamClassifier
 {
     public class SpamClassifierModel
     {
         public Dictionary<string, Dictionary<MailType, int>> TrainingWordCounts { get { return Reader.TrainingWordCounts; } }
-        private HashSet<string> SelectedFeaturesSet { get; set; }
+        private SortedSet<string> SelectedFeaturesSet { get; set; }
         public IClassifier Classifier { get; set; }
         public IHypothesis CurrentHypothesis { get; set; }
 
@@ -28,7 +29,7 @@ namespace MiniSVM.SpamClassifier
         public void ClearSet()
         {
             Reader.ClearSet();
-            SelectedFeaturesSet = new HashSet<string>();
+            SelectedFeaturesSet = new SortedSet<string>();
         }
 
         public void ReadDirectoryContent(string directory, 
@@ -152,7 +153,7 @@ namespace MiniSVM.SpamClassifier
             {
                 CurrentHypothesis.Save(filename);
                 string featuresPath = Path.ChangeExtension(filename, ".ftr");
-                File.WriteAllText(featuresPath, SelectedFeaturesSet.ToXmlString());
+                File.WriteAllText(featuresPath, SelectedFeaturesSet.ToList().ToXmlString());
                 return true;
             }
             catch(Exception)
@@ -168,7 +169,7 @@ namespace MiniSVM.SpamClassifier
                 CurrentHypothesis = new LibSVMHypothesis();
                 CurrentHypothesis.Load(filename);
                 string featuresPath = Path.ChangeExtension(filename, ".ftr");
-                SelectedFeaturesSet = File.ReadAllText(featuresPath).FromXmlString<HashSet<string>>();
+                SelectedFeaturesSet = new SortedSet<string>(File.ReadAllText(featuresPath).FromXmlString<List<string>>());
                 return true;
             }
             catch (Exception)
@@ -181,7 +182,7 @@ namespace MiniSVM.SpamClassifier
         public void ClearModel()
         {
             CurrentHypothesis = null;
-            SelectedFeaturesSet = new HashSet<string>();
+            SelectedFeaturesSet = new SortedSet<string>();
         }
     }
 
